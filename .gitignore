@@ -6,6 +6,7 @@ db.sqlite3
 media/
 staticfiles/
 
+
 # Node.js/Next.js
 node_modules/
 .next/
@@ -21,3 +22,5 @@ node_modules/
 # IDE-specific files
 .vscode/
 .idea/
+
+
