@@ -1,5 +1,5 @@
 import graphene
-from graphene_django.types import DjangoObjectType
+from graphene_django.types import DjangoObjectType # type: ignore
 from app.models import JobPost, Application
 
 
