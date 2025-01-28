@@ -1,0 +1,23 @@
+# Python
+venv/
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+staticfiles/
+
+# Node.js/Next.js
+node_modules/
+.next/
+.env.local
+.env
+.env.*
+
+# Logs and caches
+*.log
+*.cache
+.DS_Store
+
+# IDE-specific files
+.vscode/
+.idea/
