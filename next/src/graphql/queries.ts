@@ -68,11 +68,21 @@ export const DELETE_APPLICATION = gql`
   }
 `;
 
+//authentication
+
 export const LOGIN_MUTATION = gql`
   mutation Login($username: String!, $password: String!) {
     tokenAuth(username: $username, password: $password) {
       token
       payload
+    }
+  }
+`;
+
+export const GET_CURRENT_USER = gql`
+  query {
+    userDetails {
+      username
     }
   }
 `;

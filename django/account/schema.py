@@ -9,15 +9,14 @@ class UserType(DjangoObjectType):
     class Meta:
         model = User
         fields = ("id", "username", "email")
-
-
+    
 class Query(graphene.ObjectType):
     user_details = graphene.Field(UserType)
 
     def resolve_user_details(root, info, **kwargs):
         user = info.context.user
         if not user.is_authenticated:
-            raise Exception("Authentication credentials were not provided")
+            return None
         return User.objects.get(username=user)
 
 
