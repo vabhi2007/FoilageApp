@@ -3,3 +3,4 @@ djangorestframework
 graphene-django
 django-environ
 psycopg2-binary
+django-cors-headers==3.14.0
