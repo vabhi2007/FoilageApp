@@ -23,17 +23,17 @@ const Navbar = () => {
             <div className="flex items-center gap-[4vw]">
             <Navlink
                 text = "Home"
-                link = "https://www.youtube.com/watch?v=CJOZc02VwJM"
+                link = "/"
             />
 
             <Navlink
                 text = "Careers"
-                link = "https://www.youtube.com/watch?v=CJOZc02VwJM"
+                link = "/careers"
             />
 
             <Navlink
                 text = "Portal"
-                link = "https://www.youtube.com/watch?v=CJOZc02VwJM"
+                link = "/portal"
             />
             </div>
 
