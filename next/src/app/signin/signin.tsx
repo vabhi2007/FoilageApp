@@ -10,23 +10,30 @@ export default function SignInBlock() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
+  const [tokenAuth, { loading, error }] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => {
       if (data.tokenAuth?.token) {
         alert("Login successful!");
-        document.cookie = `jwt=${data.tokenAuth.token}; path=/; secure`;
-        router.push("/dashboard"); // Redirect after login
+        router.push("/dashboard");
       }
     },
+    onError: (error) => {
+      console.error("Login error:", error);
+      alert("Login failed: " + error.message);
+    }
   });
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login({ variables: { username, password } });
+      await tokenAuth({
+        variables: { 
+          username, 
+          password 
+        }
+      });
     } catch (err) {
-      console.error(err);
-      alert("Login failed!");
+      console.error("Login error:", err);
     }
   };
 

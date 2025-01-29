@@ -46,14 +46,17 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOW_CREDENTIALS = True  # Needed for 'credentials: "include"'
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Allow Next.js frontend
+    "http://localhost:3000",  # Your Next.js frontend
 ]
-CORS_ALLOW_HEADERS = [  # Explicitly allow common headers
+CORS_ALLOW_HEADERS = [
+    "accept",
     "authorization",
     "content-type",
+    "user-agent",
     "x-csrftoken",
+    "x-requested-with",
 ]
 CORS_ALLOW_METHODS = [  # Explicitly allow these HTTP methods
     "GET",
