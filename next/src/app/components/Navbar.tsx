@@ -10,12 +10,15 @@ const Navbar = () => {
     
     return (
 
-        <div className="w-full h-[4vw] bg-white px-[4vw] py-[2vw] flex items-center justify-between shadow-lg" style={{fontFamily: 'Montserrat'}}>
-            <Image
-            src = {Logo}
-            alt = "Logo"
-            >
-            </Image>
+        <div className="w-full h-0 bg-white px-[8vw] py-[1.75vw] flex items-center justify-between shadow-lg" style={{fontFamily: 'Montserrat'}}>
+            <a href = "">
+                <Image
+                src = {Logo}
+                className='w-[8vw] h-auto'
+                alt = "Logo"
+                >
+                </Image>
+            </a>
 
             <div className="flex items-center gap-[4vw]">
             <Navlink

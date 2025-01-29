@@ -10,7 +10,7 @@ const Navlink: React.FC<NavlinkProps> = ({text, link, className = ''}) => {
   return (
     <Link
       href = {link}
-      className={`text-[#616161] text-[18px] hover:text-[#256963] hover:font-bold ${className}`}
+      className={`text-tertiary text-[0.85vw] hover:text-primary hover:font-bold ${className}`}
     >
       {text}
     </Link>
