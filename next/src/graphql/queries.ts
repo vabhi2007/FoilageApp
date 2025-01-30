@@ -6,14 +6,13 @@ export const GET_ALL_JOBS = gql`
     allJobs {
       id
       title
-      description
       company
       location
       salary
-      postedAt
     }
   }
 `;
+
 
 // 🔹 Fetch all applications
 export const GET_ALL_APPLICATIONS = gql`
