@@ -109,6 +109,13 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
     job_by_id = graphene.Field(JobPostType, id=graphene.Int(required=True))
     all_applications = graphene.List(ApplicationType)
     application_by_id = graphene.Field(ApplicationType, id=graphene.Int(required=True))
+    all_users = graphene.List(UserType)
+
+    def resolve_all_users(self, info):
+        user = info.context.user
+        if not user.is_authenticated or user.user_type != "admin":
+            raise Exception("Only admins can view all users.")
+        return get_user_model().objects.all()
 
     def resolve_all_jobs(self, info):
         return JobPost.objects.filter(is_active=True)

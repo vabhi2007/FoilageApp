@@ -112,6 +112,19 @@ export const LOGIN_USER = gql`
   }
 `;
 
+export const REGISTER_USER = gql`
+  mutation RegisterUser($username: String!, $email: String!, $password: String!, $userType: String!) {
+    registerUser(username: $username, email: $email, password: $password, userType: $userType) {
+      user {
+        id
+        username
+        email
+        userType
+      }
+    }
+  }
+`;
+
 // 🔹 Fetch Current Logged-in User
 export const GET_ME = gql`
   query GetMe {
