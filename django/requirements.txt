@@ -1,6 +1,21 @@
-Django>=3.2
-djangorestframework
-graphene-django
-django-environ
-psycopg2-binary
-django-cors-headers==3.14.0
+# Django Framework
+Django>=3.2,<4.0           # Compatible with graphene-django==2.15.0
+
+# GraphQL and JWT
+graphene-django==2.15.0    # Requires Django <4.0
+django-graphql-jwt==0.3.1  # Requires PyJWT <2.0
+PyJWT<2.0                  # Compatible with django-graphql-jwt==0.3.1
+
+# Environment Management
+django-environ==0.12.0     # Manage environment variables
+
+# CORS Support
+django-cors-headers==3.7.0 # For handling CORS
+
+# Database (if using PostgreSQL)
+psycopg2-binary==2.9.6     # PostgreSQL database adapter
+
+# Other Dependencies
+graphql-core<3,>=2.1.0     # Required for GraphQL
+promise==2.3               # Required by Graphene
+singledispatch==4.1.0      # Compatibility layer for Graphene
