@@ -84,7 +84,7 @@ export default function InteractiveSection() {
         </div>
       )}
 
-      {/* View Applications */}
+      {/*View Applications*/}
       {showSection === 'viewApplications' && (
         <div>
           <h2 className="text-xl font-bold">All Applications</h2>
@@ -150,7 +150,7 @@ export default function InteractiveSection() {
               e.preventDefault();
               createApplication({
                 variables: {
-                  jobPostId: parseInt(applicationForm.jobId),
+                  jobID: parseInt(applicationForm.jobId),
                   applicantName: applicationForm.applicantName,
                   applicantEmail: applicationForm.applicantEmail,
                   resume: applicationForm.resume,
