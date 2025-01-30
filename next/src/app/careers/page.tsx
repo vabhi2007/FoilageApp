@@ -5,19 +5,14 @@ import Navbar from "../../app/components/Navbar";
 import CareersImage from "../../app/assets/CareersImage.svg";
 import Image from "next/image";
 import InfoTab from "../../app/components/InfoTab";
-
 import Button from "../../app/components/Button";
 import Dropdown from "../../app/components/Dropdown";
-
 import BagHandleIcon from "../../app/assets/ionicons/bag-handle.svg";
 import PeopleCircleIcon from "../../app/assets/ionicons/people-circle.svg";
 import BarChartIcon from "../../app/assets/ionicons/bar-chart.svg";
-
 import Footer from "../../app/components/Footer";
-
 import JobList from '../../app/components/JobList';
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 
 export default function Careers() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -77,7 +72,9 @@ export default function Careers() {
                               closeAllDropdowns={closeAllDropdowns}
                             />
                         </div>
-                        <JobList></JobList>
+                        <div className="flex flex-col h-full pb-[10vw]">
+                            <JobList></JobList>
+                        </div>
                     </div>
 
                     {/* Box 2 */}
