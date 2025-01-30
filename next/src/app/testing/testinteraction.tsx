@@ -150,7 +150,7 @@ export default function InteractiveSection() {
               e.preventDefault();
               createApplication({
                 variables: {
-                  jobID: parseInt(applicationForm.jobId),
+                  jobId: parseInt(applicationForm.jobId), 
                   applicantName: applicationForm.applicantName,
                   applicantEmail: applicationForm.applicantEmail,
                   resume: applicationForm.resume,

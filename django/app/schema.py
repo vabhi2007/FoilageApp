@@ -114,6 +114,37 @@ class CreateApplication(graphene.Mutation):
         application.save()
         return CreateApplication(application=application)
 
+class DeleteApplication(graphene.Mutation):
+    class Arguments:
+        application_id = graphene.Int(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, application_id):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Authentication required.")
+
+        try:
+            application = Application.objects.get(id=application_id)
+
+            # Employers can delete applications for their job posts
+            if user.user_type == "employer" and application.job_post.employer == user:
+                application.delete()
+                return DeleteApplication(success=True)
+
+            # Job seekers can delete their own applications
+            elif user.user_type == "job_seeker" and application.job_seeker == user:
+                application.delete()
+                return DeleteApplication(success=True)
+
+            else:
+                raise Exception("You do not have permission to delete this application.")
+
+        except Application.DoesNotExist:
+            raise Exception("Application not found or unauthorized to delete.")
+
+
 # Authentication Mutations
 class AuthMutation(graphene.ObjectType):
     register = mutations.Register.Field()
@@ -143,7 +174,7 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
 
     def resolve_all_applications(self, info):
         user = info.context.user
-        if not user.is_authenticated or user.user_type != "employer":
+        if not user.is_authenticated: # or user.user_type != "employer"
             raise Exception("Only employers can view applications.")
         return Application.objects.filter(job_post__employer=user)
 
@@ -160,6 +191,7 @@ class Mutation(AuthMutation, graphene.ObjectType):
     create_job_post = CreateJobPost.Field()
     create_application = CreateApplication.Field()
     delete_job_post = DeleteJobPost.Field()
+    delete_application = DeleteApplication.Field()
 
 # Schema Definition
 schema = graphene.Schema(query=Query, mutation=Mutation)

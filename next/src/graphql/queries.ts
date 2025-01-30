@@ -63,24 +63,25 @@ export const CREATE_JOB_POST = gql`
 // 🔹 Apply for a job (Job Seeker Only)
 export const CREATE_APPLICATION = gql`
   mutation CreateApplication(
-    $jobPostId: Int!
-    $applicantName: String!
-    $applicantEmail: String!
+    $jobId: Int!,
+    $applicantName: String!,
+    $applicantEmail: String!,
     $resume: String
   ) {
     createApplication(
-      jobPostId: $jobPostId
-      applicantName: $applicantName
-      applicantEmail: $applicantEmail
+      jobId: $jobId,  # ✅ Match the schema
+      applicantName: $applicantName,
+      applicantEmail: $applicantEmail,
       resume: $resume
     ) {
       application {
         id
-        applicantName
         jobPost {
           title
-          company
         }
+        applicantName
+        applicantEmail
+        resume
       }
     }
   }
