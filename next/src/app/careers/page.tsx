@@ -6,6 +6,9 @@ import CareersImage from "../../app/assets/CareersImage.svg";
 import Image from "next/image";
 import InfoTab from "../../app/components/InfoTab";
 
+import Button from "../../app/components/Button";
+import Dropdown from "../../app/components/Dropdown";
+
 import BagHandleIcon from "../../app/assets/ionicons/bag-handle.svg";
 import PeopleCircleIcon from "../../app/assets/ionicons/people-circle.svg";
 import BarChartIcon from "../../app/assets/ionicons/bar-chart.svg";
@@ -14,7 +17,15 @@ import Footer from "../../app/components/Footer";
 
 import JobList from '../../app/components/JobList';
 
+import React, { useState, useEffect, useRef } from 'react';
+
 export default function Careers() {
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  const closeAllDropdowns = () => {
+    setOpenDropdown(null); // Close all dropdowns
+  };
+
   return (
     <div>
       <Navbar></Navbar>
@@ -37,13 +48,36 @@ export default function Careers() {
         <div className="w-full h-full">
             {/*Main Content*/}
             <div className="bg-secondary py-[4vw] rounded-lg">
-                <div className="flex space-x-[2vw] mx-[8vw] text-black">
+                <div className="flex space-x-[2vw] mx-[8vw]">
                     {/* Box 1 */}
-                    <div className="bg-white rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[50vw] h-[45vw]">
-                        <h2 className="text-[1.5vw] font-semibold p-4">Filters</h2>
-
+                    <div className="bg-white rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[50vw] h-[45vw]" style={{fontFamily: 'Montserrat'}}>
+                        <div className="px-[1.5vw] py-[1.5vw] text-black w-full flex flex-row justify-between">
+                            <div className="text-[1vw]">Filter</div>
+                            <div className="text-[0.75vw]">(Showing 4 results)</div>
+                        </div>
+                        <div className="flex flex-row text-white px-[1.5vw] pb-[1.5vw] space-x-[1vw]">
+                            <Dropdown
+                              buttonText="Experience"
+                              options={["No experience", "Entry-level", "1-2 years", "3+ years"]}
+                              closeAllDropdowns={closeAllDropdowns}
+                            />
+                            <Dropdown
+                              buttonText="Grade level"
+                              options={["9th", "10th", "11th", "12th"]}
+                              closeAllDropdowns={closeAllDropdowns}
+                            />
+                            <Dropdown
+                              buttonText="Employment"
+                              options={["Volunteer", "Internship", "Part-time", "Full-time"]}
+                              closeAllDropdowns={closeAllDropdowns}
+                            />
+                            <Dropdown
+                              buttonText="Work site"
+                              options={["Remote", "Hybrid", "On-site"]}
+                              closeAllDropdowns={closeAllDropdowns}
+                            />
+                        </div>
                         <JobList></JobList>
-
                     </div>
 
                     {/* Box 2 */}
