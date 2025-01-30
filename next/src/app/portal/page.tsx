@@ -7,23 +7,35 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_JOBS } from '@/graphql/queries';
 import JobBlock from '../../app/components/JobBlock';
-import Image from "next/image";
-import CloseIcon from "../../app/assets/CloseIcon.svg"; // Add a close icon
+import ExtendedJobBlock from '../components/ExtendedJobBlock'; 
+import UserApplication from "../components/UserApplication"; 
+import JobForm from '../components/JobForm'; // Import JobForm
+import ApplicantList from "../components/ApplicantList";
 
 export default function Portal() {
-  const { data, loading, error } = useQuery(GET_ALL_JOBS);
+  const { data, loading, error, refetch } = useQuery(GET_ALL_JOBS);
   const [selectedJob, setSelectedJob] = useState<any | null>(null); // State for selected job
+  const [isCreatingJob, setIsCreatingJob] = useState(false); // State for new job form visibility
+
+  const [user] = useState('Employer');
 
   if (loading) return <p>Loading jobs...</p>;
   if (error) return <p>Error fetching jobs: {error.message}</p>;
+
+  const handleCreateJobClick = () => {
+    setIsCreatingJob(true); // Show the new job form when the plus sign is clicked
+  };
 
   return (
     <div>
       <Navbar />
 
-      <div className="w-full px-[8vw] py-[3vw] bg-secondary flex items-center justify-center">
+      <div className="w-full min-h-[45vw] px-[8vw] py-[3vw] bg-secondary flex justify-center">
         <div className="w-full bg-white" style={{ fontFamily: 'Montserrat' }}>
-          <div className="text-tertiary px-[4vw] py-[3vw] font-semibold text-[2vw]">Saved Jobs</div>
+          <div className="text-tertiary px-[4vw] py-[3vw] font-semibold text-[2vw]"> 
+            {user==='Student' ? "Saved Jobs" : 
+            user==='Employer' ? "My Job Postings" :
+            user==='Admin' ? "Employer Postings" : ""} </div>
 
           {/* Job Grid (2-column layout) */}
           <div className="grid grid-cols-2 gap-[2vw] px-[4vw] pb-[3vw]">
@@ -36,31 +48,44 @@ export default function Portal() {
                 onClick={() => setSelectedJob(job)} // Open popup on click
               />
             ))}
+
+            {(user === 'Employer' || user === 'Admin') && (
+              <div className="w-full h-[7vw] bg-gray-300 flex items-center justify-center cursor-pointer" onClick={handleCreateJobClick}>
+                <span className="text-white text-[3vw]">+</span>
+              </div>
+            )}
+            
           </div>
         </div>
       </div>
 
       {/* Job Details Popup */}
       {selectedJob && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-[2vw] rounded-lg w-[40vw] shadow-lg relative">
-            {/* Close Button */}
-            <Image src={CloseIcon} alt="Close"
-              className="absolute top-[1vw] right-[1vw] w-[2.5vw] h-auto cursor-pointer"
-              onClick={() => setSelectedJob(null)}
+        <div className="w-full h-full px-[8vw] bg-secondary">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <ExtendedJobBlock 
+              selectedJob={selectedJob}
+              onClose={() => setSelectedJob(null)}
+              user = {user}
             />
+            
+            {user === 'Student' && (
+              <UserApplication onClose={() => setSelectedJob(null)} id={selectedJob.id.toString()}/>
+            )}
 
-            {/* Job Details */}
-            <div className="flex flex-col space-y-[1vw]" style={{ fontFamily: 'Montserrat' }}>
-                <JobBlock
-                key={selectedJob.id}
-                job={selectedJob}
-                isSelected={false}
-              />
-            </div>
           </div>
         </div>
       )}
+
+      {/* New Job Form Popup */}
+      {isCreatingJob && (
+        <div className="w-full px-[8vw] bg-secondary flex items-center justify-center">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <JobForm onClose={() => setIsCreatingJob(false)} onJobCreated={refetch}/>
+          </div>
+        </div>
+      )}
+      
 
       <Footer />
     </div>

@@ -47,10 +47,10 @@ export default function Careers() {
 
         <div className="w-full h-full">
             {/*Main Content*/}
-            <div className="bg-secondary py-[4vw] rounded-lg">
+            <div className="bg-secondary py-[4vw] rounded-lg flex justify-center">
                 <div className="flex space-x-[2vw] mx-[8vw]">
                     {/* Box 1 */}
-                    <div className="bg-white rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[50vw] h-[45vw]" style={{fontFamily: 'Montserrat'}}>
+                    <div className="bg-white rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[35vw] h-[40vw]" style={{fontFamily: 'Montserrat'}}>
                         <div className="px-[1.5vw] py-[1.5vw] text-black w-full flex flex-row justify-between">
                             <div className="text-[1vw]">Filter</div>
                             <div className="text-[0.75vw]">(Showing 4 results)</div>
@@ -58,7 +58,7 @@ export default function Careers() {
                         <div className="flex flex-row text-white px-[1.5vw] pb-[1.5vw] space-x-[1vw]">
                             <Dropdown
                               buttonText="Experience"
-                              options={["No experience", "Entry-level", "1-2 years", "3+ years"]}
+                              options={["None", "Entry-level", "1-2 years", "3+ years"]}
                               closeAllDropdowns={closeAllDropdowns}
                             />
                             <Dropdown
@@ -67,7 +67,7 @@ export default function Careers() {
                               closeAllDropdowns={closeAllDropdowns}
                             />
                             <Dropdown
-                              buttonText="Employment"
+                              buttonText="Type"
                               options={["Volunteer", "Internship", "Part-time", "Full-time"]}
                               closeAllDropdowns={closeAllDropdowns}
                             />
@@ -83,9 +83,7 @@ export default function Careers() {
                     </div>
 
                     {/* Box 2 */}
-                    <div className="bg-white p-[3vw] rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[50vw] flex flex-col items-center justify-center">
-                        
-                        
+                    <div className="bg-white p-[3vw] rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[35vw] flex flex-col items-center justify-center">
 
                         {/* Render selected job details */}
                         {selectedJob ? (

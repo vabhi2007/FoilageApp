@@ -36,7 +36,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, buttonText, closeAllDropdo
 
   return (
     <div ref={dropdownRef} className="relative inline-block w-full">
-      <Button text={buttonText} onClick={toggleDropdown} showArrow={true} className="w-full h-[2.5vw]" />
+      <Button text={buttonText} onClick={toggleDropdown} showArrow={true} className="w-full h-[2.5vw] text-[0.65vw]" />
 
       {isOpen && (
         <div className="absolute left-0 w-full bg-white border border-secondary shadow-lg">
