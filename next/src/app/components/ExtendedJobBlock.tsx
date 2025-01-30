@@ -29,8 +29,8 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           />
 
           <div className="px-[1vw] flex gap-[0.35vw]">
-            <Button text="Apply" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" />
-            <Button text="Unsave" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" />
+            <Button text="Apply" className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" />
+            <Button text="Unsave" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" />
           </div>
 
           {/* Job Overview Section */}

@@ -30,7 +30,7 @@ const ExtendedApplicantBlock: React.FC<ExtendedApplicantBlockProps> = ({ selecte
           xBorder = {false}
         />
 
-        <div className="flex gap-[4vw]">
+        <div className="pt-[2vw] flex gap-[4vw]">
             {/* Contact Email Section */}
             <div className="px-[1vw] space-y-[0.7vw] text-black">
             <h4 className="text-[1vw]">Contact Email</h4>

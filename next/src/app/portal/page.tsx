@@ -28,7 +28,7 @@ export default function Portal() {
     <div>
       <Navbar />
 
-      <div className="w-full px-[8vw] py-[3vw] bg-secondary flex items-center justify-center">
+      <div className="w-full min-h-[45vw] px-[8vw] py-[3vw] bg-secondary flex justify-center">
         <div className="w-full bg-white" style={{ fontFamily: 'Montserrat' }}>
           <div className="text-tertiary px-[4vw] py-[3vw] font-semibold text-[2vw]">Saved Jobs</div>
 
