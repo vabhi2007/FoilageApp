@@ -21,18 +21,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'graphql_auth',  
+    'app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
     "graphene_django",
     "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -40,10 +42,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True #change to specifc port when we doing actual stuff
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["*"]
+
+# Allow all origins (for debugging purposes)
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'core.urls'
 
@@ -113,6 +122,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+AUTH_USER_MODEL = "app.User"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -120,5 +131,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 GRAPHENE = {
-    "SCHEMA": "app.schema.schema",  # Replace 'myproject' with your actual project name
+    "SCHEMA": "app.schema.schema",
+    "MIDDLEWARE": [
+        "graphql_jwt.middleware.JSONWebTokenMiddleware",
+    ],
 }
+
+
+AUTHENTICATION_BACKENDS = [
+    "graphql_jwt.backends.JSONWebTokenBackend",  # Required for JWT authentication
+    "django.contrib.auth.backends.ModelBackend",
+]
