@@ -5,7 +5,7 @@ import TemporaryEmployerImage from '../../app/assets/TemporaryEmployerImage.svg'
 const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isSelected: boolean, xBorder?: boolean, onClick?: (() => void) | null }) => {
   return (
     <div
-      className={`flex items-center border-gray-300 px-[1.5vw] py-[1vw] space-x-[2vw] 
+      className={`h-[7vw] flex items-center border-gray-300 px-[1.5vw] py-[0.65vw] space-x-[2vw] 
         ${isSelected ? 'bg-secondary' : onClick ? 'hover:bg-secondary cursor-pointer border-y' : ''}
         ${xBorder ? 'border-x' : ''}
         `}
@@ -20,16 +20,16 @@ const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isS
       {/* Job Details Section */}
       <div className="flex flex-col flex-grow space-y-[0.75vw]" style={{ fontFamily: 'Montserrat' }}>
         <div className="space-y-[0.1vw]">
-          <h3 className="text-[1.1vw] font-medium text-black">{job.title}</h3>
-          <p className="text-[0.9vw] text-black">{job.company}</p>
+          <h3 className="text-[1vw] font-medium text-black">{job.title}</h3>
+          <p className="text-[0.85vw] text-tertiary">{job.company}</p>
         </div>
 
         {/* Labels */}
         <div className="flex gap-[1vw]">
-          <span className="bg-gray-200 text-gray-700 text-[0.75vw] px-[0.5vw] py-[0.25vw] rounded">
+          <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
             {job.location}
           </span>
-          <span className="bg-gray-200 text-gray-700 text-[0.75vw] px-[0.5vw] py-[0.25vw] rounded">
+          <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
             ${job.salary}
           </span>
         </div>

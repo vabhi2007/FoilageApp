@@ -16,18 +16,23 @@ const Button: React.FC<ButtonProps> = ({text, onClick, className = '', primary =
       className={`px-[0.75vw] py-[0.5vw] rounded-[5px] text-[0.85vw] flex justify-center items-center ${className} ${primary ? 'bg-primary' : 'bg-tertiary'}`}
     >
 
-      <div className={'w-full flex justify-between ${ : } '}>
-      {text}
+      {showArrow ? (
+        <div className={'w-full flex justify-between'}>
+          {text}
+          <Image
+            src = {Arrow}
+            alt = "Arrow"
+            className="w-[0.5vw] h-auto"
+          ></Image>
+        </div>
+      ) : (
+        <div>
+          {text}
+        </div>
+      )
+    }
 
-      {showArrow && (
-        <Image
-          src = {Arrow}
-          alt = "Arrow"
-          className="w-[0.5vw] h-auto"
-        ></Image>
-      )}
-
-      </div>
+      
     </button>
   );
 };

@@ -7,8 +7,8 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_JOBS } from '@/graphql/queries';
 import JobBlock from '../../app/components/JobBlock';
-import Image from "next/image";
-import CloseIcon from "../../app/assets/CloseIcon.svg"; // Add a close icon
+import ExtendedJobBlock from '../components/ExtendedJobBlock'; // Import the new component
+import UserApplication from "../components/UserApplication"; // Import the User Application container
 
 export default function Portal() {
   const { data, loading, error } = useQuery(GET_ALL_JOBS);
@@ -36,28 +36,24 @@ export default function Portal() {
                 onClick={() => setSelectedJob(job)} // Open popup on click
               />
             ))}
+
+            {/* Plus Block - Gray block with a plus sign */}
+            <div className="w-full bg-gray-300 flex items-center justify-center cursor-pointer">
+              <span className="text-white text-[3vw]">+</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Job Details Popup */}
       {selectedJob && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-[2vw] rounded-lg w-[40vw] shadow-lg relative">
-            {/* Close Button */}
-            <Image src={CloseIcon} alt="Close"
-              className="absolute top-[1vw] right-[1vw] w-[2.5vw] h-auto cursor-pointer"
-              onClick={() => setSelectedJob(null)}
+        <div className="w-full px-[8vw] py-[3vw] bg-secondary flex items-center justify-center gap-[2vw]">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 gap-[2vw]">
+            <ExtendedJobBlock 
+              selectedJob={selectedJob}
+              onClose={() => setSelectedJob(null)}
             />
-
-            {/* Job Details */}
-            <div className="flex flex-col space-y-[1vw]" style={{ fontFamily: 'Montserrat' }}>
-                <JobBlock
-                key={selectedJob.id}
-                job={selectedJob}
-                isSelected={false}
-              />
-            </div>
+            <UserApplication />
           </div>
         </div>
       )}
