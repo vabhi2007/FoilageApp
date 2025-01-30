@@ -58,7 +58,7 @@ export default function Careers() {
                         <div className="flex flex-row text-white px-[1.5vw] pb-[1.5vw] space-x-[1vw]">
                             <Dropdown
                               buttonText="Experience"
-                              options={["No experience", "Entry-level", "1-2 years", "3+ years"]}
+                              options={["None", "Entry-level", "1-2 years", "3+ years"]}
                               closeAllDropdowns={closeAllDropdowns}
                             />
                             <Dropdown
@@ -67,7 +67,7 @@ export default function Careers() {
                               closeAllDropdowns={closeAllDropdowns}
                             />
                             <Dropdown
-                              buttonText="Employment"
+                              buttonText="Type"
                               options={["Volunteer", "Internship", "Part-time", "Full-time"]}
                               closeAllDropdowns={closeAllDropdowns}
                             />

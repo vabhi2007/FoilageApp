@@ -17,6 +17,8 @@ export default function Portal() {
   const [selectedJob, setSelectedJob] = useState<any | null>(null); // State for selected job
   const [isCreatingJob, setIsCreatingJob] = useState(false); // State for new job form visibility
 
+  const [user] = useState('Employer');
+
   if (loading) return <p>Loading jobs...</p>;
   if (error) return <p>Error fetching jobs: {error.message}</p>;
 
@@ -30,7 +32,10 @@ export default function Portal() {
 
       <div className="w-full min-h-[45vw] px-[8vw] py-[3vw] bg-secondary flex justify-center">
         <div className="w-full bg-white" style={{ fontFamily: 'Montserrat' }}>
-          <div className="text-tertiary px-[4vw] py-[3vw] font-semibold text-[2vw]">Saved Jobs</div>
+          <div className="text-tertiary px-[4vw] py-[3vw] font-semibold text-[2vw]"> 
+            {user==='Student' ? "Saved Jobs" : 
+            user==='Employer' ? "My Job Postings" :
+            user==='Admin' ? "Employer Postings" : ""} </div>
 
           {/* Job Grid (2-column layout) */}
           <div className="grid grid-cols-2 gap-[2vw] px-[4vw] pb-[3vw]">
@@ -44,25 +49,30 @@ export default function Portal() {
               />
             ))}
 
-            {/* Plus Block - Gray block with a plus sign */}
-            <div className="w-full h-[7vw] bg-gray-300 flex items-center justify-center cursor-pointer" onClick={handleCreateJobClick}>
-              <span className="text-white text-[3vw]">+</span>
-            </div>
+            {(user === 'Employer' || user === 'Admin') && (
+              <div className="w-full h-[7vw] bg-gray-300 flex items-center justify-center cursor-pointer" onClick={handleCreateJobClick}>
+                <span className="text-white text-[3vw]">+</span>
+              </div>
+            )}
+            
           </div>
         </div>
       </div>
 
       {/* Job Details Popup */}
       {selectedJob && (
-        <div className="w-full h-full px-[8vw] bg-secondary flex items-center justify-center">
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 gap-[2vw]">
+        <div className="w-full h-full px-[8vw] bg-secondary">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <ExtendedJobBlock 
               selectedJob={selectedJob}
               onClose={() => setSelectedJob(null)}
+              user = {user}
             />
-            <UserApplication onClose={() => setSelectedJob(null)} id={selectedJob.id.toString()}/>
+            
+            {user === 'Student' && (
+              <UserApplication onClose={() => setSelectedJob(null)} id={selectedJob.id.toString()}/>
+            )}
 
-            <ApplicantList jobId={selectedJob.id.toString()}></ApplicantList>
           </div>
         </div>
       )}

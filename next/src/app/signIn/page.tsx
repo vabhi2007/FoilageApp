@@ -10,7 +10,7 @@ import Button from "../../app/components/Button";
 
 export default function Portal() {
   const [hasAccount, setHasAccount] = useState(true);
-  const [selectedRole, setSelectedRole] = useState<"Student" | "Employer" | null>(null);
+  const [selectedRole, setSelectedRole] = useState("Student");
 
   const handleRoleSelection = (role: "Student" | "Employer") => {
     setSelectedRole(role);

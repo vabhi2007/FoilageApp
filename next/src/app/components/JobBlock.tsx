@@ -5,7 +5,7 @@ import TemporaryEmployerImage from '../../app/assets/Leaf.svg';
 const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isSelected: boolean, xBorder?: boolean, onClick?: (() => void) | null }) => {
   return (
     <div
-      className={`h-[7vw] flex items-center border-gray-300 px-[1.5vw] py-[0.65vw] space-x-[2vw] 
+      className={`w-auto flex border-gray-300 px-[1.5vw] py-[0.65vw] space-x-[2vw] 
         ${isSelected ? 'bg-secondary' : onClick ? 'hover:bg-secondary cursor-pointer border-y' : ''}
         ${xBorder ? 'border-x' : ''}
         `}
@@ -25,12 +25,24 @@ const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isS
         </div>
 
         {/* Labels */}
-        <div className="flex gap-[1vw]">
+        <div className="flex flex-wrap gap-[0.5vw]">
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
             {job.location}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
             ${job.salary}
+          </span>
+          <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
+            Grade 11
+          </span>
+          <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
+            Remote
+          </span>
+          <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
+            No experience
+          </span>
+          <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
+            Internship
           </span>
         </div>
       </div>
