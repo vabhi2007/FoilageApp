@@ -4,12 +4,13 @@ import Button from './Button';
 type DropdownProps = {
   options: string[];
   buttonText: string;
-  closeAllDropdowns: () => void; // Add this prop to close other dropdowns
+  closeAllDropdowns: () => void;
 };
 
 const Dropdown: React.FC<DropdownProps> = ({ options, buttonText, closeAllDropdowns }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null); // Ref for the dropdown menu
+  const [selectedOption, setSelectedOption] = useState<string | null>(null); // State to store the selected option
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -35,19 +36,19 @@ const Dropdown: React.FC<DropdownProps> = ({ options, buttonText, closeAllDropdo
 
   return (
     <div ref={dropdownRef} className="relative inline-block w-full">
-      {/* Button to trigger dropdown */}
       <Button text={buttonText} onClick={toggleDropdown} showArrow={true} className="w-full h-[2.5vw]" />
 
-      {/* Dropdown Menu */}
       {isOpen && (
         <div className="absolute left-0 w-full bg-white border border-secondary shadow-lg">
           <ul className="list-none">
             {options.map((option, index) => (
               <li
                 key={index}
-                className="px-[1vw] py-[0.5vw] text-[0.85vw] border-b border-secondary text-tertiary hover:bg-secondary cursor-pointer"
+                className={`px-[1vw] py-[0.5vw] text-[0.85vw] border-b border-secondary text-tertiary cursor-pointer ${
+                  selectedOption === option ? 'bg-secondary' : 'hover:bg-secondary'
+                }`}
                 onClick={() => {
-                  console.log(option);
+                  setSelectedOption(selectedOption === option ? null : option); // Toggle selected option
                   setIsOpen(false);
                 }}
               >
