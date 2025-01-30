@@ -119,7 +119,7 @@ export default function InteractiveSection() {
                   description: jobForm.description,
                   company: jobForm.company,
                   location: jobForm.location,
-                  salary: parseFloat(jobForm.salary),
+                  salary: parseFloat(jobForm.salary) * 1.0,
                 },
               });
               setJobForm({ title: '', description: '', company: '', location: '', salary: '' });

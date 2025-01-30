@@ -70,6 +70,24 @@ class CreateJobPost(graphene.Mutation):
         job_post.save()
         return CreateJobPost(job_post=job_post)
 
+class DeleteJobPost(graphene.Mutation):
+    class Arguments:
+        job_post_id = graphene.Int(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, job_post_id):
+        user = info.context.user
+        if not user.is_authenticated or user.user_type != "employer":
+            raise Exception("Only employers can delete job posts.")
+
+        try:
+            job_post = JobPost.objects.get(id=job_post_id, employer=user)
+            job_post.delete()
+            return DeleteJobPost(success=True)
+        except JobPost.DoesNotExist:
+            raise Exception("Job post not found or unauthorized to delete.")
+
 # Apply to Job (Only Job Seekers)
 class CreateApplication(graphene.Mutation):
     class Arguments:
@@ -141,6 +159,7 @@ class Mutation(AuthMutation, graphene.ObjectType):
     register_user = RegisterUser.Field()
     create_job_post = CreateJobPost.Field()
     create_application = CreateApplication.Field()
+    delete_job_post = DeleteJobPost.Field()
 
 # Schema Definition
 schema = graphene.Schema(query=Query, mutation=Mutation)

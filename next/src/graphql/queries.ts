@@ -38,7 +38,7 @@ export const CREATE_JOB_POST = gql`
     $description: String!
     $company: String!
     $location: String!
-    $salary: Int!
+    $salary: Float!
   ) {
     createJobPost(
       title: $title
@@ -51,6 +51,10 @@ export const CREATE_JOB_POST = gql`
         id
         title
         company
+        description
+        location
+        salary
+        postedAt
       }
     }
   }
@@ -87,7 +91,6 @@ export const DELETE_JOB_POST = gql`
   mutation DeleteJobPost($jobPostId: Int!) {
     deleteJobPost(jobPostId: $jobPostId) {
       success
-      message
     }
   }
 `;
@@ -97,7 +100,6 @@ export const DELETE_APPLICATION = gql`
   mutation DeleteApplication($applicationId: Int!) {
     deleteApplication(applicationId: $applicationId) {
       success
-      message
     }
   }
 `;
