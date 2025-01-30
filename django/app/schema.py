@@ -34,7 +34,7 @@ class RegisterUser(graphene.Mutation):
     user = graphene.Field(UserType)
 
     def mutate(self, info, username, email, password, user_type):
-        if user_type not in ["job_seeker", "employer"]:
+        if user_type not in ["job_seeker", "employer", "admin"]:
             raise Exception("Invalid user type. Choose 'job_seeker' or 'employer'.")
 
         User = get_user_model()
