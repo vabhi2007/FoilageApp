@@ -1,21 +1,23 @@
 # Django Framework
-Django>=3.2,<4.0           # Compatible with graphene-django==2.15.0
+Django>=3.2,<4.0            # Compatible with graphene-django==2.15.0
 
-# GraphQL and JWT
-graphene-django==2.15.0    # Requires Django <4.0
-django-graphql-jwt==0.3.1  # Requires PyJWT <2.0
-PyJWT<2.0                  # Compatible with django-graphql-jwt==0.3.1
+# GraphQL and JWT Authentication
+graphene-django==2.15.0     # GraphQL support for Django
+django-graphql-auth==0.3.16 # User authentication for GraphQL
+django-graphql-jwt==0.3.0   # Compatible with django-graphql-auth
+
+# CORS Support (for Next.js frontend)
+django-cors-headers==3.13.0 # Handles cross-origin requests
 
 # Environment Management
-django-environ==0.12.0     # Manage environment variables
+django-environ==0.12.0      # Manage environment variables
 
-# CORS Support
-django-cors-headers==3.7.0 # For handling CORS
+# Static File Management
+whitenoise==5.3.0           # Serves static files in production
 
-# Database (if using PostgreSQL)
-psycopg2-binary==2.9.6     # PostgreSQL database adapter
+# Security and Authentication
+djangorestframework==3.14.0 # Optional: REST API support
+argon2-cffi==21.3.0         # More secure password hashing
 
-# Other Dependencies
-graphql-core<3,>=2.1.0     # Required for GraphQL
-promise==2.3               # Required by Graphene
-singledispatch==4.1.0      # Compatibility layer for Graphene
+# Miscellaneous
+gunicorn==20.1.0            # WSGI server for production
