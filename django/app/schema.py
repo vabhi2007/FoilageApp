@@ -50,11 +50,11 @@ class CreateJobPost(graphene.Mutation):
         description = graphene.String(required=True)
         company = graphene.String(required=True)
         location = graphene.String(required=True)
-        salary = graphene.Float()
+        salary = graphene.Float(required=True)
 
     job_post = graphene.Field(JobPostType)
 
-    def mutate(self, info, title, description, company, location, salary=None):
+    def mutate(self, info, title, description, company, location, salary):
         user = info.context.user
         if not user.is_authenticated or user.user_type != "employer":
             raise Exception("Only employers can create job posts.")
