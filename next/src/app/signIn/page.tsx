@@ -99,7 +99,7 @@ export default function Portal() {
             <Button
               text={hasAccount ? "Sign In" : "Sign Up"}
               className="w-full h-[3vw] mt-[1vw]"
-              onClick={() => login}
+              onClick={() => handleSubmit}
             />
 
             {/* Toggle Login/Signup */}
