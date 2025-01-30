@@ -50,7 +50,7 @@ CORS_ALLOW_ALL_ORIGINS = True #change to specifc port when we doing actual stuff
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = [
-    "authorization",
+    "*",
 ]
 
 # Allow all origins (for debugging purposes)
