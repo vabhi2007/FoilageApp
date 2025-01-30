@@ -16,9 +16,14 @@ import React, { useState } from 'react';
 
 export default function Careers() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [selectedJob, setSelectedJob] = useState<any | null>(null); // New state to hold the selected job
 
   const closeAllDropdowns = () => {
     setOpenDropdown(null); // Close all dropdowns
+  };
+
+  const handleJobClick = (job: any) => {
+    setSelectedJob(job); // Update state when a job is clicked
   };
 
   return (
@@ -73,18 +78,33 @@ export default function Careers() {
                             />
                         </div>
                         <div className="flex flex-col h-full pb-[10vw]">
-                            <JobList></JobList>
+                            <JobList onJobClick={handleJobClick} selectedJob={selectedJob} /> {/* Pass selectedJob */}
                         </div>
                     </div>
 
                     {/* Box 2 */}
                     <div className="bg-white p-[3vw] rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[50vw] flex flex-col items-center justify-center">
-                        <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[0.5vw]"></div>
-                        <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[0.5vw]"></div>
-                        <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[1vw]"></div>
+                        
+                        
 
-                        {/* "Jobs await!" text */}
-                        <h2 className="text-[1.5vw] font-medium text-tertiary" style={{fontFamily: 'Montserrat'}}>Jobs await!</h2>
+                        {/* Render selected job details */}
+                        {selectedJob ? (
+                          <div className="space-y-[1vw] text-black">
+                            <h3 className="text-[2vw] font-semibold">{selectedJob.title}</h3>
+                            <p className="text-[1.5vw]">{selectedJob.company}</p>
+                            <p className="text-[1.2vw]">{selectedJob.description}</p>
+                            <p className="text-[1vw]">{selectedJob.location}</p>
+                            <p className="text-[1vw]">${selectedJob.salary}</p>
+                          </div>
+                        ) : (
+                            <div>
+                                <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[0.5vw]"></div>
+                                <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[0.5vw]"></div>
+                                <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[1vw]"></div>
+                                <div className="text-[1.5vw] font-medium text-tertiary" style={{fontFamily: 'Montserrat'}}>Jobs await!</div>
+                                {/* "Jobs await!" text */}    
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

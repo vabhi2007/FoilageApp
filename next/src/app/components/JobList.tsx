@@ -6,7 +6,7 @@ import { GET_ALL_JOBS } from '@/graphql/queries';
 import TemporaryEmployerImage from "../../app/assets/TemporaryEmployerImage.svg";
 import Image from "next/image";
 
-const JobList = () => {
+const JobList = ({ onJobClick, selectedJob }: { onJobClick: (job: any) => void, selectedJob: any }) => {
   const { data, loading, error } = useQuery(GET_ALL_JOBS);
 
   if (loading) return <p>Loading jobs...</p>;
@@ -19,7 +19,12 @@ const JobList = () => {
         {data.allJobPosts.map((job: any) => (
           <div
             key={job.id}
-            className="flex items-center border-t border-b border-gray-300 hover:bg-secondary px-[1.5vw] py-[1vw] space-x-[2vw]"
+            className={`flex items-center border-t border-b border-gray-300 px-[1.5vw] py-[1vw] space-x-[2vw] ${
+              selectedJob && selectedJob.id === job.id
+                ? 'bg-secondary' // Add a class for the selected job to keep it in hovered state
+                : 'hover:bg-secondary' // Regular hover color for non-selected jobs
+            }`}
+            onClick={() => onJobClick(job)} // Call onJobClick when a job is clicked
           >
             {/* Logo Section */}
             <div className="w-[4vw] h-auto flex-shrink-0 flex items-center">
@@ -41,15 +46,6 @@ const JobList = () => {
               <div className="flex gap-[1vw]">
                 <span className="bg-gray-200 text-gray-700 text-[0.75vw] px-[0.5vw] py-[0.25vw] rounded">
                   {job.location}
-                </span>
-                <span className="bg-gray-200 text-gray-700 text-[0.75vw] px-[0.5vw] py-[0.25vw] rounded">
-                  ${job.salary}
-                </span>
-                <span className="bg-gray-200 text-gray-700 text-[0.75vw] px-[0.5vw] py-[0.25vw] rounded">
-                  ${job.salary}
-                </span>
-                <span className="bg-gray-200 text-gray-700 text-[0.75vw] px-[0.5vw] py-[0.25vw] rounded">
-                  ${job.salary}
                 </span>
                 <span className="bg-gray-200 text-gray-700 text-[0.75vw] px-[0.5vw] py-[0.25vw] rounded">
                   ${job.salary}
