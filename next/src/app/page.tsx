@@ -3,7 +3,6 @@
 import "../app/globals.css";
 import Navbar from "../app/components/Navbar";
 import BackgroundImage from "../app/assets/BackgroundImage.svg";
-import BackgroundVideo from "next-video/dist/cjs/components/background-video.js";
 import Image from "next/image";
 import InfoTab from "../app/components/InfoTab";
 
@@ -18,7 +17,7 @@ export default function Home() {
     <div>
       <Navbar></Navbar>
 
-      <div className= "space-y-[8vw]">
+      <div className= "space-y-[8vw] mb-[8vw]">
         <div className="relative">
           <Image
             src={BackgroundImage}
