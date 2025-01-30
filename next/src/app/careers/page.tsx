@@ -84,8 +84,6 @@ export default function Careers() {
 
                     {/* Box 2 */}
                     <div className="bg-white p-[3vw] rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[35vw] flex flex-col items-center justify-center">
-                        
-              
 
                         {/* Render selected job details */}
                         {selectedJob ? (

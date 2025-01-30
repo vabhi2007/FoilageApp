@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import CloseIcon from "../../app/assets/CloseIcon.svg"; // Close icon import
+import CloseIcon from "../../app/assets/CloseIcon.svg";
 import Button from "../components/Button";
 import JobBlock from "../../app/components/JobBlock";
 

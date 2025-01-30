@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import TemporaryEmployerImage from '../../app/assets/TemporaryEmployerImage.svg';
+import TemporaryEmployerImage from '../../app/assets/Leaf.svg';
 
 const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isSelected: boolean, xBorder?: boolean, onClick?: (() => void) | null }) => {
   return (
@@ -13,7 +13,7 @@ const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isS
       onClick={onClick || undefined} // Prevents errors if onClick is null
     >
       {/* Logo Section */}
-      <div className="w-[4vw] h-auto flex-shrink-0 flex items-center">
+      <div className="w-[3vw] h-auto flex-shrink-0 flex items-center">
         <Image src={TemporaryEmployerImage} className="w-full h-full" alt="Logo" />
       </div>
 

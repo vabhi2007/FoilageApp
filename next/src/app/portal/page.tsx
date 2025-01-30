@@ -7,15 +7,22 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_JOBS } from '@/graphql/queries';
 import JobBlock from '../../app/components/JobBlock';
-import ExtendedJobBlock from '../components/ExtendedJobBlock'; // Import the new component
-import UserApplication from "../components/UserApplication"; // Import the User Application container
+import ExtendedJobBlock from '../components/ExtendedJobBlock'; 
+import UserApplication from "../components/UserApplication"; 
+import JobForm from '../components/JobForm'; // Import JobForm
+import ApplicantList from "../components/ApplicantList";
 
 export default function Portal() {
-  const { data, loading, error } = useQuery(GET_ALL_JOBS);
+  const { data, loading, error, refetch } = useQuery(GET_ALL_JOBS);
   const [selectedJob, setSelectedJob] = useState<any | null>(null); // State for selected job
+  const [isCreatingJob, setIsCreatingJob] = useState(false); // State for new job form visibility
 
   if (loading) return <p>Loading jobs...</p>;
   if (error) return <p>Error fetching jobs: {error.message}</p>;
+
+  const handleCreateJobClick = () => {
+    setIsCreatingJob(true); // Show the new job form when the plus sign is clicked
+  };
 
   return (
     <div>
@@ -38,7 +45,7 @@ export default function Portal() {
             ))}
 
             {/* Plus Block - Gray block with a plus sign */}
-            <div className="w-full bg-gray-300 flex items-center justify-center cursor-pointer">
+            <div className="w-full h-[7vw] bg-gray-300 flex items-center justify-center cursor-pointer" onClick={handleCreateJobClick}>
               <span className="text-white text-[3vw]">+</span>
             </div>
           </div>
@@ -47,16 +54,28 @@ export default function Portal() {
 
       {/* Job Details Popup */}
       {selectedJob && (
-        <div className="w-full px-[8vw] py-[3vw] bg-secondary flex items-center justify-center gap-[2vw]">
+        <div className="w-full h-full px-[8vw] bg-secondary flex items-center justify-center">
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 gap-[2vw]">
             <ExtendedJobBlock 
               selectedJob={selectedJob}
               onClose={() => setSelectedJob(null)}
             />
-            <UserApplication />
+            <UserApplication onClose={() => setSelectedJob(null)} id={selectedJob.id.toString()}/>
+
+            <ApplicantList jobId={selectedJob.id.toString()}></ApplicantList>
           </div>
         </div>
       )}
+
+      {/* New Job Form Popup */}
+      {isCreatingJob && (
+        <div className="w-full px-[8vw] bg-secondary flex items-center justify-center">
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <JobForm onClose={() => setIsCreatingJob(false)} onJobCreated={refetch}/>
+          </div>
+        </div>
+      )}
+      
 
       <Footer />
     </div>
