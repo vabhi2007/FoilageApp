@@ -11,7 +11,7 @@ class UserType(DjangoObjectType):
 
     class Meta:
         model = get_user_model()
-        fields = ("id", "username", "email", "user_type", "connected_jobs")
+        fields = ("id", "username", "email", "user_type", "connected_jobs", "bio")
 
     def resolve_connected_jobs(self, info):
         return [job.id for job in self.connected_jobs.all()]
@@ -27,6 +27,23 @@ class ApplicationType(DjangoObjectType):
     class Meta:
         model = Application
         fields = ("id", "job_post", "job_seeker", "applicant_name", "applicant_email", "resume", "applied_at")
+
+
+class UpdateBio(graphene.Mutation):
+    class Arguments:
+        bio = graphene.String(required=True)
+
+    user = graphene.Field(UserType)
+
+    def mutate(self, info, bio):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Authentication required.")
+
+        user.bio = bio
+        user.save()
+        return UpdateBio(user=user)
+
 
 # Register User Mutation
 class RegisterUser(graphene.Mutation):
@@ -250,6 +267,7 @@ class Mutation(AuthMutation, graphene.ObjectType):
     delete_application = DeleteApplication.Field()
     add_connected_job = AddConnectedJob.Field()
     remove_connected_job = RemoveConnectedJob.Field()
+    update_bio = UpdateBio.Field()
 
 # Schema Definition
 schema = graphene.Schema(query=Query, mutation=Mutation)

@@ -166,6 +166,7 @@ export const GET_ME = gql`
         postedAt
         isActive
       }
+        bio
     }
   }
 `;
@@ -183,6 +184,17 @@ export const REMOVE_CONNECTED_JOB = gql`
   mutation RemoveConnectedJob($jobId: Int!) {
     removeConnectedJob(jobId: $jobId) {
       success
+    }
+  }
+`;
+
+export const UPDATE_BIO = gql`
+  mutation UpdateBio($bio: String!) {
+    updateBio(bio: $bio) {
+      user {
+        id
+        bio
+      }
     }
   }
 `;
