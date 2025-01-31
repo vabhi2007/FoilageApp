@@ -30,6 +30,7 @@ const JobList: React.FC<JobListProps> = ({onJobClick, selectedJob, keyword='', l
   if (!data || !data.allJobs) return <p className="text-red-500">No jobs found.</p>;
 
   const filteredJobs = data.allJobs.filter((job: any) => (
+    job.isActive &&
     (!keyword || job.title.toLowerCase().includes(keyword.toLowerCase())) &&
     (!location || job.location.toLowerCase().includes(location.toLowerCase())) &&
     (!experience || job.experience.toLowerCase().includes(experience.toLowerCase())) &&
