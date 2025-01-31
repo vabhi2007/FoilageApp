@@ -81,6 +81,7 @@ export default function Portal() {
                 isSelected={selectedJob?.id === job.id}
                 xBorder={true}
                 onClick={() => setSelectedJob(job)}
+                displayStatus={true}
               />
             ))}
 

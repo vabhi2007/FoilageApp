@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import TemporaryEmployerImage from '../../app/assets/TemporaryLeaf.svg';
 
-const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isSelected: boolean, xBorder?: boolean, onClick?: (() => void) | null }) => {
+const JobBlock = ({ job, isSelected, xBorder = false, displayStatus = false, onClick }: { job: any, isSelected: boolean, xBorder?: boolean, displayStatus?: boolean, onClick?: (() => void) | null }) => {
   return (
     <div
       className={`w-auto flex border-gray-300 px-[1.5vw] py-[0.65vw] space-x-[2vw] 
@@ -20,7 +20,24 @@ const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isS
       {/* Job Details Section */}
       <div className="flex flex-col flex-grow space-y-[0.75vw]" style={{ fontFamily: 'Montserrat' }}>
         <div className="space-y-[0.1vw]">
-          <h3 className="text-[1vw] font-medium text-black">{job.title}</h3>
+          <div className="flex justify-between">
+            <h3 className="text-[1vw] font-medium text-black">{job.title}</h3>
+
+            {displayStatus && (
+              <div>
+              {!job.isActive ? (
+                <div className='text-yellow-500 font-bold'>
+                  <span>• In review</span>
+                </div>
+              ) : 
+                <div className='text-green-500 font-bold'>
+                  <span>• Approved</span>
+                </div>
+              }
+              </div>
+          )}
+
+          </div>
           <p className="text-[0.85vw] text-tertiary">Microsoft</p>
         </div>
 
