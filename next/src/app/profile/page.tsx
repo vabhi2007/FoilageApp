@@ -40,6 +40,21 @@ export default function ProfilePage() {
     grade: "",
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      // 🚀 Redirect to login if not signed in
+      router.push("/signIn");
+    }
+  }, []);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("token"); // ✅ Remove token
+    router.push("/signIn"); // 🚀 Redirect to login
+  };
+
+
   // Ensure `userInfo` is properly set after refetch
   useEffect(() => {
     if (medata?.me) {
@@ -108,7 +123,7 @@ export default function ProfilePage() {
                 <div className="text-[1vw] text-gray-500">{usertype || "Role"}</div>
               </div>
               <div className="flex space-x-[1vw] text-white">
-                <Button text="Sign Out" className="w-[7vw] h-[2.5vw] text-[0.9vw]" />
+                <Button text="Sign Out" className="w-[7vw] h-[2.5vw] text-[0.9vw]" onClick={handleSignOut} />
                 <Button text="Delete" primary={false} className="w-[7vw] h-[2.5vw] text-[0.9vw]" />
                 <Button text="Save" primary={true} className="w-[7vw] h-[2.5vw] text-[0.9vw]" onClick={handleSave} />
               </div>
@@ -177,6 +192,26 @@ export default function ProfilePage() {
                 </div>
               </div>
             )}
+
+
+            {(medata?.me?.userType == jobSeekerRef) && (
+              <div>
+                {/* Grade Selection using button group (first style) */}
+            <div className="text-[1vw] mb-[1.2vw] text-gray-700">Grade</div>
+            <div className="flex gap-[0.5vw]">
+              {['9th', '10th', '11th', '12th'].map((grade) => (
+                <button
+                  key={grade}
+                  type="button"
+                  className={`w-full h-[3vw] text-[0.9vw] rounded-md text-white ${userInfo.grade === grade ? 'bg-primary' : 'bg-tertiary'}`}
+                  onClick={() => handleGradeClick(grade)}
+                >
+                  {grade}
+                </button>
+              ))}
+            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -184,3 +219,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+

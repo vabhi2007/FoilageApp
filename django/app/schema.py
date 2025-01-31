@@ -146,7 +146,7 @@ class CreateJobPost(graphene.Mutation):
 
     def mutate(self, info, title, description, location, salary, site, experience, grade, employment):
         user = info.context.user
-        if not user.is_authenticated or user.user_type != "employer" or user.user_type == "admin":
+        if not user.is_authenticated or user.user_type != "employer" or user.user_type != "admin":
             raise Exception("Only employers can create job posts.")
 
         job_post = JobPost(
