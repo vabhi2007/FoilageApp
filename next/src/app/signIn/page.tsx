@@ -54,7 +54,7 @@ export default function Portal() {
             {/* Email */}
             <div className="my-[1.2vw] text-black">
               <div className="text-[1vw] text-gray-700">Email</div>
-              <input placeholder="Ex: johndoe@example.com" type="email" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input placeholder="Ex: johndoe@example.com" type="email" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" value={username} onChange={(e) => setUsername(e.target.value)} required/>
             </div>
             {/* Password */}
             <div className="mb-[1.2vw] text-black">
