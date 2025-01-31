@@ -15,7 +15,8 @@ import {
   ADD_CONNECTED_JOB, 
   REMOVE_CONNECTED_JOB, 
   GET_ME, 
-  GET_JOB_BY_ID 
+  GET_JOB_BY_ID, 
+  UPDATE_JOB_POST
 } from '@/graphql/queries';
 
 import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
@@ -35,6 +36,8 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
     variables: { id: selectedJob?.id ? parseInt(selectedJob.id, 10) : null },
     skip: !selectedJob?.id, // Avoid fetching if selectedJob is null
   });
+
+  const [updateJobPost] = useMutation(UPDATE_JOB_POST, {refetchQueries: [{query: GET_ALL_JOBS}]});
 
   // Refetch when `selectedJob` changes
   useEffect(() => {
@@ -86,6 +89,28 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
     }
   };
 
+  const approveJob = async() => {
+    try {
+      await updateJobPost({
+        variables: { 
+          jobId: selectedJob.id,
+          title: selectedJob.title,
+          description: selectedJob.description,
+          location: selectedJob.location,
+          salary: selectedJob.salary,
+          site: selectedJob.site,
+          experience: selectedJob.experience,
+          grade: selectedJob.grade,
+          employment: selectedJob.employment,
+          isActive: true
+        }
+      });
+      onClose();
+    } catch (error) {
+      console.error('Error updating job:', error);
+    }
+  }
+
   const [isEditingJob, setIsEditingJob] = useState(false);
   const handleEditJobClick = () => setIsEditingJob(true);
 
@@ -128,7 +153,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           {user === adminRef && (
             <div className="px-[1vw] pt-[1vw]">
               <div className="flex gap-[0.35vw]">
-                <Button text="Accept" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" />
+                <Button text="Accept" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={approveJob}/>
                 <Button text="Reject" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" onClick={handleDeleteJobById} />
               </div>
             </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import SearchIcon from "../../app/assets/SearchIcon.svg";
@@ -19,6 +19,11 @@ const SearchBar: React.FC<SearchBarProps> = ({autoFillKeyword = '', autoFillLoca
   const handleSearch = () => {
     router.push(`/careers?keyword=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`);
   };
+
+  useEffect(() => {
+    setKeyword(autoFillKeyword);
+    setLocation(autoFillLocation);
+  }, [autoFillKeyword, autoFillLocation]);
 
   return (
     <div className="w-[50vw] h-[3vw] bg-white flex items-center text-tertiary justify-center rounded-[5px] px-[1.5vw] gap-[1.5vw]" style={{ fontFamily: 'Montserrat' }}>
