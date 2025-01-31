@@ -23,19 +23,21 @@ export default function Portal() {
     onCompleted: (data) => {
       if (data.tokenAuth.token) {
         localStorage.setItem("token", data.tokenAuth.token);
-        router.push("/dashboard"); // Redirect to dashboard
+        router.push("/dashboard");
       }
     },
   });
-
-  const handleRoleSelection = (role: "Student" | "Employer") => {
-    setSelectedRole(role);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await login({ variables: { username, password } });
   };
+
+  const handleRoleSelection = (role: "Student" | "Employer") => {
+    setSelectedRole(role);
+  };
+
+
 
   return (
     <div>
