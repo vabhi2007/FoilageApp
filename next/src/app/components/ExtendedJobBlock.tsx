@@ -23,8 +23,8 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
 
   const { data: medata, loading, error } = useQuery(GET_ME);
 
-  const [addConnectedJob] = useMutation(ADD_CONNECTED_JOB);
-  const [removeConnectedJob] = useMutation(REMOVE_CONNECTED_JOB);
+  const [addConnectedJob] = useMutation(ADD_CONNECTED_JOB, {refetchQueries: [{query: GET_ME}]});
+  const [removeConnectedJob] = useMutation(REMOVE_CONNECTED_JOB, {refetchQueries: [{query: GET_ME}]});
 
   const handleAddJob = async () => {
     try {
