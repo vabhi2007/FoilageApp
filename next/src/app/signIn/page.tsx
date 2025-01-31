@@ -8,7 +8,7 @@ import Image from "next/image";
 import SignBackground from "../../app/assets/SignBackground.svg";
 import Button from "../../app/components/Button";
 import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "@/graphql/queries";
+import { LOGIN_USER, REGISTER_USER } from "@/graphql/queries";
 import { useRouter } from "next/navigation";
 
 export default function Portal() {
@@ -22,7 +22,21 @@ export default function Portal() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [login, { loading, error }] = useMutation(LOGIN_USER, {
+
+
+  const [register] = useMutation(REGISTER_USER, {
+    onCompleted: (data) => {
+      if (data.registerUser.user) {
+        handleLogInSubmit();
+      }
+    },
+  });
+
+  const handleRegisterSubmit = async () => {
+    await register({ variables: {username : username, password: password, email : "blank.gmail.com",userType : selectedRole === 'Student' ?  'job_seeker' : 'employer'}});
+  };
+
+  const [login] = useMutation(LOGIN_USER, {
     onCompleted: (data) => {
       if (data.tokenAuth.token) {
         localStorage.setItem("token", data.tokenAuth.token);
@@ -31,7 +45,7 @@ export default function Portal() {
     },
   });
 
-  const handleSubmit = async () => {
+  const handleLogInSubmit = async () => {
     console.log("submitted")
     await login({ variables: { username, password } });
   };
@@ -62,7 +76,7 @@ export default function Portal() {
               <input type="password" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             </div>
             <div className="mb-[1.2vw]">
-                {hasAccount && (
+                {!hasAccount && (
                     <div>
                         <div className="text-[1vw] text-gray-700">Who are you?</div>
                         <div className="flex flex-row h-[3.25vw] mt-[0.5vw] text-white bg-stone-400 rounded-[5px] p-[5px]">
@@ -79,7 +93,7 @@ export default function Portal() {
                         </div>
                     </div>
                 )}
-              <Button text={hasAccount ? "Sign In" : "Sign Up"} className="w-full h-[3vw] mt-[1vw]" onClick={handleSubmit}/>
+              <Button text={hasAccount ? "Sign In" : "Sign Up"} className="w-full h-[3vw] mt-[1vw]" onClick={hasAccount ? handleLogInSubmit : handleRegisterSubmit }/>
               <div className="text-center text-[1vw] text-gray-600 mt-[0.5vw]">
                 {hasAccount ? "Don't have an account? " : "Already have an account? "}
                 <span
