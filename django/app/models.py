@@ -27,7 +27,11 @@ class JobPost(models.Model):
     description = models.TextField()
     company = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
+    site = models.CharField(max_length=255)
     salary = models.FloatField(null=True, blank=True)
+    experience = models.CharField(max_length=255)
+    grade = models.CharField(max_length=10)
+    employment = models.CharField(max_length=255)
     posted_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 

@@ -3,14 +3,23 @@ import { gql } from "@apollo/client";
 // 🔹 Fetch all job posts
 export const GET_ALL_JOBS = gql`
   query GetAllJobs {
-    allJobs {
-      id
+      allJobs {
+        id
       title
-      company
+      employer{
+        username
+      }
+      description
       location
+      site
       salary
+      experience
+      grade
+      employment
+      postedAt
+      isActive
+      }
     }
-  }
 `;
 
 
@@ -25,7 +34,6 @@ export const GET_ALL_APPLICATIONS = gql`
       jobPost {
         id
         title
-        company
       }
     }
   }
@@ -38,23 +46,34 @@ export const CREATE_JOB_POST = gql`
     $description: String!
     $company: String!
     $location: String!
+    $site: String!
     $salary: Float!
+    $experience: String!
+    $grade: String!
+    $employment: String!
   ) {
     createJobPost(
       title: $title
       description: $description
-      company: $company
       location: $location
+      site: $site
       salary: $salary
+      experience: $experience
+      grade: $grade
+      employment: $employment
     ) {
       jobPost {
         id
         title
-        company
         description
         location
+        site
         salary
+        experience
+        grade
+        employment
         postedAt
+        isActive
       }
     }
   }
