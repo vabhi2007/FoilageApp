@@ -28,7 +28,7 @@ export default function Portal() {
   useEffect(() => {
     console.log("User Data:", userdata);
     const token = localStorage.getItem("token");
-    if (!userloading && !userdata?.me) {
+    if (!token) {
       router.push("/signin"); // Redirect if not logged in
     }
     if (userdata?.me?.userType) {
