@@ -74,7 +74,7 @@ const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
     };
 
     return (
-        <div className="w-[28vw] h-[31.5vw] bg-white rounded-lg shadow-lg px-[1.7vw] py-[2.05vw] space-y-[1.4vw]" style={{fontFamily:'Montserrat'}}>
+        <div className="w-[30vw] h-[40vw] bg-white rounded-lg shadow-lg px-[1.7vw] py-[2.05vw] space-y-[1.4vw]" style={{fontFamily:'Montserrat'}}>
             {/* Title */}
             <div className="text-[1vw] text-black">
                 User Application

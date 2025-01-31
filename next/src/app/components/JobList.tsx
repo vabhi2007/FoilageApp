@@ -5,7 +5,14 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_JOBS } from '@/graphql/queries';
 import JobBlock from './JobBlock'; // Import the new JobBlock component
 
-const JobList = ({ onJobClick, selectedJob }: { onJobClick: (job: any) => void, selectedJob: any }) => {
+type JobListProps = {
+  onJobClick: (job: any) => void;
+  selectedJob: any;
+  keyword?: string;
+  location?: string;
+};
+
+const JobList: React.FC<JobListProps> = ({onJobClick, selectedJob, keyword='', location=''}) => {
   const { data, loading, error } = useQuery(GET_ALL_JOBS);
 
   console.log("Fetching jobs..."); // Debug log
@@ -21,14 +28,19 @@ const JobList = ({ onJobClick, selectedJob }: { onJobClick: (job: any) => void, 
   return (
     <div className="flex flex-col h-full border border-gray-300 bg-white">
       <div className="w-full flex-grow overflow-y-auto">
-        {data.allJobs.map((job: any) => (
-          <JobBlock
-            key={job.id}
-            job={job}
-            isSelected={selectedJob && selectedJob.id === job.id}
-            onClick={() => onJobClick(job)}
-          />
-        ))}
+      {data.allJobs
+      .filter((job: any) => 
+        keyword ? job.title.includes(keyword) : true &&
+        location ? job.location.includes(location) : true
+      )
+      .map((job: any) => (
+        <JobBlock
+          key={job.id}
+          job={job}
+          isSelected={selectedJob && selectedJob.id === job.id}
+          onClick={() => onJobClick(job)}
+        />
+      ))}
       </div>
     </div>
   );
