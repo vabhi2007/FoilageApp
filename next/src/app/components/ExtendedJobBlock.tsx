@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import CloseIcon from "../../app/assets/RoundCloseIcon.svg";
 import Button from "../components/Button";
@@ -9,7 +9,7 @@ import JobForm from "../../app/components/JobForm";
 import ApplicantList from "../../app/components/ApplicantList";
 
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_ALL_JOBS, DELETE_JOB_POST, ADD_CONNECTED_JOB, REMOVE_CONNECTED_JOB, GET_ME } from '@/graphql/queries';
+import { GET_ALL_JOBS, DELETE_JOB_POST, ADD_CONNECTED_JOB, REMOVE_CONNECTED_JOB, GET_ME, GET_JOB_BY_ID } from '@/graphql/queries';
 import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 
 interface ExtendedJobBlockProps {
@@ -20,15 +20,37 @@ interface ExtendedJobBlockProps {
 }
 
 const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClose, user = jobSeekerRef, hideApplication = false }) => {
+  
+  const { data: medata, loading: meLoading, error: meError } = useQuery(GET_ME);
+  
+  // Query to fetch the job details
+  const { data: jobData, loading: jobLoading, error: jobError, refetch } = useQuery(GET_JOB_BY_ID, {
+    variables: { id: parseInt(selectedJob?.id, 10) || null }, // Ensure it's an integer
+    skip: !selectedJob, // Prevents query execution if selectedJob is null
+  });
 
-  const { data: medata, loading, error } = useQuery(GET_ME);
+  const [currentJob, setCurrentJob] = useState(selectedJob);
+
+  // Update currentJob when new job data is fetched
+  useEffect(() => {
+    if (jobData?.jobById) {
+      setCurrentJob(jobData.jobById);
+    }
+  }, [jobData]);
+
+  // Debugging logs
+  useEffect(() => {
+    console.log("Job Data:", jobData);
+    console.log("Selected Job:", selectedJob);
+  }, [jobData, selectedJob]);
 
   const [addConnectedJob] = useMutation(ADD_CONNECTED_JOB, { refetchQueries: [{ query: GET_ME }] });
   const [removeConnectedJob] = useMutation(REMOVE_CONNECTED_JOB, { refetchQueries: [{ query: GET_ME }] });
 
   const handleAddJob = async () => {
     try {
-      const jobId = parseInt(selectedJob.id);
+      if (!currentJob) return;
+      const jobId = parseInt(currentJob.id);
       const { data } = await addConnectedJob({ variables: { jobId: jobId } });
       if (data.addConnectedJob.success) {
         console.log("Job added successfully");
@@ -40,7 +62,8 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
 
   const handleRemoveJob = async () => {
     try {
-      const jobId = parseInt(selectedJob.id);
+      if (!currentJob) return;
+      const jobId = parseInt(currentJob.id);
       const { data } = await removeConnectedJob({ variables: { jobId: jobId } });
       if (data.removeConnectedJob.success) {
         console.log("Job removed successfully");
@@ -58,8 +81,9 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
 
   const handleDeleteJobById = async (deleteJobId: string) => {
     try {
+      if (!currentJob) return;
       await deleteJob({ variables: { jobPostId: parseInt(deleteJobId) } });
-      alert(`Job with ID ${selectedJob.id} successfully deleted!`);
+      alert(`Job with ID ${currentJob.id} successfully deleted!`);
     } catch (error) {
       alert('Failed to delete job. Please check the ID and try again.');
     }
@@ -67,13 +91,16 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
   };
 
   const [isEditingJob, setIsEditingJob] = useState(false);
-
   const handleEditJobClick = () => {
     setIsEditingJob(true);
   };
 
   // Check if the current user is the creator of the job
-  const isJobCreator = medata?.me?.connectedJobs?.some((job: { id: string }) => job.id === selectedJob.id);
+  const isJobCreator = medata?.me?.connectedJobs?.some((job: { id: string }) => job.id === currentJob?.id);
+
+  if (jobLoading) return <p>Loading job details...</p>;
+  if (jobError) return <p>Error loading job: {jobError.message}</p>;
+  if (!currentJob) return <p>No job selected.</p>;
 
   return (
     <div className="flex items-center justify-center gap-[2vw]">
@@ -83,8 +110,8 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
         <div className="flex flex-col pt-[1.4vw] px-[0.7vw] space-y-[0.7vw]" style={{ fontFamily: "Montserrat" }}>
           <div className="flex flex-row items-start">
             <JobBlock
-              key={selectedJob.id}
-              job={selectedJob}
+              key={currentJob.id}
+              job={currentJob}
               isSelected={false}
             />
             {/* Close Button */}
@@ -98,57 +125,26 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
             </div>
           </div>
 
-
-            {user === jobSeekerRef && (
-              <div className="px-[1vw] pt-[1vw]">
-                <Button
-                  text={(medata?.me?.connectedJobs?.some((job: { id: any; }) => job.id === selectedJob.id)) ? "Unsave" : "Save"}
-                  primary={false}
-                  className="w-[3.5vw] h-[1.75vw] text-[0.7vw]"
-                  onClick={(medata?.me?.connectedJobs?.some((job: { id: any; }) => job.id === selectedJob.id)) ? handleRemoveJob : handleAddJob}
-                />
-              </div>
-            )}
-
-            {user === employerRef && isJobCreator && (
-              <div className="px-[1vw] pt-[1vw]">
-                <div className="flex gap-[0.35vw]">
-                  {!hideApplication && (
-                  <Button text="Edit" className="w-[3.5vw] h-[1.75vw] text-[0.7vw]" onClick={handleEditJobClick} />
-                  )}
-                  <Button text="Delete" primary={false} className="w-[3.5vw] h-[1.75vw] text-[0.7vw]" onClick={() => handleDeleteJobById(selectedJob.id)} />
-                </div>
-              </div>
-            )}
-
-            {user === adminRef && (
-              <div className="px-[1vw] pt-[1vw]">
-                <div className="flex gap-[0.35vw]">
-                  <Button text="Accept" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" />
-                  <Button text="Reject" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" onClick={() => handleDeleteJobById(selectedJob.id)} />
-                </div>
-              </div>
-            )}
-
           {/* Job Overview Section */}
           <div className="px-[1vw] py-[1.4vw] space-y-[0.7vw] text-black">
             <h4 className="text-[1vw]">Job Overview</h4>
-            <p className="text-[0.7vw] text-gray-700">{selectedJob.description}</p>
+            <p className="text-[0.7vw] text-gray-700">{currentJob.description}</p>
           </div>
 
           {/* About Us Section */}
           <div className="px-[1vw] py-[1.4vw] space-y-[0.7vw] text-black">
             <h4 className="text-[1vw]">About Us</h4>
-            <p className="text-[0.7vw] text-gray-700">{selectedJob.companyOverview}</p>
+            <p className="text-[0.7vw] text-gray-700">{currentJob.companyOverview}</p>
           </div>
         </div>
       </div>
+
       {isEditingJob && (
-        <JobForm onClose={() => setIsEditingJob(false)} existingJob={selectedJob} onJobCreated={refetchJobs} />
+        <JobForm onClose={() => setIsEditingJob(false)} existingJob={currentJob} onJobCreated={refetchJobs} />
       )}
 
-      {(user === employerRef || user === adminRef) && (!hideApplication) && (
-        <ApplicantList jobId={selectedJob.id.toString()} />
+      {(user === employerRef || user === adminRef) && !hideApplication && (
+        <ApplicantList jobId={currentJob.id.toString()} />
       )}
     </div>
   );
