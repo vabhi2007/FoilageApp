@@ -44,30 +44,33 @@ export default function ProfilePage() {
         grade: medata.me.grade || ""
       }));
     }
-  }, [medata]); // ✅ Now updates when `medata` changes
+  }, [medata]);
 
   useEffect(() => {
-    if (medata?.me?.userType === "JOB_SEEKER"){
-      setUserType("Student")
+    if (medata?.me?.userType === "JOB_SEEKER") {
+      setUserType("Student");
+    } else if (medata?.me?.userType === "EMPLOYER") {
+      setUserType("Employer");
+    } else if (medata?.me?.userType === "ADMIN") {
+      setUserType("Admin");
     }
-    else if (medata?.me?.userType === "EMPLOYER"){
-      setUserType("Employer")
-    }
-    else if (medata?.me?.userType === "ADMIN"){
-      setUserType("Admin")
-    }
-  })
+  }, [medata]);
 
-  // Function to update state dynamically
+  // Function to update state dynamically for input fields
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+  };
+
+  // New handler for grade button clicks
+  const handleGradeClick = (grade: string) => {
+    setUserInfo((prev) => ({ ...prev, grade }));
   };
 
   // Handle Save Button
   const handleSave = async () => {
     try {
       await updateUserInfo({ variables: userInfo });
-      await refetch(); // ✅ Ensure UI updates with latest values
+      await refetch(); // Ensure UI updates with latest values
       alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -89,7 +92,9 @@ export default function ProfilePage() {
             <div className="flex justify-between h-[8vw] items-center">
               <div className="flex flex-col">
                 <Image src={ProfileIcon} alt="Profile Icon" className="w-[5vw] h-[5vw] rounded-full mb-[1vw]" />
-                <div className="text-[1.2vw] font-bold">{(medata?.me?.firstName + " " + medata?.me?.lastName) || "User"}</div>
+                <div className="text-[1.2vw] font-bold">
+                  {(medata?.me?.firstName + " " + medata?.me?.lastName) || "User"}
+                </div>
                 <div className="text-[1vw] text-gray-500">{usertype || "Role"}</div>
               </div>
               <div className="flex space-x-[1vw] text-white">
@@ -109,41 +114,69 @@ export default function ProfilePage() {
 
             <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">First Name</div>
-              <input name="firstName" value={userInfo.firstName} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input
+                name="firstName"
+                value={userInfo.firstName}
+                onChange={handleChange}
+                className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
+              />
             </div>
 
             <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">Last Name</div>
-              <input name="lastName" value={userInfo.lastName} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input
+                name="lastName"
+                value={userInfo.lastName}
+                onChange={handleChange}
+                className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
+              />
             </div>
 
             <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">Email</div>
-              <input name="email" value={userInfo.email} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input
+                name="email"
+                value={userInfo.email}
+                onChange={handleChange}
+                className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
+              />
             </div>
-
-            {/* <div className="mb-[1.2vw]">
-              <div className="text-[1vw] text-gray-700">Password</div>
-              <input name="password" type="password" value={userInfo.password} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]" />
-            </div> */}
           </div>
 
           {/* Bio Section */}
           <div className="w-1/2 bg-white rounded-lg shadow-lg p-[2vw]">
             <div className="text-[1.2vw] font-bold mb-[1vw]">Bio</div>
-            <textarea name="bio" value={userInfo.bio} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw] h-[10vw]" />
+            <textarea
+              name="bio"
+              value={userInfo.bio}
+              onChange={handleChange}
+              className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw] h-[10vw]"
+            />
 
             <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">School</div>
-              <input name="school" value={userInfo.school} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input
+                name="school"
+                value={userInfo.school}
+                onChange={handleChange}
+                className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
+              />
             </div>
 
+            {/* Grade Selection using button group (first style) */}
             <div className="text-[1vw] mb-[1.2vw] text-gray-700">Grade</div>
-            <select name="grade" value={userInfo.grade} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]">
+            <div className="flex gap-[0.5vw]">
               {['9th', '10th', '11th', '12th'].map((grade) => (
-                <option key={grade} value={grade}>{grade}</option>
+                <button
+                  key={grade}
+                  type="button"
+                  className={`w-full h-[3vw] text-[0.9vw] rounded-md text-white ${userInfo.grade === grade ? 'bg-primary' : 'bg-tertiary'}`}
+                  onClick={() => handleGradeClick(grade)}
+                >
+                  {grade}
+                </button>
               ))}
-            </select>
+            </div>
           </div>
         </div>
       </div>
