@@ -6,14 +6,13 @@ export const GET_ALL_JOBS = gql`
     allJobs {
       id
       title
-      description
       company
       location
       salary
-      postedAt
     }
   }
 `;
+
 
 // 🔹 Fetch all applications
 export const GET_ALL_APPLICATIONS = gql`
@@ -39,7 +38,7 @@ export const CREATE_JOB_POST = gql`
     $description: String!
     $company: String!
     $location: String!
-    $salary: Int!
+    $salary: Float!
   ) {
     createJobPost(
       title: $title
@@ -52,6 +51,10 @@ export const CREATE_JOB_POST = gql`
         id
         title
         company
+        description
+        location
+        salary
+        postedAt
       }
     }
   }
@@ -60,24 +63,25 @@ export const CREATE_JOB_POST = gql`
 // 🔹 Apply for a job (Job Seeker Only)
 export const CREATE_APPLICATION = gql`
   mutation CreateApplication(
-    $jobPostId: Int!
-    $applicantName: String!
-    $applicantEmail: String!
+    $jobId: Int!,
+    $applicantName: String!,
+    $applicantEmail: String!,
     $resume: String
   ) {
     createApplication(
-      jobPostId: $jobPostId
-      applicantName: $applicantName
-      applicantEmail: $applicantEmail
+      jobId: $jobId,  # ✅ Match the schema
+      applicantName: $applicantName,
+      applicantEmail: $applicantEmail,
       resume: $resume
     ) {
       application {
         id
-        applicantName
         jobPost {
           title
-          company
         }
+        applicantName
+        applicantEmail
+        resume
       }
     }
   }
@@ -88,7 +92,6 @@ export const DELETE_JOB_POST = gql`
   mutation DeleteJobPost($jobPostId: Int!) {
     deleteJobPost(jobPostId: $jobPostId) {
       success
-      message
     }
   }
 `;
@@ -98,7 +101,6 @@ export const DELETE_APPLICATION = gql`
   mutation DeleteApplication($applicationId: Int!) {
     deleteApplication(applicationId: $applicationId) {
       success
-      message
     }
   }
 `;

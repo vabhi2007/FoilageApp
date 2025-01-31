@@ -8,14 +8,20 @@ import JobBlock from './JobBlock'; // Import the new JobBlock component
 const JobList = ({ onJobClick, selectedJob }: { onJobClick: (job: any) => void, selectedJob: any }) => {
   const { data, loading, error } = useQuery(GET_ALL_JOBS);
 
+  console.log("Fetching jobs..."); // Debug log
+  console.log("Data:", data); // Log returned data
+  console.log("Error:", error); // Log errors
+
   if (loading) return <p>Loading jobs...</p>;
-  if (error) return <p>Error fetching jobs: {error.message}</p>;
+  if (error) return <p className="text-red-500">Error fetching jobs: {error.message}</p>;
+
+  // Fix: Ensure correct GraphQL key name (check schema)
+  if (!data || !data.allJobs) return <p className="text-red-500">No jobs found.</p>;
 
   return (
     <div className="flex flex-col h-full border border-gray-300 bg-white">
-      {/* Job List Container */}
-      <div className="w-full flex-grow overflow-y-auto"> {/* Ensures max height and scrolls */}
-        {data.allJobPosts.map((job: any) => (
+      <div className="w-full flex-grow overflow-y-auto">
+        {data.allJobs.map((job: any) => (
           <JobBlock
             key={job.id}
             job={job}
