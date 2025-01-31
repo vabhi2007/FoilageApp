@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 # User model with multiple account types
 class User(AbstractUser):
@@ -11,6 +12,7 @@ class User(AbstractUser):
     user_type = models.CharField(max_length=20, choices=USER_TYPES, default='job_seeker')
 
     connected_jobs = models.ManyToManyField("JobPost", related_name="connected_users", blank=True)
+    bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.username} ({self.get_user_type_display()})"
@@ -35,8 +37,6 @@ class User(AbstractUser):
         except JobPost.DoesNotExist:
             return False
 
-from django.db import models
-from django.conf import settings
 
 class JobPost(models.Model):
     employer = models.ForeignKey(

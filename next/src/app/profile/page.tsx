@@ -3,12 +3,36 @@
 import "../../app/globals.css";
 import Navbar from "../../app/components/Navbar";
 import Footer from "../../app/components/Footer";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import ProfileIcon from "../../app/assets/StudentIcon.svg"; // You can replace this with your profile icon path
+import ProfileIcon from "../../app/assets/StudentIcon.svg"; // Replace with your profile icon path
 import Button from "../../app/components/Button";
+import { GET_ME, UPDATE_BIO } from "@/graphql/queries";
+import { useQuery, useMutation } from "@apollo/client";
 
 export default function ProfilePage() {
+  // Fetch user data
+  const { data: medata, loading, error, refetch } = useQuery(GET_ME);
+  const [updateBio] = useMutation(UPDATE_BIO);
+
+  // Initialize bio state from fetched data
+  const [bio, setBio] = useState("");
+
+  useEffect(() => {
+    if (medata?.me?.bio) {
+      setBio(medata.me.bio); // Set bio from database
+    }
+  }, [medata]); // Run when medata changes
+
+  const handleBioUpdate = async () => {
+    try {
+      await updateBio({ variables: { bio } });
+      await refetch(); // Refresh user data to update UI
+    } catch (err) {
+      console.error("Error updating bio:", err);
+    }
+  };
+
   // State to track the selected grade
   const [selectedGrade, setSelectedGrade] = useState<string>("");
 
@@ -16,6 +40,9 @@ export default function ProfilePage() {
   const handleGradeClick = (grade: string) => {
     setSelectedGrade(grade);
   };
+
+  if (loading) return <p>Loading profile...</p>;
+  if (error) return <p>Error fetching profile: {error.message}</p>;
 
   return (
     <div>
@@ -36,8 +63,8 @@ export default function ProfilePage() {
                   className="w-[5vw] h-[5vw] rounded-full mb-[1vw]"
                 />
                 {/* User Name and Role */}
-                <div className="text-[1.2vw] font-bold">John Doe</div>
-                <div className="text-[1vw] text-gray-500">Student</div>
+                <div className="text-[1.2vw] font-bold">{medata?.me?.username || "User"}</div>
+                <div className="text-[1vw] text-gray-500">{medata?.me?.userType || "Role"}</div>
               </div>
               {/* Buttons */}
               <div className="flex space-x-[1vw] text-white">
@@ -56,7 +83,12 @@ export default function ProfilePage() {
             {/* Email */}
             <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">Email</div>
-              <input placeholder="Ex: johndoe@example.com" type="email" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input 
+                value={medata?.me?.email || ""}
+                type="email" 
+                className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" 
+                disabled
+              />
             </div>
             {/* Password */}
             <div className="mb-[1.2vw]">
@@ -89,7 +121,15 @@ export default function ProfilePage() {
             <textarea
               className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw] h-[10vw]"
               placeholder="Tell us about yourself..."
+              value={bio} // ✅ Shows existing bio if available
+              onChange={(e) => setBio(e.target.value)}
             ></textarea>
+            <button
+              className="mt-[1vw] px-[1.5vw] py-[0.5vw] bg-blue-500 text-white rounded-md text-[1vw]"
+              onClick={handleBioUpdate}
+            >
+              Save Bio
+            </button>
           </div>
         </div>
       </div>

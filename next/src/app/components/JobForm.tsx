@@ -26,7 +26,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingId = n
     company: 'Microsoft',
   });
 
-  const [createJob] = useMutation(CREATE_JOB_POST);
+  const [createJob] = useMutation(CREATE_JOB_POST, {refetchQueries: [{query: GET_ALL_JOBS}]});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
