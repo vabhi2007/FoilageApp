@@ -84,7 +84,7 @@ export default function Portal() {
                 {hasAccount ? "Don't have an account? " : "Already have an account? "}
                 <span
                   className="text-primary cursor-pointer underline"
-                  onClick={() => setHasAccount(!hasAccount)}
+                  onClick={() => handleSubmit}
                 >
                   {hasAccount ? "Create account" : "Sign in"}
                 </span>
