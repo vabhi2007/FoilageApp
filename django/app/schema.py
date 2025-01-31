@@ -67,6 +67,37 @@ class JobPostType(DjangoObjectType):
         model = JobPost
         fields = ("id", "employer", "title", "description", "location", "site", "salary", "experience", "grade", "employment", "posted_at", "is_active")
 
+
+class UpdateJobPost(graphene.Mutation):
+    class Arguments:
+        job_id = graphene.Int(required=True)
+        title = graphene.String()
+        description = graphene.String()
+        company = graphene.String()
+        location = graphene.String()
+        salary = graphene.Float()
+
+    job_post = graphene.Field(JobPostType)
+
+    def mutate(self, info, job_id, title=None, description=None, company=None, location=None, salary=None):
+        job = JobPost.objects.get(id=job_id)
+
+        if title is not None:
+            job.title = title
+        if description is not None:
+            job.description = description
+        if company is not None:
+            job.company = company
+        if location is not None:
+            job.location = location
+        if salary is not None:
+            job.salary = salary
+
+        job.save()
+        return UpdateJobPost(job_post=job)
+
+
+
 # Application Type
 class ApplicationType(DjangoObjectType):
     class Meta:
@@ -316,6 +347,7 @@ class Mutation(AuthMutation, graphene.ObjectType):
     update_username = UpdateUsername.Field()
     update_email = UpdateEmail.Field()
     update_password = UpdatePassword.Field()
+    update_job_post = UpdateJobPost.Field()
 
 # Schema Definition
 schema = graphene.Schema(query=Query, mutation=Mutation)
