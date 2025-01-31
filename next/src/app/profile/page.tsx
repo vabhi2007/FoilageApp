@@ -80,6 +80,16 @@ export default function ProfilePage() {
           {/* Account Details Section */}
           <div className="w-1/2 bg-white rounded-lg shadow-lg p-[2vw]">
             <div className="text-[1.2vw] font-bold mb-[1vw]">Account Details</div>
+            {/* First Name */}
+            <div className="mb-[1.2vw]">
+              <div className="text-[1vw] text-gray-700">First Name</div>
+              <input placeholder="John" type="name" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" />
+            </div>
+            {/* Last Name */}
+            <div className="mb-[1.2vw]">
+              <div className="text-[1vw] text-gray-700">Last Name</div>
+              <input placeholder="Doe" type="name" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" />
+            </div>
             {/* Email */}
             <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">Email</div>
@@ -87,7 +97,6 @@ export default function ProfilePage() {
                 value={medata?.me?.email || ""}
                 type="email" 
                 className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" 
-                disabled
               />
             </div>
             {/* Password */}
@@ -95,6 +104,18 @@ export default function ProfilePage() {
               <div className="text-[1vw] text-gray-700">Password</div>
               <input placeholder="********" type="password" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" />
             </div>
+            
+          </div>
+
+          {/* Bio Section */}
+          <div className="w-1/2 bg-white rounded-lg shadow-lg p-[2vw]">
+            <div className="text-[1.2vw] font-bold mb-[1vw]">Bio</div>
+            <textarea
+              className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw] h-[10vw]"
+              placeholder="Tell us about yourself..."
+              value={bio} // ✅ Shows existing bio if available
+              onChange={(e) => setBio(e.target.value)}
+            ></textarea>
             {/* School */}
             <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">School</div>
@@ -114,23 +135,7 @@ export default function ProfilePage() {
               ))}
             </div>
           </div>
-
-          {/* Bio Section */}
-          <div className="w-1/2 bg-white rounded-lg shadow-lg p-[2vw]">
-            <div className="text-[1.2vw] font-bold mb-[1vw]">Bio</div>
-            <textarea
-              className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw] h-[10vw]"
-              placeholder="Tell us about yourself..."
-              value={bio} // ✅ Shows existing bio if available
-              onChange={(e) => setBio(e.target.value)}
-            ></textarea>
-            <button
-              className="mt-[1vw] px-[1.5vw] py-[0.5vw] bg-blue-500 text-white rounded-md text-[1vw]"
-              onClick={handleBioUpdate}
-            >
-              Save Bio
-            </button>
-          </div>
+          
         </div>
       </div>
 
