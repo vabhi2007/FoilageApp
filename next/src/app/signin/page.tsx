@@ -7,6 +7,9 @@ import React, { useState } from 'react';
 import Image from "next/image";
 import SignBackground from "../../app/assets/SignBackground.svg";
 import Button from "../../app/components/Button";
+import { useMutation } from "@apollo/client";
+import { LOGIN_USER } from "@/graphql/queries";
+import { useRouter } from "next/navigation";
 
 export default function Portal() {
   const [hasAccount, setHasAccount] = useState(true);
@@ -15,6 +18,24 @@ export default function Portal() {
   const handleRoleSelection = (role: "Student" | "Employer") => {
     setSelectedRole(role);
   };
+
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, { loading, error }] = useMutation(LOGIN_USER, {
+    onCompleted: (data) => {
+      if (data.tokenAuth.token) {
+        localStorage.setItem("token", data.tokenAuth.token);
+        router.push("/portal");
+      }
+    },
+  });
+
+  const handleSubmit = async () => {
+    console.log("submitted")
+    await login({ variables: { username, password } });
+  };
+
 
   return (
     <div>
@@ -33,12 +54,12 @@ export default function Portal() {
             {/* Email */}
             <div className="my-[1.2vw] text-black">
               <div className="text-[1vw] text-gray-700">Email</div>
-              <input placeholder="Ex: johndoe@example.com" type="email" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input type="email" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" value={username} onChange={(e) => setUsername(e.target.value)} required/>
             </div>
             {/* Password */}
             <div className="mb-[1.2vw] text-black">
               <div className="text-[1vw] text-gray-700">Password</div>
-              <input placeholder="********" type="password" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input type="password" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             </div>
             <div className="mb-[1.2vw]">
                 {hasAccount && (
@@ -58,7 +79,7 @@ export default function Portal() {
                         </div>
                     </div>
                 )}
-              <Button text={hasAccount ? "Sign In" : "Sign Up"} className="w-full h-[3vw] mt-[1vw]" />
+              <Button text={hasAccount ? "Sign In" : "Sign Up"} className="w-full h-[3vw] mt-[1vw]" onClick={handleSubmit}/>
               <div className="text-center text-[1vw] text-gray-600 mt-[0.5vw]">
                 {hasAccount ? "Don't have an account? " : "Already have an account? "}
                 <span
