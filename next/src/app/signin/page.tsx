@@ -26,13 +26,13 @@ export default function Portal() {
     onCompleted: (data) => {
       if (data.tokenAuth.token) {
         localStorage.setItem("token", data.tokenAuth.token);
-        router.push("/dashboard");
+        router.push("/portal");
       }
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    console.log("submitted")
     await login({ variables: { username, password } });
   };
 
@@ -54,12 +54,12 @@ export default function Portal() {
             {/* Email */}
             <div className="my-[1.2vw] text-black">
               <div className="text-[1vw] text-gray-700">Email</div>
-              <input placeholder="Ex: johndoe@example.com" type="email" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" value={username} onChange={(e) => setUsername(e.target.value)} required/>
+              <input type="email" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" value={username} onChange={(e) => setUsername(e.target.value)} required/>
             </div>
             {/* Password */}
             <div className="mb-[1.2vw] text-black">
               <div className="text-[1vw] text-gray-700">Password</div>
-              <input placeholder="********" type="password" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" />
+              <input type="password" className="w-full p-[0.7vw] mt-[0.5vw] border border-gray-300 rounded-md text-[1vw]" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             </div>
             <div className="mb-[1.2vw]">
                 {hasAccount && (
@@ -79,7 +79,7 @@ export default function Portal() {
                         </div>
                     </div>
                 )}
-              <Button text={hasAccount ? "Sign In" : "Sign Up"} className="w-full h-[3vw] mt-[1vw]" />
+              <Button text={hasAccount ? "Sign In" : "Sign Up"} className="w-full h-[3vw] mt-[1vw]" onClick={handleSubmit}/>
               <div className="text-center text-[1vw] text-gray-600 mt-[0.5vw]">
                 {hasAccount ? "Don't have an account? " : "Already have an account? "}
                 <span
