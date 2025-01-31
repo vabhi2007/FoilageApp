@@ -2,7 +2,7 @@
 
 import "../../app/globals.css";
 import Navbar from "../../app/components/Navbar";
-import CareersImage from "../../app/assets/CareersImage.svg";
+import CareersImage from "../../app/assets/CareersBg.jpg";
 import Image from "next/image";
 import InfoTab from "../../app/components/InfoTab";
 import Button from "../../app/components/Button";
@@ -69,8 +69,8 @@ export default function Careers() {
       <Navbar></Navbar>
 
       <div className="relative">
-        <Image
-          src={CareersImage}
+        <img
+          src={CareersImage.src}
           alt="Background"
           className="w-full h-[15vw] object-cover bg-black brightness-[0.5] overflow-hidden"
         />
