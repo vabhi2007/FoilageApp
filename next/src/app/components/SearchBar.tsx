@@ -15,7 +15,7 @@ const Button: React.FC = () => {
             
         </div>
       </div>
-      <text className="text-[2vw]" style={{ fontFamily: 'Montserrat-Light' }}>|</text>
+      <div className="text-[2vw]" style={{ fontFamily: 'Montserrat-Light' }}>|</div>
       <div className="w-full flex gap-[1vw] items-center">
         <Image src={LocationIcon} alt="Location" />
         <input 
