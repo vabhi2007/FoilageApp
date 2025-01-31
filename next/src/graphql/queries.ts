@@ -22,6 +22,26 @@ export const GET_ALL_JOBS = gql`
     }
 `;
 
+export const GET_JOB_BY_ID = gql`
+  query GetJobById($id: Int!) {
+    jobById(id: $id) {
+      id
+      title
+      employer{
+        username
+      }
+      description
+      location
+      site
+      salary
+      experience
+      grade
+      employment
+      postedAt
+      isActive
+    }
+  }
+`;
 
 // 🔹 Fetch all applications
 export const GET_ALL_APPLICATIONS = gql`
