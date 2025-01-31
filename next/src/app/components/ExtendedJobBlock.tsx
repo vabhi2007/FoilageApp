@@ -104,7 +104,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
                 <Button
                   text={(medata?.me?.connectedJobs?.some((job: { id: any; }) => job.id === selectedJob.id)) ? "Unsave" : "Save"}
                   primary={false}
-                  className="w-[3.5vw] h-[1.6vw] text-[0.6vw]"
+                  className="w-[3.5vw] h-[1.75vw] text-[0.7vw]"
                   onClick={(medata?.me?.connectedJobs?.some((job: { id: any; }) => job.id === selectedJob.id)) ? handleRemoveJob : handleAddJob}
                 />
               </div>
@@ -114,9 +114,9 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
               <div className="px-[1vw] pt-[1vw]">
                 <div className="flex gap-[0.35vw]">
                   {!hideApplication && (
-                  <Button text="Edit" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={handleEditJobClick} />
+                  <Button text="Edit" className="w-[3.5vw] h-[1.75vw] text-[0.7vw]" onClick={handleEditJobClick} />
                   )}
-                  <Button text="Delete" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" onClick={() => handleDeleteJobById(selectedJob.id)} />
+                  <Button text="Delete" primary={false} className="w-[3.5vw] h-[1.75vw] text-[0.7vw]" onClick={() => handleDeleteJobById(selectedJob.id)} />
                 </div>
               </div>
             )}
