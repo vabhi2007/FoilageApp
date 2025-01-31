@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import CloseIcon from "../../app/assets/CloseIcon.svg";
+import CloseIcon from "../../app/assets/RoundCloseIcon.svg";
 import Button from "../components/Button";
 import ApplicantBlock from "./ApplicantBlock";
 
@@ -12,16 +12,9 @@ interface ExtendedApplicantBlockProps {
 const ExtendedApplicantBlock: React.FC<ExtendedApplicantBlockProps> = ({ selectedApplicant, onClose }) => {
   return (
     <div className="relative">
-      {/* Close Button */}
-      <Image
-        src={CloseIcon}
-        alt="Close"
-        className="absolute top-[0.7vw] right-[0.7vw] w-[1.75vw] h-auto cursor-pointer"
-        onClick={onClose}
-      />
-
       {/* Applicant Details */}
       <div className="flex flex-col pt-[1.4vw] px-[0.7vw]" style={{ fontFamily: "Montserrat" }}>
+      <div className="flex justify-between items-start">
         {/* Applicant Block */}
         <ApplicantBlock
           key={selectedApplicant.id}
@@ -30,6 +23,16 @@ const ExtendedApplicantBlock: React.FC<ExtendedApplicantBlockProps> = ({ selecte
           xBorder = {false}
         />
 
+        {/* Close Button */}
+        <div className="absolute top-0 right-0 pt-[1vw] pr-[1vw]">
+            <Image
+              src={CloseIcon}
+              alt="Close"
+              className="w-[1.5vw] h-auto cursor-pointer"
+              onClick={onClose}
+            />
+          </div>
+      </div>
         <div className="pt-[2vw] flex gap-[4vw]">
             {/* Contact Email Section */}
             <div className="px-[1vw] space-y-[0.7vw] text-black">
