@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import "../../app/globals.css";
 import Navbar from "../../app/components/Navbar";
@@ -10,12 +10,23 @@ import Button from "../../app/components/Button";
 import { GET_ME } from "@/graphql/queries";
 import { UPDATE_USER_INFO } from "@/graphql/queries";
 import { useQuery, useMutation } from "@apollo/client";
+import { useRouter } from "next/navigation"; // Import useRouter
+import { employerRef, jobSeekerRef } from "../utils/consts";
 
 export default function ProfilePage() {
+  const router = useRouter(); // Initialize router
+
   // Fetch user data
   const { data: medata, loading, error, refetch } = useQuery(GET_ME);
   const [updateUserInfo] = useMutation(UPDATE_USER_INFO);
   const [usertype, setUserType] = useState("");
+
+  // Redirect to login if not signed in
+  useEffect(() => {
+    if (!loading && !medata?.me) {
+      router.push("/signIn"); // Redirect to login page
+    }
+  }, [loading, medata, router]);
 
   // Unified state for all editable fields
   const [userInfo, setUserInfo] = useState({
@@ -26,10 +37,10 @@ export default function ProfilePage() {
     firstName: "",
     lastName: "",
     school: "",
-    grade: ""
+    grade: "",
   });
 
-  // **Fix:** Ensure `userInfo` is properly set after refetch
+  // Ensure `userInfo` is properly set after refetch
   useEffect(() => {
     if (medata?.me) {
       setUserInfo((prev) => ({
@@ -41,7 +52,7 @@ export default function ProfilePage() {
         firstName: medata.me.firstName || "",
         lastName: medata.me.lastName || "",
         school: medata.me.school || "",
-        grade: medata.me.grade || ""
+        grade: medata.me.grade || "",
       }));
     }
   }, [medata]);
@@ -57,7 +68,7 @@ export default function ProfilePage() {
   }, [medata]);
 
   // Function to update state dynamically for input fields
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 
@@ -83,8 +94,7 @@ export default function ProfilePage() {
   return (
     <div>
       <Navbar />
-
-      <div className="bg-secondary flex flex-col gap-[2vw] py-[3vw]" style={{ fontFamily: 'Montserrat' }}>
+      <div className="bg-secondary flex flex-col gap-[2vw] py-[3vw]" style={{ fontFamily: "Montserrat" }}>
         {/* Top Section */}
         <div className="w-full px-[8vw] flex flex-col justify-center">
           <div className="w-full bg-primary rounded-t-lg h-[3vw]"></div>
@@ -113,7 +123,7 @@ export default function ProfilePage() {
             <div className="text-[1.2vw] font-bold mb-[1vw]">Account Details</div>
 
             <div className="mb-[1.2vw]">
-              <div className="text-[1vw] text-gray-700">First Name</div>
+              <div className="text-[1vw] text-gray-700">{medata?.me?.userType == employerRef ? "Company Name" : "First Name"}</div>
               <input
                 name="firstName"
                 value={userInfo.firstName}
@@ -121,16 +131,17 @@ export default function ProfilePage() {
                 className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
               />
             </div>
-
-            <div className="mb-[1.2vw]">
-              <div className="text-[1vw] text-gray-700">Last Name</div>
-              <input
-                name="lastName"
-                value={userInfo.lastName}
-                onChange={handleChange}
-                className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
-              />
-            </div>
+            {!(medata?.me?.userType == employerRef) && (
+              <div className="mb-[1.2vw]">
+                <div className="text-[1vw] text-gray-700">Last Name</div>
+                <input
+                  name="lastName"
+                  value={userInfo.lastName}
+                  onChange={handleChange}
+                  className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
+                />
+              </div>
+            )}
 
             <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">Email</div>
@@ -153,34 +164,22 @@ export default function ProfilePage() {
               className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw] h-[10vw]"
             />
 
-            <div className="mb-[1.2vw]">
-              <div className="text-[1vw] text-gray-700">School</div>
-              <input
-                name="school"
-                value={userInfo.school}
-                onChange={handleChange}
-                className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
-              />
-            </div>
-
-            {/* Grade Selection using button group (first style) */}
-            <div className="text-[1vw] mb-[1.2vw] text-gray-700">Grade</div>
-            <div className="flex gap-[0.5vw]">
-              {['9th', '10th', '11th', '12th'].map((grade) => (
-                <button
-                  key={grade}
-                  type="button"
-                  className={`w-full h-[3vw] text-[0.9vw] rounded-md text-white ${userInfo.grade === grade ? 'bg-primary' : 'bg-tertiary'}`}
-                  onClick={() => handleGradeClick(grade)}
-                >
-                  {grade}
-                </button>
-              ))}
-            </div>
+            {!(medata?.me?.userType == employerRef) && (
+              <div>
+                <div className="mb-[1.2vw]">
+                  <div className="text-[1vw] text-gray-700">School</div>
+                  <input
+                    name="school"
+                    value={userInfo.school}
+                    onChange={handleChange}
+                    className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );
