@@ -16,7 +16,14 @@ const Navbar = () => {
 
     const { navigateTo } = useNavigation();
     const { data: userdata, loading: userloading, error: usererror, refetch: refetchMe } = useQuery(GET_ME);
-    const [userType, setUserType] = useState<string>("employer");
+    const [userType, setUserType] = useState<string>("");
+
+    useEffect(() => {
+        console.log("User Data:", userdata);
+        if (userdata?.me?.userType) {
+          setUserType(userdata.me.userType);
+        }
+      }, [userdata]);
 
     const handleSignUpClick = () => {
         console.log("User Data:", userdata);
@@ -60,7 +67,7 @@ const Navbar = () => {
 
             <div>
             {userType === jobSeekerRef || userType === employerRef || userType === adminRef ? (
-                <Image src = {UserIcon} alt="Icon Image" className='cursor-pointer' onClick={() => router.push('/portal')}></Image>
+                <Image src = {UserIcon} alt="Icon Image" className='cursor-pointer' onClick={() => navigateTo('/profile')}></Image>
             ) : (
                 <Button text="Join / Sign In" onClick={handleSignUpClick} ></Button>
             )}
