@@ -5,60 +5,50 @@ from graphql_auth.schema import UserQuery, MeQuery
 from django.contrib.auth import get_user_model
 from .models import JobPost, Application
 
-# User Type
+User = get_user_model()
+
 class UserType(DjangoObjectType):
-    connected_jobs = graphene.List(graphene.Int)
-
     class Meta:
-        model = get_user_model()
-        fields = ("id", "username", "email", "user_type", "connected_jobs", "bio")
+        model = User
+        fields = ("id", "username", "email", "bio", "first_name", "last_name", "school", "grade")
 
-    def resolve_connected_jobs(self, info):
-        return [job.id for job in self.connected_jobs.all()]
-class UpdateUsername(graphene.Mutation):
+class UpdateUserInfo(graphene.Mutation):
     class Arguments:
-        username = graphene.String(required=True)
+        username = graphene.String()
+        email = graphene.String()
+        password = graphene.String()
+        bio = graphene.String()
+        first_name = graphene.String()
+        last_name = graphene.String()
+        school = graphene.String()
+        grade = graphene.String()
 
-    user = graphene.Field(lambda: UserType)
+    user = graphene.Field(UserType)
 
-    def mutate(self, info, username):
+    def mutate(self, info, username=None, email=None, bio=None, first_name=None, last_name=None, school=None, grade=None):
         user = info.context.user
         if not user.is_authenticated:
             raise Exception("Authentication required.")
 
-        user.username = username
+        # Update fields if provided
+        if username is not None:
+            user.username = username
+        if email is not None:
+            user.email = email
+        if bio is not None:
+            user.bio = bio
+        if first_name is not None:
+            user.first_name = first_name
+        if last_name is not None:
+            user.last_name = last_name
+        if school is not None:
+            user.school = school
+        if grade is not None:
+            user.grade = grade
+
         user.save()
-        return UpdateUsername(user=user)
+        return UpdateUserInfo(user=user)
 
-class UpdateEmail(graphene.Mutation):
-    class Arguments:
-        email = graphene.String(required=True)
-
-    user = graphene.Field(lambda: UserType)
-
-    def mutate(self, info, email):
-        user = info.context.user
-        if not user.is_authenticated:
-            raise Exception("Authentication required.")
-
-        user.email = email
-        user.save()
-        return UpdateEmail(user=user)
-
-class UpdatePassword(graphene.Mutation):
-    class Arguments:
-        password = graphene.String(required=True)
-
-    success = graphene.Boolean()
-
-    def mutate(self, info, password):
-        user = info.context.user
-        if not user.is_authenticated:
-            raise Exception("Authentication required.")
-
-        user.password = password
-        user.save()
-        return UpdatePassword(success=True)
     
 
 # Job Post Type
@@ -105,20 +95,6 @@ class ApplicationType(DjangoObjectType):
         fields = ("id", "job_post", "job_seeker", "applicant_name", "applicant_email", "resume", "applied_at")
 
 
-class UpdateBio(graphene.Mutation):
-    class Arguments:
-        bio = graphene.String(required=True)
-
-    user = graphene.Field(UserType)
-
-    def mutate(self, info, bio):
-        user = info.context.user
-        if not user.is_authenticated:
-            raise Exception("Authentication required.")
-
-        user.bio = bio
-        user.save()
-        return UpdateBio(user=user)
 
 
 # Register User Mutation
@@ -343,11 +319,8 @@ class Mutation(AuthMutation, graphene.ObjectType):
     delete_application = DeleteApplication.Field()
     add_connected_job = AddConnectedJob.Field()
     remove_connected_job = RemoveConnectedJob.Field()
-    update_bio = UpdateBio.Field()
-    update_username = UpdateUsername.Field()
-    update_email = UpdateEmail.Field()
-    update_password = UpdatePassword.Field()
     update_job_post = UpdateJobPost.Field()
+    update_user_info = UpdateUserInfo.Field()
 
 # Schema Definition
 schema = graphene.Schema(query=Query, mutation=Mutation)
