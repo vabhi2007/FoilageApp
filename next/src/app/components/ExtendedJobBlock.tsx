@@ -10,6 +10,7 @@ import ApplicantList from "../../app/components/ApplicantList";
 
 import { useQuery, useMutation } from '@apollo/client'
 import {GET_ALL_JOBS, DELETE_JOB_POST} from '@/graphql/queries';
+import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 
 interface ExtendedJobBlockProps {
   selectedJob: any;
@@ -67,18 +68,18 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
 
           <div className="px-[1vw] pt-[1vw]">
 
-            {user==='Student' && (
+            {user===jobSeekerRef && (
               <Button text="Unsave" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" />
             )}
 
-            {user==='Employer' && (
+            {user===employerRef && (
               <div className="flex gap-[0.35vw]">
                 <Button text="Edit" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={handleEditJobClick}/>
                 <Button text="Delete" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={() => handleDeleteJobById(selectedJob.id)}/>
               </div>
             )}
 
-            {user==='Admin' && (
+            {user===adminRef && (
               <div className="flex gap-[0.35vw]">
               <Button text="Accept" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" />
               <Button text="Reject" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={() => handleDeleteJobById(selectedJob.id)}/>
@@ -104,7 +105,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           <JobForm onClose={() => setIsEditingJob(false)} existingId={selectedJob.id} onJobCreated={refetchJobs}/>
         )}
 
-        {(user === 'Employer' || user === 'Admin') && (
+        {(user === employerRef || user === adminRef) && (
             <ApplicantList jobId={selectedJob.id.toString()}></ApplicantList>
         )}
     </div>
