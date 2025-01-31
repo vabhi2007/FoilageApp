@@ -21,6 +21,7 @@ export default function Portal() {
 
   if (loading) return <p>Loading jobs...</p>;
   if (error) return <p>Error fetching jobs: {error.message}</p>;
+ 
 
   const handleCreateJobClick = () => {
     setIsCreatingJob(true); // Show the new job form when the plus sign is clicked
@@ -39,7 +40,7 @@ export default function Portal() {
 
           {/* Job Grid (2-column layout) */}
           <div className="grid grid-cols-2 gap-[2vw] px-[4vw] pb-[3vw]">
-            {data.allJobPosts.map((job: any) => (
+            {data.allJobs.map((job: any) => (
               <JobBlock
                 key={job.id}
                 job={job}
