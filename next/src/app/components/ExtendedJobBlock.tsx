@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import CloseIcon from "../../app/assets/CloseIcon.svg";
+import CloseIcon from "../../app/assets/RoundCloseIcon.svg";
 import Button from "../components/Button";
 import JobBlock from "../../app/components/JobBlock";
 import JobForm from "../../app/components/JobForm";
@@ -79,21 +79,21 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
 
         {/* Job Details */}
         <div className="flex flex-col pt-[1.4vw] px-[0.7vw] space-y-[0.7vw]" style={{ fontFamily: "Montserrat" }}>
-          <div className="flex justify-between items-start">
+          <div className="flex flex-row items-start">
           <JobBlock
             key={selectedJob.id}
             job={selectedJob}
             isSelected={false}
           />
           {/* Close Button */}
-          <div className="px-[1vw]">
-        <Image
-          src={CloseIcon}
-          alt="Close"
-          className="pt-[0.65vw] w-[2.75vw] h-auto cursor-pointer"
-          onClick={onClose}
-        />
-        </div>
+          <div className="absolute top-0 right-0 pt-[1vw] pr-[1vw]">
+            <Image
+              src={CloseIcon}
+              alt="Close"
+              className="w-[1.5vw] h-auto cursor-pointer"
+              onClick={onClose}
+            />
+          </div>
         </div>
 
           <div className="px-[1vw] pt-[1vw]">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import Image from "next/image";
-import CloseIcon from "../../app/assets/CloseIcon.svg";
+import CloseIcon from "../../app/assets/RoundCloseIcon.svg";
 import { useQuery, useMutation } from '@apollo/client';
 import {GET_ALL_JOBS, DELETE_JOB_POST, CREATE_JOB_POST } from '@/graphql/queries';
 
@@ -60,17 +60,19 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingId = n
   };
 
   return (
-    <div className="bg-white rounded-lg w-[30vw] h-[40vw] p-[2vw] shadow-lg text-tertiary" style={{fontFamily: 'Montserrat'}}>
+    <div className="relative bg-white rounded-lg w-[30vw] h-[40vw] p-[2vw] shadow-lg text-tertiary" style={{fontFamily: 'Montserrat'}}>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-[1vw]">
         <div className="text-[1vw] text-black flex justify-between">
           <div>Job Form</div>
           {/* Close Button */}
-          <Image
-            src={CloseIcon}
-            alt="Close"
-            className="w-[1.75vw] h-auto cursor-pointer"
-            onClick={onClose}
-          />
+          <div className="absolute top-0 right-0 pt-[1vw] pr-[1vw]">
+            <Image
+              src={CloseIcon}
+              alt="Close"
+              className="w-[1.5vw] h-auto cursor-pointer"
+              onClick={onClose}
+            />
+          </div>
         </div>
         
         <input
