@@ -54,7 +54,7 @@ export default function Portal() {
 
   const handleLogInSubmit = async () => {
     console.log("submitted")
-    await login({ variables: { username, password } });
+    await login({ variables: { email: username, password } });
   };
 
 
