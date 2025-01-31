@@ -32,6 +32,7 @@ export default function Portal() {
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log("submitted")
     e.preventDefault();
     await login({ variables: { username, password } });
   };
@@ -79,7 +80,7 @@ export default function Portal() {
                         </div>
                     </div>
                 )}
-              <Button text={hasAccount ? "Sign In" : "Sign Up"} className="w-full h-[3vw] mt-[1vw]" />
+              <Button text={hasAccount ? "Sign In" : "Sign Up"} className="w-full h-[3vw] mt-[1vw]" onClick={() => handleSubmit}/>
               <div className="text-center text-[1vw] text-gray-600 mt-[0.5vw]">
                 {hasAccount ? "Don't have an account? " : "Already have an account? "}
                 <span
