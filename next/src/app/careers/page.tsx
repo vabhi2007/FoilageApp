@@ -13,6 +13,7 @@ import BarChartIcon from "../../app/assets/ionicons/bar-chart.svg";
 import Footer from "../../app/components/Footer";
 import JobList from '../../app/components/JobList';
 import React, { useState } from 'react';
+import SearchBar from "../../app/components/SearchBar";
 
 export default function Careers() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -40,7 +41,7 @@ export default function Careers() {
 
           <div className="absolute inset-0 flex items-center justify-center text-white" style={{fontFamily: 'Montserrat'}}>
             <div className="text-center space-y-[1vw]">
-              <h1 className="text-[2.5vw]"> [Searchbar] </h1>
+              <SearchBar></SearchBar>
             </div>
           </div>
         </div>
