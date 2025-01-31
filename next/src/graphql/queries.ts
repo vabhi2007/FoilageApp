@@ -198,3 +198,18 @@ export const UPDATE_BIO = gql`
     }
   }
 `;
+
+export const UPDATE_JOB_POST = gql`
+  mutation UpdateJobPost($jobId: Int!, $title: String, $description: String, $company: String, $location: String, $salary: Float) {
+    updateJobPost(jobId: $jobId, title: $title, description: $description, company: $company, location: $location, salary: $salary) {
+      jobPost {
+        id
+        title
+        description
+        company
+        location
+        salary
+      }
+    }
+  }
+`;
