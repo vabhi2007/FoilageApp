@@ -3,10 +3,13 @@ import Image from "next/image";
 import Logo from "../assets/FoliageLogo.svg"
 import Navlink from "./Navlink";
 import Button from "./Button";
+import { GET_ME } from '@/graphql/queries';
+import { useQuery } from '@apollo/client';
 
 const Navbar = () => {
 
     const { navigateTo } = useNavigation();
+    const { data: medata, loading, error } = useQuery(GET_ME);
     
     return (
 
