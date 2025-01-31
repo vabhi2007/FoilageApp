@@ -172,6 +172,41 @@ class AuthMutation(graphene.ObjectType):
     refresh_token = mutations.RefreshToken.Field()
     revoke_token = mutations.RevokeToken.Field()
 
+#connected job removing and adding
+class AddConnectedJob(graphene.Mutation):
+    class Arguments:
+        job_id = graphene.Int(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, job_id):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Authentication required.")
+
+        success = user.add_connected_job(job_id)
+        if not success:
+            raise Exception("Job ID not found.")
+
+        return AddConnectedJob(success=True)
+
+class RemoveConnectedJob(graphene.Mutation):
+    class Arguments:
+        job_id = graphene.Int(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, job_id):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Authentication required.")
+
+        success = user.remove_connected_job(job_id)
+        if not success:
+            raise Exception("Job ID not found.")
+
+        return RemoveConnectedJob(success=True)
+
 # Queries
 class Query(UserQuery, MeQuery, graphene.ObjectType):
     all_jobs = graphene.List(JobPostType)
@@ -213,6 +248,8 @@ class Mutation(AuthMutation, graphene.ObjectType):
     create_application = CreateApplication.Field()
     delete_job_post = DeleteJobPost.Field()
     delete_application = DeleteApplication.Field()
+    add_connected_job = AddConnectedJob.Field()
+    remove_connected_job = RemoveConnectedJob.Field()
 
 # Schema Definition
 schema = graphene.Schema(query=Query, mutation=Mutation)

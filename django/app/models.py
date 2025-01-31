@@ -14,6 +14,26 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.username} ({self.get_user_type_display()})"
+    
+    def add_connected_job(self, job_id):
+        """Adds a job to connected_jobs list if it exists"""
+        try:
+            job = JobPost.objects.get(id=job_id)
+            self.connected_jobs.add(job)
+            self.save()
+            return True
+        except JobPost.DoesNotExist:
+            return False
+
+    def remove_connected_job(self, job_id):
+        """Removes a job from connected_jobs list if it exists"""
+        try:
+            job = JobPost.objects.get(id=job_id)
+            self.connected_jobs.remove(job)
+            self.save()
+            return True
+        except JobPost.DoesNotExist:
+            return False
 
 from django.db import models
 from django.conf import settings

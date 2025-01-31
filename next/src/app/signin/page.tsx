@@ -1,12 +1,12 @@
 'use client'
 
 import "../../app/globals.css";
-import Navbar from "../../app/components/Navbar";
-import Footer from "../../app/components/Footer";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import React, { useState } from 'react';
 import Image from "next/image";
 import SignBackground from "../../app/assets/SignBackground.svg";
-import Button from "../../app/components/Button";
+import Button from "../components/Button";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER, REGISTER_USER } from "@/graphql/queries";
 import { useRouter } from "next/navigation";

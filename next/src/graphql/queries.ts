@@ -170,3 +170,20 @@ export const GET_ME = gql`
     }
   }
 `;
+
+
+export const ADD_CONNECTED_JOB = gql`
+  mutation AddConnectedJob($jobId: Int!) {
+    addConnectedJob(jobId: $jobId) {
+      success
+    }
+  }
+`;
+
+export const REMOVE_CONNECTED_JOB = gql`
+  mutation RemoveConnectedJob($jobId: Int!) {
+    removeConnectedJob(jobId: $jobId) {
+      success
+    }
+  }
+`;
