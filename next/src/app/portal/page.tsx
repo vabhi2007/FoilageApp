@@ -14,14 +14,14 @@ import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 import { useRouter } from "next/navigation";
 
 export default function Portal() {
-
   const router = useRouter();
-
-  const { data, loading, error, refetch } = useQuery(GET_ALL_JOBS);
-  const [selectedJob, setSelectedJob] = useState<any | null>(null); // State for selected job
-  const [isCreatingJob, setIsCreatingJob] = useState(false); // State for new job form visibility
-
+  
+  // Fetch user data and jobs
   const { data: userdata, loading: userloading, error: usererror } = useQuery(GET_ME);
+  const { data: allJobsData, loading: jobsLoading, error: jobsError, refetch } = useQuery(GET_ALL_JOBS);
+
+  const [selectedJob, setSelectedJob] = useState<any | null>(null);
+  const [isCreatingJob, setIsCreatingJob] = useState(false);
   const [userType, setUserType] = useState<string>("employer");
 
   useEffect(() => {
@@ -35,14 +35,20 @@ export default function Portal() {
     }
   }, [userdata]);
 
-  const [user] = useState('job_seeker');
+  if (userloading || jobsLoading) return <p>Loading...</p>;
+  if (usererror) return <p>Error fetching user data: {usererror.message}</p>;
+  if (jobsError) return <p>Error fetching jobs: {jobsError.message}</p>;
 
-  if (loading) return <p>Loading jobs...</p>;
-  if (error) return <p>Error fetching jobs: {error.message}</p>;
- 
+  // Select jobs to display based on user type
+  let displayedJobs = [];
+  if (userType === jobSeekerRef || userType === employerRef) {
+    displayedJobs = userdata?.me?.connectedJobs || [];  // Use connectedJobs
+  } else if (userType === adminRef) {
+    displayedJobs = allJobsData?.allJobs || [];  // Show all jobs for admin
+  }
 
   const handleCreateJobClick = () => {
-    setIsCreatingJob(true); // Show the new job form when the plus sign is clicked
+    setIsCreatingJob(true);
   };
 
   return (
@@ -52,19 +58,20 @@ export default function Portal() {
       <div className="w-full min-h-[45vw] px-[8vw] py-[3vw] bg-secondary flex justify-center">
         <div className="w-full bg-white" style={{ fontFamily: 'Montserrat' }}>
           <div className="text-tertiary px-[4vw] py-[3vw] font-semibold text-[2vw]"> 
-            {userType===jobSeekerRef ? "Saved Jobs" : 
-            userType===employerRef ? "My Job Postings" :
-            userType===adminRef ? "Employer Postings" : ""} </div>
+            {userType === jobSeekerRef ? "Saved Jobs" : 
+            userType === employerRef ? "My Job Postings" :
+            userType === adminRef ? "Employer Postings" : ""} 
+          </div>
 
           {/* Job Grid (2-column layout) */}
           <div className="grid grid-cols-2 gap-[2vw] px-[4vw] pb-[3vw]">
-            {data.allJobs.map((job: any) => (
+            {displayedJobs.map((job: any) => (
               <JobBlock
                 key={job.id}
                 job={job}
-                isSelected={selectedJob?.id === job.id} // Pass boolean instead of object
+                isSelected={selectedJob?.id === job.id}
                 xBorder={true}
-                onClick={() => setSelectedJob(job)} // Open popup on click
+                onClick={() => setSelectedJob(job)}
               />
             ))}
 
@@ -73,7 +80,6 @@ export default function Portal() {
                 <span className="text-white text-[3vw]">+</span>
               </div>
             )}
-            
           </div>
         </div>
       </div>
@@ -85,13 +91,12 @@ export default function Portal() {
             <ExtendedJobBlock 
               selectedJob={selectedJob}
               onClose={() => setSelectedJob(null)}
-              user = {userType}
+              user={userType}
             />
             
             {userType === jobSeekerRef && (
-              <UserApplication onClose={() => setSelectedJob(null)} id={selectedJob.id.toString()}/>
+              <UserApplication onClose={() => setSelectedJob(null)} id={selectedJob.id.toString()} />
             )}
-
           </div>
         </div>
       )}
@@ -100,11 +105,10 @@ export default function Portal() {
       {isCreatingJob && (
         <div className="w-full px-[8vw] bg-secondary flex items-center justify-center">
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <JobForm onClose={() => setIsCreatingJob(false)} onJobCreated={refetch}/>
+            <JobForm onClose={() => setIsCreatingJob(false)} onJobCreated={refetch} />
           </div>
         </div>
       )}
-      
 
       <Footer />
     </div>
