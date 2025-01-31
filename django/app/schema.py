@@ -15,7 +15,7 @@ class UserType(DjangoObjectType):
 class JobPostType(DjangoObjectType):
     class Meta:
         model = JobPost
-        fields = ("id", "employer", "title", "description", "company", "location", "salary", "posted_at", "is_active")
+        fields = ("id", "employer", "title", "description", "location", "site", "salary", "experience", "grade", "employment", "posted_at", "is_active")
 
 # Application Type
 class ApplicationType(DjangoObjectType):
@@ -48,24 +48,31 @@ class CreateJobPost(graphene.Mutation):
     class Arguments:
         title = graphene.String(required=True)
         description = graphene.String(required=True)
-        company = graphene.String(required=True)
         location = graphene.String(required=True)
+        site = graphene.String(required=True)
         salary = graphene.Float(required=True)
+        experience = graphene.String(required=True)
+        grade = graphene.String(required=True)
+        employment = graphene.String(required=True)
 
     job_post = graphene.Field(JobPostType)
 
-    def mutate(self, info, title, description, company, location, salary):
+    def mutate(self, info, title, description, location, salary, site, experience, grade, employment):
         user = info.context.user
-        if not user.is_authenticated or user.user_type != "employer":
+        if not user.is_authenticated or user.user_type != "employer" or user.user_type == "admin":
             raise Exception("Only employers can create job posts.")
 
         job_post = JobPost(
             employer=user,
             title=title,
             description=description,
-            company=company,
             location=location,
-            salary=salary
+            salary=salary,
+            site=site,
+            experience=experience,
+            grade=grade,
+            employment=employment
+
         )
         job_post.save()
         return CreateJobPost(job_post=job_post)
