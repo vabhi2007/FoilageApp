@@ -96,7 +96,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
       <div className="bg-white rounded-lg w-[30vw] h-[40vw] shadow-lg relative">
         <div className="flex flex-col pt-[1.4vw] px-[0.7vw] space-y-[0.7vw]" style={{ fontFamily: "Montserrat" }}>
           <div className="flex flex-row items-start">
-            <JobBlock key={currentJob.id} job={currentJob} isSelected={false} />
+            <JobBlock key={currentJob.id} job={currentJob} isSelected={false}/>
             <div className="absolute top-0 right-0 pt-[1vw] pr-[1vw]">
               <Image src={CloseIcon} alt="Close" className="w-[1.5vw] h-auto cursor-pointer" onClick={onClose} />
             </div>
