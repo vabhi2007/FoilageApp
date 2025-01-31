@@ -10,7 +10,6 @@ import JobBlock from '../../app/components/JobBlock';
 import ExtendedJobBlock from '../components/ExtendedJobBlock'; 
 import UserApplication from "../components/UserApplication"; 
 import JobForm from '../components/JobForm'; // Import JobForm
-import ApplicantList from "../components/ApplicantList";
 import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 import { useRouter } from "next/navigation";
 

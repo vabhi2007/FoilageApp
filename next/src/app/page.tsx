@@ -9,6 +9,7 @@ import InfoTab from "../app/components/InfoTab";
 import BagHandleIcon from "../app/assets/ionicons/bag-handle.svg";
 import PeopleCircleIcon from "../app/assets/ionicons/people-circle.svg";
 import BarChartIcon from "../app/assets/ionicons/bar-chart.svg";
+import SearchBar from "../app/components/SearchBar";
 
 import Footer from "../app/components/Footer";
 
@@ -26,12 +27,12 @@ export default function Home() {
           />
 
           <div className="absolute inset-0 flex items-center justify-center text-white" style={{fontFamily: 'Montserrat'}}>
-            <div className="text-center space-y-[1vw]">
+            <div className="text-center space-y-[3vw] mt-[-5vw]">
               <div className="space-y-[0.25vw]">
                 <h1 className="text-[2.5vw] font-bold"> Tesla STEM Student Career Service </h1>
                 <p className="text-[1.75vw]"> Jobs and internships made easy </p>
               </div>
-              <h1 className="text-[2.5vw]"> [Searchbar] </h1>
+              <SearchBar></SearchBar>
             </div>
           </div>
         </div>
