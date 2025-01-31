@@ -154,6 +154,19 @@ export const GET_ME = gql`
       username
       email
       userType
+      connectedJobs {
+        id
+        title
+        description
+        location
+        site
+        salary
+        experience
+        grade
+        employment
+        postedAt
+        isActive
+      }
     }
   }
 `;
