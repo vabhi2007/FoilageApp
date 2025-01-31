@@ -10,9 +10,13 @@ type JobListProps = {
   selectedJob: any;
   keyword?: string;
   location?: string;
+  experience?: string;
+  gradeLevel?: string;
+  type?: string;
+  workSite?: string;
 };
 
-const JobList: React.FC<JobListProps> = ({onJobClick, selectedJob, keyword='', location=''}) => {
+const JobList: React.FC<JobListProps> = ({onJobClick, selectedJob, keyword='', location='', experience='', gradeLevel='', type='', workSite=''}) => {
   const { data, loading, error } = useQuery(GET_ALL_JOBS);
 
   console.log("Fetching jobs..."); // Debug log
@@ -25,14 +29,19 @@ const JobList: React.FC<JobListProps> = ({onJobClick, selectedJob, keyword='', l
   // Fix: Ensure correct GraphQL key name (check schema)
   if (!data || !data.allJobs) return <p className="text-red-500">No jobs found.</p>;
 
+  const filteredJobs = data.allJobs.filter((job: any) => (
+    (!keyword || job.title.toLowerCase().includes(keyword.toLowerCase())) &&
+    (!location || job.location.toLowerCase().includes(location.toLowerCase())) &&
+    (!experience || job.experience.toLowerCase().includes(experience.toLowerCase())) &&
+    (!gradeLevel || job.grade.toLowerCase().includes(gradeLevel.toLowerCase())) &&
+    (!type || job.employment.toLowerCase().includes(type.toLowerCase())) &&
+    (!workSite || job.site.toLowerCase().includes(workSite.toLowerCase()))
+  ));
+
   return (
     <div className="flex flex-col h-full border border-gray-300 bg-white">
       <div className="w-full flex-grow overflow-y-auto">
-      {data.allJobs
-      .filter((job: any) => 
-        keyword ? job.title.toLowerCase().includes(keyword.toLowerCase()) : true &&
-        location ? job.location.toLowerCases().includes(location.toLowerCase()) : true
-      )
+      {filteredJobs
       .map((job: any) => (
         <JobBlock
           key={job.id}

@@ -107,7 +107,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingId = n
           className="p-[0.5vw] text-[0.75vw] border border-gray-300"
         >
           <option value="">Select Experience</option>
-          <option value="No experience">No experience</option>
+          <option value="None">None</option>
           <option value="Entry-level">Entry-level</option>
           <option value="1-2 years">1-2 years</option>
           <option value="3+ years">3+ years</option>

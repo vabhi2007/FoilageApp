@@ -21,7 +21,7 @@ const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isS
       <div className="flex flex-col flex-grow space-y-[0.75vw]" style={{ fontFamily: 'Montserrat' }}>
         <div className="space-y-[0.1vw]">
           <h3 className="text-[1vw] font-medium text-black">{job.title}</h3>
-          <p className="text-[0.85vw] text-tertiary">{job.company}</p>
+          <p className="text-[0.85vw] text-tertiary">Microsoft</p>
         </div>
 
         {/* Labels */}
@@ -33,16 +33,16 @@ const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isS
             ${job.salary}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
-            Grade 11
+            {job.grade}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
-            Remote
+            {job.site}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
-            No experience
+            {job.experience}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
-            Internship
+            {job.employment}
           </span>
         </div>
       </div>
