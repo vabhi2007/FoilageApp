@@ -2,7 +2,7 @@
 
 import "../app/globals.css";
 import Navbar from "../app/components/Navbar";
-import BackgroundImage from "../app/assets/BackgroundImage.svg";
+import BackgroundImage from "../app/assets/NewBackground.jpg";
 import Image from "next/image";
 import InfoTab from "../app/components/InfoTab";
 
@@ -20,10 +20,10 @@ export default function Home() {
 
       <div className= "space-y-[8vw] mb-[8vw]">
         <div className="relative">
-          <Image
-            src={BackgroundImage}
+          <img
+            src={BackgroundImage.src}
             alt="Background"
-            className="w-full h-[42vw] object-cover bg-black brightness-[0.5] overflow-hidden"
+            className="w-full h-[42vw] object-cover bg-black brightness-[0.65] overflow-hidden"
           />
 
           <div className="absolute inset-0 flex items-center justify-center text-white" style={{fontFamily: 'Montserrat'}}>
