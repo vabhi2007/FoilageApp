@@ -10,7 +10,6 @@ import JobBlock from '../../app/components/JobBlock';
 import ExtendedJobBlock from '../components/ExtendedJobBlock'; 
 import UserApplication from "../components/UserApplication"; 
 import JobForm from '../components/JobForm'; // Import JobForm
-import ApplicantList from "../components/ApplicantList";
 
 export default function Portal() {
   const { data, loading, error, refetch } = useQuery(GET_ALL_JOBS);
@@ -39,7 +38,7 @@ export default function Portal() {
 
           {/* Job Grid (2-column layout) */}
           <div className="grid grid-cols-2 gap-[2vw] px-[4vw] pb-[3vw]">
-            {data.allJobPosts.map((job: any) => (
+            {data.allJobs.map((job: any) => (
               <JobBlock
                 key={job.id}
                 job={job}
