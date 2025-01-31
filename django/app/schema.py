@@ -63,28 +63,41 @@ class UpdateJobPost(graphene.Mutation):
         job_id = graphene.Int(required=True)
         title = graphene.String()
         description = graphene.String()
-        company = graphene.String()
         location = graphene.String()
+        site = graphene.String()
         salary = graphene.Float()
+        experience = graphene.String()
+        grade = graphene.String()
+        employment = graphene.String()
+        is_active = graphene.Boolean()
 
     job_post = graphene.Field(JobPostType)
 
-    def mutate(self, info, job_id, title=None, description=None, company=None, location=None, salary=None):
+    def mutate(self, info, job_id, title=None, description=None, location=None, site=None, salary=None, experience=None, grade=None, employment=None, is_active=None):
         job = JobPost.objects.get(id=job_id)
 
         if title is not None:
             job.title = title
         if description is not None:
             job.description = description
-        if company is not None:
-            job.company = company
         if location is not None:
             job.location = location
+        if site is not None:
+            job.site = site
         if salary is not None:
             job.salary = salary
+        if experience is not None:
+            job.experience = experience
+        if grade is not None:
+            job.grade = grade
+        if employment is not None:
+            job.employment = employment
+        if is_active is not None:
+            job.is_active = is_active
 
         job.save()
         return UpdateJobPost(job_post=job)
+
 
 
 

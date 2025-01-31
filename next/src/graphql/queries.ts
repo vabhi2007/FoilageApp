@@ -228,15 +228,48 @@ export const UPDATE_USER_INFO = gql`
   }
 `;
 
+
 export const UPDATE_JOB_POST = gql`
-  mutation UpdateJobPost($jobId: Int!, $title: String, $description: String, $location: String, $salary: Float) {
-    updateJobPost(jobId: $jobId, title: $title, description: $description, location: $location, salary: $salary) {
+  mutation UpdateJobPost(
+    $jobId: Int!,
+    $title: String,
+    $description: String,
+    $location: String,
+    $site: String,
+    $salary: Float,
+    $experience: String,
+    $grade: String,
+    $employment: String,
+    $isActive: Boolean
+  ) {
+    updateJobPost(
+      jobId: $jobId,
+      title: $title,
+      description: $description,
+      location: $location,
+      site: $site,
+      salary: $salary,
+      experience: $experience,
+      grade: $grade,
+      employment: $employment,
+      isActive: $isActive
+    ) {
       jobPost {
         id
+        employer {
+          id
+          username
+        }
         title
         description
         location
+        site
         salary
+        experience
+        grade
+        employment
+        postedAt
+        isActive
       }
     }
   }
