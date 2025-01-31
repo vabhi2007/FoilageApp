@@ -15,6 +15,51 @@ class UserType(DjangoObjectType):
 
     def resolve_connected_jobs(self, info):
         return [job.id for job in self.connected_jobs.all()]
+class UpdateUsername(graphene.Mutation):
+    class Arguments:
+        username = graphene.String(required=True)
+
+    user = graphene.Field(lambda: UserType)
+
+    def mutate(self, info, username):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Authentication required.")
+
+        user.username = username
+        user.save()
+        return UpdateUsername(user=user)
+
+class UpdateEmail(graphene.Mutation):
+    class Arguments:
+        email = graphene.String(required=True)
+
+    user = graphene.Field(lambda: UserType)
+
+    def mutate(self, info, email):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Authentication required.")
+
+        user.email = email
+        user.save()
+        return UpdateEmail(user=user)
+
+class UpdatePassword(graphene.Mutation):
+    class Arguments:
+        password = graphene.String(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, password):
+        user = info.context.user
+        if not user.is_authenticated:
+            raise Exception("Authentication required.")
+
+        user.password = password
+        user.save()
+        return UpdatePassword(success=True)
+    
 
 # Job Post Type
 class JobPostType(DjangoObjectType):
@@ -268,6 +313,9 @@ class Mutation(AuthMutation, graphene.ObjectType):
     add_connected_job = AddConnectedJob.Field()
     remove_connected_job = RemoveConnectedJob.Field()
     update_bio = UpdateBio.Field()
+    update_username = UpdateUsername.Field()
+    update_email = UpdateEmail.Field()
+    update_password = UpdatePassword.Field()
 
 # Schema Definition
 schema = graphene.Schema(query=Query, mutation=Mutation)
