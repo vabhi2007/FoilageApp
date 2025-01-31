@@ -11,7 +11,7 @@ const SignOut = () => {
 
     if (!token) {
       // 🚀 Redirect to login if not signed in
-      router.push("/signin");
+      router.push("/signIn");
     }
   }, []);
 
