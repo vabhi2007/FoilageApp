@@ -160,13 +160,15 @@ class CreateJobPost(graphene.Mutation):
             site=site,
             experience=experience,
             grade=grade,
-            employment=employment
-
+            employment=employment,
+            is_active = False
+    
         )
         job_post.save()
 
         user.connected_jobs.add(job_post)
         user.save()
+
 
         return CreateJobPost(job_post=job_post)
 
@@ -313,7 +315,7 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
         return get_user_model().objects.all()
 
     def resolve_all_jobs(self, info):
-        return JobPost.objects.filter(is_active=True)
+        return JobPost.objects.all()
 
     def resolve_job_by_id(self, info, id):
         return JobPost.objects.get(id=id)
