@@ -7,9 +7,14 @@ from .models import JobPost, Application
 
 # User Type
 class UserType(DjangoObjectType):
+    connected_jobs = graphene.List(graphene.Int)
+
     class Meta:
         model = get_user_model()
-        fields = ("id", "username", "email", "user_type")
+        fields = ("id", "username", "email", "user_type", "connected_jobs")
+
+    def resolve_connected_jobs(self, info):
+        return [job.id for job in self.connected_jobs.all()]
 
 # Job Post Type
 class JobPostType(DjangoObjectType):
@@ -75,6 +80,10 @@ class CreateJobPost(graphene.Mutation):
 
         )
         job_post.save()
+
+        user.connected_jobs.add(job_post)
+        user.save()
+
         return CreateJobPost(job_post=job_post)
 
 class DeleteJobPost(graphene.Mutation):
@@ -119,6 +128,10 @@ class CreateApplication(graphene.Mutation):
             resume=resume
         )
         application.save()
+
+        user.connected_jobs.add(job_post)
+        user.save()
+
         return CreateApplication(application=application)
 
 class DeleteApplication(graphene.Mutation):
@@ -167,6 +180,7 @@ class Query(UserQuery, MeQuery, graphene.ObjectType):
     application_by_id = graphene.Field(ApplicationType, id=graphene.Int(required=True))
     all_users = graphene.List(UserType)
 
+    
     def resolve_all_users(self, info):
         user = info.context.user
         if not user.is_authenticated or user.user_type != "admin":
