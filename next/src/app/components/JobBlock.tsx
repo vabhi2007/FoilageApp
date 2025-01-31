@@ -33,16 +33,16 @@ const JobBlock = ({ job, isSelected, xBorder = false, onClick }: { job: any, isS
             ${job.salary}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
-            Grade 11
+            {job.gradeLevel}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
-            Remote
+            {job.site}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
-            No experience
+            {job.experience}
           </span>
           <span className="bg-gray-200 text-gray-700 text-[0.65vw] px-[0.5vw] py-[0.25vw] rounded">
-            Internship
+            {job.type}
           </span>
         </div>
       </div>
