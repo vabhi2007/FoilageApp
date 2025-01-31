@@ -13,7 +13,7 @@ const Button: React.FC<ButtonProps> = ({text, onClick, className = '', primary =
   return (
     <button
       onClick={onClick}
-      className={`px-[0.75vw] py-[0.5vw] rounded-[5px] text-[0.85vw] flex justify-center items-center ${className} ${primary ? 'bg-primary' : 'bg-tertiary'}`}
+      className={`px-[0.75vw] py-[0.5vw] rounded-[5px] flex justify-center items-center ${className} ${primary ? 'bg-primary' : 'bg-tertiary'}`}
     >
 
       {showArrow ? (
