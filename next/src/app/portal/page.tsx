@@ -17,7 +17,7 @@ export default function Portal() {
   const router = useRouter();
   
   // Fetch user data and jobs
-  const { data: userdata, loading: userloading, error: usererror } = useQuery(GET_ME);
+  const { data: userdata, loading: userloading, error: usererror, refetch: refetchMe } = useQuery(GET_ME);
   const { data: allJobsData, loading: jobsLoading, error: jobsError, refetch } = useQuery(GET_ALL_JOBS);
 
   const [selectedJob, setSelectedJob] = useState<any | null>(null);
@@ -34,6 +34,12 @@ export default function Portal() {
       setUserType(userdata.me.userType);
     }
   }, [userdata]);
+
+  useEffect(() => {
+    if (allJobsData) {
+      refetchMe();
+    }
+  }, [allJobsData, refetchMe]);
 
   if (userloading || jobsLoading) return <p>Loading...</p>;
   if (usererror) return <p>Error fetching user data: {usererror.message}</p>;
@@ -105,7 +111,7 @@ export default function Portal() {
       {isCreatingJob && (
         <div className="w-full px-[8vw] bg-secondary flex items-center justify-center">
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <JobForm onClose={() => setIsCreatingJob(false)} onJobCreated={refetch} />
+            <JobForm onClose={() => setIsCreatingJob(false)} onJobCreated={() => {refetch(); refetchMe()}} />
           </div>
         </div>
       )}
