@@ -16,9 +16,10 @@ interface ExtendedJobBlockProps {
   selectedJob: any;
   onClose: () => void;
   user?: string;
+  hideApplication?: boolean
 }
 
-const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClose, user="Student" }) => {
+const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClose, user=jobSeekerRef, hideApplication=false }) => {
 
   const { data: jobsData, loading: jobsLoading, error: jobsError, refetch: refetchJobs } = useQuery(GET_ALL_JOBS);
 
@@ -69,20 +70,20 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           <div className="px-[1vw] pt-[1vw]">
 
             {user===jobSeekerRef && (
-              <Button text="Unsave" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" />
+              <Button text="Unsave" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" />
             )}
 
             {user===employerRef && (
               <div className="flex gap-[0.35vw]">
                 <Button text="Edit" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={handleEditJobClick}/>
-                <Button text="Delete" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={() => handleDeleteJobById(selectedJob.id)}/>
+                <Button text="Delete" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" onClick={() => handleDeleteJobById(selectedJob.id)}/>
               </div>
             )}
 
             {user===adminRef && (
               <div className="flex gap-[0.35vw]">
               <Button text="Accept" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" />
-              <Button text="Reject" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={() => handleDeleteJobById(selectedJob.id)}/>
+              <Button text="Reject" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" onClick={() => handleDeleteJobById(selectedJob.id)}/>
             </div>
             )}
 
@@ -105,7 +106,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           <JobForm onClose={() => setIsEditingJob(false)} existingId={selectedJob.id} onJobCreated={refetchJobs}/>
         )}
 
-        {(user === employerRef || user === adminRef) && (
+        {(user === employerRef || user === adminRef) && (!hideApplication) && (
             <ApplicantList jobId={selectedJob.id.toString()}></ApplicantList>
         )}
     </div>

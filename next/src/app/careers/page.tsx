@@ -15,6 +15,7 @@ import JobList from '../../app/components/JobList';
 import React, { useState } from 'react';
 import SearchBar from "../../app/components/SearchBar";
 import { useSearchParams } from 'next/navigation';
+import ExtendedJobBlock from "../components/ExtendedJobBlock";
 
 export default function Careers() {
   const searchParams = useSearchParams();
@@ -31,6 +32,10 @@ export default function Careers() {
   const handleJobClick = (job: any) => {
     setSelectedJob(job); // Update state when a job is clicked
   };
+
+  const closeJobBlock = () => {
+    setSelectedJob(null);
+  }
 
   return (
     <div>
@@ -89,24 +94,18 @@ export default function Careers() {
                     </div>
 
                     {/* Box 2 */}
-                    <div className="bg-white p-[3vw] rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[35vw] flex flex-col items-center justify-center">
-
+                    <div>
                         {/* Render selected job details */}
                         {selectedJob ? (
-                          <div className="space-y-[1vw] text-black">
-                            <h3 className="text-[2vw] font-semibold">{selectedJob.title}</h3>
-                            <p className="text-[1.5vw]">{selectedJob.company}</p>
-                            <p className="text-[1.2vw]">{selectedJob.description}</p>
-                            <p className="text-[1vw]">{selectedJob.location}</p>
-                            <p className="text-[1vw]">${selectedJob.salary}</p>
+                          <div className="bg-white rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[30vw] flex flex-col items-center justify-center">
+                            <ExtendedJobBlock selectedJob={selectedJob} onClose={closeJobBlock}></ExtendedJobBlock>
                           </div>
                         ) : (
-                            <div>
+                            <div className="bg-white p-[3vw] rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[30vw] h-[40vw] flex flex-col items-center justify-center">
                                 <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[0.5vw]"></div>
                                 <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[0.5vw]"></div>
                                 <div className="w-[10vw] h-[0.2vw] bg-tertiary mb-[1vw]"></div>
                                 <div className="text-[1.5vw] font-medium text-tertiary" style={{fontFamily: 'Montserrat'}}>Jobs await!</div>
-                                {/* "Jobs await!" text */}    
                             </div>
                         )}
                     </div>

@@ -30,8 +30,8 @@ const JobList: React.FC<JobListProps> = ({onJobClick, selectedJob, keyword='', l
       <div className="w-full flex-grow overflow-y-auto">
       {data.allJobs
       .filter((job: any) => 
-        keyword ? job.title.includes(keyword) : true &&
-        location ? job.location.includes(location) : true
+        keyword ? job.title.toLowerCase().includes(keyword.toLowerCase()) : true &&
+        location ? job.location.toLowerCases().includes(location.toLowerCase()) : true
       )
       .map((job: any) => (
         <JobBlock
