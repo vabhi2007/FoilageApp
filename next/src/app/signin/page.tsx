@@ -33,7 +33,14 @@ export default function Portal() {
   });
 
   const handleRegisterSubmit = async () => {
-    await register({ variables: {username : username, password: password, email : "blank.gmail.com",userType : selectedRole === 'Student' ?  'job_seeker' : 'employer'}});
+    await register({
+      variables: {
+        username: username,
+        password: password,
+        email: username,
+        userType: (selectedRole === "Student" ? "job_seeker" : "employer"),
+      },
+    });
   };
 
   const [login] = useMutation(LOGIN_USER, {

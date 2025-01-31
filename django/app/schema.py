@@ -10,7 +10,9 @@ User = get_user_model()
 class UserType(DjangoObjectType):
     class Meta:
         model = User
-        fields = ("id", "username", "email", "bio", "first_name", "last_name", "school", "grade")
+        fields = ("id", "username", "email", "bio", "first_name", "last_name", "school", "grade", "user_type")
+    def resolve_userType(self, info):
+        return self.user_type
 
 class UpdateUserInfo(graphene.Mutation):
     class Arguments:
