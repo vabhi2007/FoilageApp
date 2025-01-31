@@ -16,6 +16,24 @@ export default function Portal() {
     setSelectedRole(role);
   };
 
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, { loading, error }] = useMutation(LOGIN_USER, {
+    onCompleted: (data) => {
+      if (data.tokenAuth.token) {
+        localStorage.setItem("token", data.tokenAuth.token);
+        router.push("/dashboard");
+      }
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await login({ variables: { username, password } });
+  };
+
+
   return (
     <div>
       <Navbar />
