@@ -192,6 +192,26 @@ export default function ProfilePage() {
                 </div>
               </div>
             )}
+
+
+            {(medata?.me?.userType == jobSeekerRef) && (
+              <div>
+                {/* Grade Selection using button group (first style) */}
+            <div className="text-[1vw] mb-[1.2vw] text-gray-700">Grade</div>
+            <div className="flex gap-[0.5vw]">
+              {['9th', '10th', '11th', '12th'].map((grade) => (
+                <button
+                  key={grade}
+                  type="button"
+                  className={`w-full h-[3vw] text-[0.9vw] rounded-md text-white ${userInfo.grade === grade ? 'bg-primary' : 'bg-tertiary'}`}
+                  onClick={() => handleGradeClick(grade)}
+                >
+                  {grade}
+                </button>
+              ))}
+            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -199,3 +219,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+
