@@ -26,7 +26,7 @@ export default function Portal() {
     onCompleted: (data) => {
       if (data.tokenAuth.token) {
         localStorage.setItem("token", data.tokenAuth.token);
-        router.push("/dashboard");
+        router.push("/portal");
       }
     },
   });
