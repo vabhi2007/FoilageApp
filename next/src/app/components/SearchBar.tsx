@@ -31,7 +31,7 @@ const SearchBar: React.FC<SearchBarProps> = ({autoFillKeyword = '', autoFillLoca
           onChange={(e) => setKeyword(e.target.value)}
         />
       </div>
-      <span className="text-[2vw]" style={{ fontFamily: 'Montserrat-Light' }}>|</span>
+      <div className="text-[2vw]" style={{ fontFamily: 'Montserrat-Light' }}>|</div>
       <div className="w-full flex gap-[1vw] items-center">
         <Image src={LocationIcon} alt="Location" />
         <input 
