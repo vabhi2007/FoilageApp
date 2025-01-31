@@ -12,8 +12,11 @@ import UserApplication from "../components/UserApplication";
 import JobForm from '../components/JobForm'; // Import JobForm
 import ApplicantList from "../components/ApplicantList";
 import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
+import { useRouter } from "next/navigation";
 
 export default function Portal() {
+
+  const router = useRouter();
 
   const { data, loading, error, refetch } = useQuery(GET_ALL_JOBS);
   const [selectedJob, setSelectedJob] = useState<any | null>(null); // State for selected job
@@ -24,6 +27,10 @@ export default function Portal() {
 
   useEffect(() => {
     console.log("User Data:", userdata);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/signin"); // Redirect if not logged in
+    }
     if (userdata?.me?.userType) {
       setUserType(userdata.me.userType);
     }
