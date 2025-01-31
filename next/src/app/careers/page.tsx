@@ -25,7 +25,6 @@ export default function Careers() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '';
   const location = searchParams.get('location') || '';
-  
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [selectedJob, setSelectedJob] = useState<any | null>(null);
@@ -50,10 +49,16 @@ export default function Careers() {
 
   const router = useRouter();
 
+  const resetFilters = () => {
+    router.replace('/careers');
+    setSelectedExperience(null);
+    setSelectedGradeLevel(null);
+    setSelectedType(null);
+    setSelectedWorkSite(null);
+  }
+
   const { data: userdata, loading: userloading, error: usererror } = useQuery(GET_ME);
     const [userType, setUserType] = useState<string>("employer");
-  
-    
 
   return (
     <div>
@@ -68,7 +73,7 @@ export default function Careers() {
 
         <div className="absolute inset-0 flex items-center justify-center text-white" style={{ fontFamily: 'Montserrat' }}>
           <div className="text-center space-y-[1vw]">
-            <SearchBar autoFillKeyword={keyword} autoFillLocation={location} />
+            <SearchBar autoFillKeyword={keyword} autoFillLocation={location}/>
           </div>
         </div>
       </div>
@@ -80,6 +85,12 @@ export default function Careers() {
             <div className="bg-white rounded-lg drop-shadow-[0_0.4vw_0.1vw_rgba(0,0,0,0.2)] w-[35vw] h-[40vw]" style={{ fontFamily: 'Montserrat' }}>
               <div className="px-[1.5vw] py-[1.5vw] text-black w-full flex flex-row justify-between">
                 <div className="text-[1vw]">Filter</div>
+                <button 
+                  className="bg-tertiary text-white py-[0.4vw] px-[0.7vw] rounded-full text-[0.75vw]"
+                  onClick={resetFilters}
+                >
+                  Clear
+                </button>
               </div>
               <div className="flex flex-row text-white px-[1.5vw] pb-[1.5vw] space-x-[1vw]">
                 <Dropdown
