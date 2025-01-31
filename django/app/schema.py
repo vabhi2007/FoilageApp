@@ -177,14 +177,20 @@ class DeleteJobPost(graphene.Mutation):
     def mutate(self, info, job_post_id):
         user = info.context.user
         if not user.is_authenticated or not (user.user_type == "employer" or user.user_type == "admin"):
-            raise Exception("Only employers can delete job posts.")
+            raise Exception("Only employers and admins can delete job posts.")
 
         try:
-            job_post = JobPost.objects.get(id=job_post_id, employer=user)
+            # Admins should be able to delete any job post
+            if user.user_type == "admin":
+                job_post = JobPost.objects.get(id=job_post_id)
+            else:
+                job_post = JobPost.objects.get(id=job_post_id, employer=user)
+
             job_post.delete()
             return DeleteJobPost(success=True)
         except JobPost.DoesNotExist:
             raise Exception("Job post not found or unauthorized to delete.")
+
 
 # Apply to Job (Only Job Seekers)
 class CreateApplication(graphene.Mutation):
