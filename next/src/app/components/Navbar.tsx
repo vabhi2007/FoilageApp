@@ -3,10 +3,31 @@ import Image from "next/image";
 import Logo from "../assets/FoliageLogo.svg"
 import Navlink from "./Navlink";
 import Button from "./Button";
+import { GET_ME } from '@/graphql/queries';
+import { useQuery } from '@apollo/client';
+import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import UserIcon from "../../app/assets/StudentIcon.svg";
+
 
 const Navbar = () => {
+    const router = useRouter();
 
     const { navigateTo } = useNavigation();
+    const { data: userdata, loading: userloading, error: usererror, refetch: refetchMe } = useQuery(GET_ME);
+    const [userType, setUserType] = useState<string>("employer");
+
+    const handleSignUpClick = () => {
+        console.log("User Data:", userdata);
+        const token = localStorage.getItem("token");
+        if (!token) {
+          router.push("/signIn"); // Redirect if not logged in
+        }
+        if (userdata?.me?.userType) {
+          setUserType(userdata.me.userType);
+        }
+      }
     
     return (
 
@@ -38,7 +59,12 @@ const Navbar = () => {
             </div>
 
             <div>
-            <Button text="Join / Sign In" onClick={() => navigateTo('/signIn')} ></Button>
+            {userType === jobSeekerRef || userType === employerRef || userType === adminRef ? (
+                <Image src = {UserIcon} alt="Icon Image" className='cursor-pointer' onClick={() => router.push('/portal')}></Image>
+            ) : (
+                <Button text="Join / Sign In" onClick={handleSignUpClick} ></Button>
+            )}
+            
             </div>
         </div>
     );
