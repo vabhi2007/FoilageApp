@@ -1,32 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import Image from "next/image";
 import CloseIcon from "../../app/assets/RoundCloseIcon.svg";
 import { useQuery, useMutation } from '@apollo/client';
-import {GET_ALL_JOBS, DELETE_JOB_POST, CREATE_JOB_POST } from '@/graphql/queries';
+import {GET_ALL_JOBS, DELETE_JOB_POST, CREATE_JOB_POST, UPDATE_JOB_POST } from '@/graphql/queries';
 
 interface JobFormProps {
   onClose: () => void;
   onJobCreated: () => void;
-  existingId?: string;
+  existingJob?: any;
 }
 
-const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingId = null }) => {
+const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingJob }) => {
   const { data, loading, error, refetch } = useQuery(GET_ALL_JOBS);
 
   const [formData, setFormData] = useState({
-    title: '',
-    salary: '',
-    experience: '',
-    gradeLevel: '',
-    employment: '',
-    workSite: '',
-    location: '',
-    description: '',
-    company: 'Microsoft',
+    title: existingJob?.title || '',
+    salary: existingJob?.salary || '',
+    experience: existingJob?.experience || '',
+    gradeLevel: existingJob?.gradeLevel || '',
+    employment: existingJob?.employment || '',
+    workSite: existingJob?.workSite || '',
+    location: existingJob?.location || '',
+    description: existingJob?.description || '',
   });
 
   const [createJob] = useMutation(CREATE_JOB_POST, {refetchQueries: [{query: GET_ALL_JOBS}]});
+
+  const [updateJobPost] = useMutation(UPDATE_JOB_POST, {refetchQueries: [{query: GET_ALL_JOBS}]});
+
+  // Update formData when existingJob prop changes
+  useEffect(() => {
+    if (existingJob) {
+      setFormData({
+        title: existingJob.title,
+        salary: existingJob.salary,
+        experience: existingJob.experience,
+        gradeLevel: existingJob.grade,
+        employment: existingJob.employment,
+        workSite: existingJob.site,
+        location: existingJob.location,
+        description: existingJob.description,
+      });
+    }
+  }, [existingJob]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -41,23 +58,47 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingId = n
     const {title, description, location, workSite, salary, experience, gradeLevel, employment} = formData;
     // Handle job creation logic here (e.g., submit to API or GraphQL)
 
-    if (existingId) {
-      {/*Update Job*/}
-    }
-    else {
-      try {
-        await createJob({
-          variables: { title: title, description: description, location: location, site: workSite, salary: parseFloat(salary), experience: experience, grade: gradeLevel, employment: employment },
-        });
-        alert('Job successfully added!');
-      } catch (error) {
-        console.error('Error creating job:', error);
-      }
-    }
-
+      if (existingJob) {
+        try {
+          await updateJobPost({
+            variables: { 
+              jobId: existingJob.id,
+              title: title,
+              description: description,
+              location: location,
+              salary: parseFloat(salary),
+              site: workSite,
+              experience: experience,
+              grade: gradeLevel,
+              employment: employment
+            }
+          });
+          alert('Job successfully updated!');
+        } catch (error) {
+          console.error('Error updating job:', error);
+        }
+      } 
+      else {
+        try {
+          await createJob({
+            variables: { 
+              title: title,
+              description: description,
+              location: location,
+              salary: parseFloat(salary),
+              site: workSite,
+              experience: experience,
+              grade: gradeLevel,
+              employment: employment
+            }})
+            alert('Job successfully created!');
+          } catch (error) {
+            console.error('Error updating job:', error);
+          }
+        }
     onClose(); // Close the form after submission
     onJobCreated();
-  };
+    };
 
   return (
     <div className="relative bg-white rounded-lg w-[30vw] h-[40vw] p-[2vw] shadow-lg text-tertiary" style={{fontFamily: 'Montserrat'}}>
@@ -163,7 +204,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingId = n
         />
 
         <div className="flex justify-center text-white">
-          <Button text={existingId ? "Save Job" : "Create Job"} className="" />
+          <Button text={existingJob ? "Save Job" : "Create Job"} className="" />
         </div>
       </form>
     </div>
