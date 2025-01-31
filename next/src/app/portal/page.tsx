@@ -81,7 +81,7 @@ export default function Portal() {
       {/* Job Details Popup */}
       {selectedJob && (
         <div className="w-full h-full px-[8vw] bg-secondary">
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="fixed inset-0 flex items-center justify-center gap-[2vw] bg-black bg-opacity-50 z-50">
             <ExtendedJobBlock 
               selectedJob={selectedJob}
               onClose={() => setSelectedJob(null)}

@@ -14,8 +14,13 @@ import Footer from "../../app/components/Footer";
 import JobList from '../../app/components/JobList';
 import React, { useState } from 'react';
 import SearchBar from "../../app/components/SearchBar";
+import { useSearchParams } from 'next/navigation';
 
 export default function Careers() {
+  const searchParams = useSearchParams();
+  const keyword = searchParams.get('keyword') || '';
+  const location = searchParams.get('location') || '';
+
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [selectedJob, setSelectedJob] = useState<any | null>(null); // New state to hold the selected job
 
@@ -41,7 +46,7 @@ export default function Careers() {
 
           <div className="absolute inset-0 flex items-center justify-center text-white" style={{fontFamily: 'Montserrat'}}>
             <div className="text-center space-y-[1vw]">
-              <SearchBar></SearchBar>
+              <SearchBar autoFillKeyword={keyword} autoFillLocation={location}></SearchBar>
             </div>
           </div>
         </div>
@@ -79,7 +84,7 @@ export default function Careers() {
                             />
                         </div>
                         <div className="flex flex-col h-full pb-[10vw]">
-                            <JobList onJobClick={handleJobClick} selectedJob={selectedJob} /> {/* Pass selectedJob */}
+                            <JobList onJobClick={handleJobClick} selectedJob={selectedJob} keyword={keyword} location={location}/> {/* Pass selectedJob */}
                         </div>
                     </div>
 
