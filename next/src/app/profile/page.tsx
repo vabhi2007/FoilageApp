@@ -15,6 +15,7 @@ export default function ProfilePage() {
   // Fetch user data
   const { data: medata, loading, error, refetch } = useQuery(GET_ME);
   const [updateUserInfo] = useMutation(UPDATE_USER_INFO);
+  const [usertype, setUserType] = useState("");
 
   // Unified state for all editable fields
   const [userInfo, setUserInfo] = useState({
@@ -44,6 +45,18 @@ export default function ProfilePage() {
       }));
     }
   }, [medata]); // ✅ Now updates when `medata` changes
+
+  useEffect(() => {
+    if (medata?.me?.userType === "JOB_SEEKER"){
+      setUserType("Student")
+    }
+    else if (medata?.me?.userType === "EMPLOYER"){
+      setUserType("Employer")
+    }
+    else if (medata?.me?.userType === "ADMIN"){
+      setUserType("Admin")
+    }
+  })
 
   // Function to update state dynamically
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
@@ -76,8 +89,8 @@ export default function ProfilePage() {
             <div className="flex justify-between h-[8vw] items-center">
               <div className="flex flex-col">
                 <Image src={ProfileIcon} alt="Profile Icon" className="w-[5vw] h-[5vw] rounded-full mb-[1vw]" />
-                <div className="text-[1.2vw] font-bold">{userInfo.username || "User"}</div>
-                <div className="text-[1vw] text-gray-500">{medata?.me?.userType || "Role"}</div>
+                <div className="text-[1.2vw] font-bold">{(medata?.me?.firstName + " " + medata?.me?.lastName) || "User"}</div>
+                <div className="text-[1vw] text-gray-500">{usertype || "Role"}</div>
               </div>
               <div className="flex space-x-[1vw] text-white">
                 <Button text="Sign Out" className="w-[7vw] h-[2.5vw] text-[0.9vw]" />
@@ -109,10 +122,10 @@ export default function ProfilePage() {
               <input name="email" value={userInfo.email} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]" />
             </div>
 
-            <div className="mb-[1.2vw]">
+            {/* <div className="mb-[1.2vw]">
               <div className="text-[1vw] text-gray-700">Password</div>
               <input name="password" type="password" value={userInfo.password} onChange={handleChange} className="w-full p-[0.7vw] border border-gray-300 rounded-md text-[1vw]" />
-            </div>
+            </div> */}
           </div>
 
           {/* Bio Section */}
