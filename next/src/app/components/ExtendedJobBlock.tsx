@@ -144,7 +144,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
         </div>
       </div>
       {isEditingJob && (
-        <JobForm onClose={() => setIsEditingJob(false)} existingId={selectedJob.id} onJobCreated={refetchJobs} />
+        <JobForm onClose={() => setIsEditingJob(false)} existingJob={selectedJob} onJobCreated={refetchJobs} />
       )}
 
       {(user === employerRef || user === adminRef) && (!hideApplication) && (

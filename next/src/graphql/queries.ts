@@ -146,13 +146,19 @@ export const REGISTER_USER = gql`
 `;
 
 // 🔹 Fetch Current Logged-in User
+
 export const GET_ME = gql`
-  query GetMe {
+  query Me {
     me {
       id
       username
       email
       userType
+      bio
+      firstName
+      lastName
+      school
+      grade
       connectedJobs {
         id
         title
@@ -166,10 +172,11 @@ export const GET_ME = gql`
         postedAt
         isActive
       }
-        bio
     }
   }
 `;
+
+
 
 
 export const ADD_CONNECTED_JOB = gql`
@@ -188,27 +195,81 @@ export const REMOVE_CONNECTED_JOB = gql`
   }
 `;
 
-export const UPDATE_BIO = gql`
-  mutation UpdateBio($bio: String!) {
-    updateBio(bio: $bio) {
+export const UPDATE_USER_INFO = gql`
+  mutation UpdateUserInfo(
+    $username: String,
+    $email: String,
+    $bio: String,
+    $firstName: String,
+    $lastName: String,
+    $school: String,
+    $grade: String
+  ) {
+    updateUserInfo(
+      username: $username,
+      email: $email,
+      bio: $bio,
+      firstName: $firstName,
+      lastName: $lastName,
+      school: $school,
+      grade: $grade
+    ) {
       user {
         id
+        username
+        email
         bio
+        firstName
+        lastName
+        school
+        grade
       }
     }
   }
 `;
 
+
 export const UPDATE_JOB_POST = gql`
-  mutation UpdateJobPost($jobId: Int!, $title: String, $description: String, $company: String, $location: String, $salary: Float) {
-    updateJobPost(jobId: $jobId, title: $title, description: $description, company: $company, location: $location, salary: $salary) {
+  mutation UpdateJobPost(
+    $jobId: Int!,
+    $title: String,
+    $description: String,
+    $location: String,
+    $site: String,
+    $salary: Float,
+    $experience: String,
+    $grade: String,
+    $employment: String,
+    $isActive: Boolean
+  ) {
+    updateJobPost(
+      jobId: $jobId,
+      title: $title,
+      description: $description,
+      location: $location,
+      site: $site,
+      salary: $salary,
+      experience: $experience,
+      grade: $grade,
+      employment: $employment,
+      isActive: $isActive
+    ) {
       jobPost {
         id
+        employer {
+          id
+          username
+        }
         title
         description
-        company
         location
+        site
         salary
+        experience
+        grade
+        employment
+        postedAt
+        isActive
       }
     }
   }

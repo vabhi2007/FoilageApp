@@ -13,6 +13,8 @@ class User(AbstractUser):
 
     connected_jobs = models.ManyToManyField("JobPost", related_name="connected_users", blank=True)
     bio = models.TextField(blank=True, null=True)
+    school = models.CharField(max_length=255, blank=True, null=True)
+    grade = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return f"{self.username} ({self.get_user_type_display()})"
