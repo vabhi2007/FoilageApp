@@ -38,7 +38,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingId = n
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const {title, salary, location, description, company} = formData;
+    const {title, description, location, workSite, salary, experience, gradeLevel, employment} = formData;
     // Handle job creation logic here (e.g., submit to API or GraphQL)
 
     if (existingId) {
@@ -47,7 +47,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingId = n
     else {
       try {
         await createJob({
-          variables: { title, salary: parseFloat(salary), location, description, company },
+          variables: { title: title, description: description, location: location, site: workSite, salary: parseFloat(salary), experience: experience, grade: gradeLevel, employment: employment },
         });
         alert('Job successfully added!');
       } catch (error) {

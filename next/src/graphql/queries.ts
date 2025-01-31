@@ -44,7 +44,6 @@ export const CREATE_JOB_POST = gql`
   mutation CreateJobPost(
     $title: String!
     $description: String!
-    $company: String!
     $location: String!
     $site: String!
     $salary: Float!

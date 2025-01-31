@@ -29,7 +29,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
 
   const handleDeleteJobById = async (deleteJobId : string) => {
     try {
-      await deleteJob({ variables: { jobId: parseInt(deleteJobId) } });
+      await deleteJob({ variables: { jobPostId: parseInt(deleteJobId) } });
       alert(`Job with ID ${selectedJob.id} successfully deleted!`);
     } catch (error) {
       alert('Failed to delete job. Please check the ID and try again.');
