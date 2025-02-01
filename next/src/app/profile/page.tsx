@@ -123,9 +123,8 @@ export default function ProfilePage() {
                 <div className="text-[1vw] text-gray-500">{usertype || "Role"}</div>
               </div>
               <div className="flex space-x-[1vw] text-white">
-                <Button text="Sign Out" className="w-[7vw] h-[2.5vw] text-[0.9vw]" onClick={handleSignOut} />
-                <Button text="Delete" primary={false} className="w-[7vw] h-[2.5vw] text-[0.9vw]" />
                 <Button text="Save" primary={true} className="w-[7vw] h-[2.5vw] text-[0.9vw]" onClick={handleSave} />
+                <Button text="Sign Out" className="w-[7vw] h-[2.5vw] text-[0.9vw]" primary={false} onClick={handleSignOut} />
               </div>
             </div>
           </div>

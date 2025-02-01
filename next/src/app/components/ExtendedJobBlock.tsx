@@ -21,6 +21,8 @@ import {
 
 import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 
+import { hasToken } from "../utils/auth";
+
 interface ExtendedJobBlockProps {
   selectedJob: any;
   onClose: () => void;
@@ -128,7 +130,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           </div>
 
           {/* Job Seeker Actions: Save / Unsave */}
-          {user === jobSeekerRef && (
+          {user === jobSeekerRef && hasToken() && (
             <div className="px-[1vw] pt-[1vw]">
               <Button
                 text={medata?.me?.connectedJobs?.some((job: { id: any }) => job.id === currentJob.id) ? "Unsave" : "Save"}
