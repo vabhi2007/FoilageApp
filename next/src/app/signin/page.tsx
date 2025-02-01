@@ -10,6 +10,8 @@ import Button from "../components/Button";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER, REGISTER_USER } from "@/graphql/queries";
 import { useRouter } from "next/navigation";
+import MobilePortalPage from "../MobilePortalPage";
+import MobileSignInPage from "../MobileSignInPage";
 
 export default function Portal() {
   const [hasAccount, setHasAccount] = useState(true);
@@ -60,7 +62,12 @@ export default function Portal() {
 
   return (
     <div>
-      <Navbar />
+      <div className=" sm:hidden">
+        <MobileSignInPage/>
+      </div>
+      <div className="hidden sm:block">
+        <Navbar />
+      </div>
 
       <div className="w-full px-[20vw] py-[3vw] bg-secondary flex flex-row justify-center">
         <div className="w-full bg-white px-[3vw] py-[2vw]" style={{ fontFamily: 'Montserrat' }}>

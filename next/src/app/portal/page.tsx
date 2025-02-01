@@ -12,6 +12,7 @@ import UserApplication from "../components/UserApplication";
 import JobForm from '../components/JobForm'; // Import JobForm
 import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 import { useRouter } from "next/navigation";
+import MobilePortalPage from "../MobilePortalPage";
 
 export default function Portal() {
   const router = useRouter();
@@ -59,7 +60,12 @@ export default function Portal() {
 
   return (
     <div>
-      <Navbar />
+      <div className=" sm:hidden">
+        <MobilePortalPage/>
+      </div>
+      <div className="hidden sm:block">
+        <Navbar />
+      </div>
 
       <div className="w-full min-h-[45vw] px-[8vw] py-[3vw] bg-secondary flex justify-center">
         <div className="w-full bg-white" style={{ fontFamily: 'Montserrat' }}>

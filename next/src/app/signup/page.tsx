@@ -18,7 +18,7 @@ const Signup = () => {
     onCompleted: (data) => {
       if (data.registerUser.user) {
         alert("Signup successful! You can now log in.");
-        router.push("/signin"); // Redirect to login page
+        router.push("/signIn"); // Redirect to login page
       }
     },
   });
