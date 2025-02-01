@@ -62,10 +62,12 @@ export default function Careers() {
   const [userType, setUserType] = useState<string>('');
 
   useEffect(() => {
-    if (!userLoading && userdata) {
-      setUserType(getUserType(userdata)); // Update userType when data is available
+    if (userdata?.me?.userType) {
+      setUserType(userdata.me.userType);
+    } else {
+      setUserType(""); // Provide a fallback value
     }
-  }, [userdata, userLoading]);
+  }, [userdata]);
 
   return (
     <div>
