@@ -42,7 +42,7 @@ export default function Home() {
 
         <Slideshow></Slideshow>
 
-        <div className="my-[15vw] mx-[8vw] space-y-[4vw]">
+        <div className="mt-[8vw] mb-[10vw] mx-[8vw] space-y-[4vw]">
         {/*Main Content*/}
 
           <div className="text-[2.5vw]" style={{fontFamily: 'Montserrat'}}>
@@ -68,19 +68,21 @@ export default function Home() {
               text="Your career growth is at the heart of Foliage. We’re here to nurture your development every step of the way." 
             ></InfoTab>
           </div>
-          <div className="text-[1.75vw]" style={{fontFamily: 'Montserrat'}}>
+          
+          {/*End Main Content*/}
+        </div>
+      </div>
+
+      <div className="text-[2.5vw] mb-[8vw] mx-[8vw] space-y-[4vw]" style={{fontFamily: 'Montserrat'}}>
             <span className="text-tertiary">Success for</span>{' '}
             <span className="text-primary font-semibold">Students,</span>{' '}
             <span className="text-tertiary">and</span>{' '}
             <span className="text-primary font-semibold">Employers.</span>
-          </div>
-          <div className="flex gap-4">
-            <AnimatedTestimonials testimonials={studentTestimonials} autoplay={true} />
-            <AnimatedTestimonials testimonials={companyTestimonials} autoplay={true}/>
-        </div>
 
-          {/*End Main Content*/}
-        </div>
+            <div className="flex gap-4">
+              <AnimatedTestimonials testimonials={studentTestimonials} autoplay={true} />
+              <AnimatedTestimonials testimonials={companyTestimonials} autoplay={true}/>
+            </div>
       </div>
 
       <Footer></Footer>
