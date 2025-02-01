@@ -8,6 +8,7 @@ import { House } from 'lucide-react';
 import { Sprout } from 'lucide-react';
 import { UserSearch } from 'lucide-react';
 import { LogIn } from 'lucide-react';
+import { MessageCircle } from "lucide-react"
 import MobileSideBarItem from "./MobileSidebarItem"
 
 
@@ -32,7 +33,12 @@ const items = [
         name:"Sign In",
         icon: LogIn,
         path: "/signIn"
-    }
+    },
+    {
+        name:"Chat",
+        icon: MessageCircle,
+        path: "/chat"
+    },
 ]
 
 interface SidebarProps {
