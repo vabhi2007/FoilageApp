@@ -6,6 +6,8 @@ import BackgroundImage from "../app/assets/BackgroundReducedNoise2.jpg";
 import Image from "next/image";
 import InfoTab from "../app/components/InfoTab";
 
+import { AnimatedTestimonials } from "./components/animated-testimonials";
+import { studentTestimonials, companyTestimonials } from "@/lib/utils";
 import BagHandleIcon from "../app/assets/ionicons/bag-handle.svg";
 import PeopleCircleIcon from "../app/assets/ionicons/people-circle.svg";
 import BarChartIcon from "../app/assets/ionicons/bar-chart.svg";
@@ -63,6 +65,16 @@ export default function Home() {
               text="Your career growth is at the heart of Foliage. We’re here to nurture your development every step of the way." 
             ></InfoTab>
           </div>
+          <div className="text-[1.75vw]" style={{fontFamily: 'Montserrat'}}>
+            <span className="text-tertiary">Success for</span>{' '}
+            <span className="text-primary font-semibold">Students,</span>{' '}
+            <span className="text-tertiary">and</span>{' '}
+            <span className="text-primary font-semibold">Employers.</span>
+          </div>
+          <div className="flex gap-4">
+            <AnimatedTestimonials testimonials={studentTestimonials} autoplay={true} />
+            <AnimatedTestimonials testimonials={companyTestimonials} autoplay={true}/>
+        </div>
 
           {/*End Main Content*/}
         </div>
