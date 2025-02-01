@@ -25,6 +25,7 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ jobId }) => {
 
   const handleApplicantClick = (applicant: any) => {
     setSelectedApplicant(applicant);
+    console.log(applicant.id);
   };
 
   const handleClose = () => {
@@ -34,9 +35,9 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ jobId }) => {
 
   return (
     <div className="w-[30vw] h-[40vw] text-black bg-white rounded-lg shadow-lg space-y-[2vw]" style={{ fontFamily: 'Montserrat' }}>
-      {/*{selectedApplicant ? (
+      {selectedApplicant ? (
         <ExtendedApplicantBlock selectedApplicant={selectedApplicant} onClose={handleClose} />
-      ) : (*/}
+      ) : (
         <div className="py-[2.05vw] space-y-[1.4vw]">
           <div className="px-[1.7vw] text-[1vw] text-black">
             Applicants
@@ -56,7 +57,7 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ jobId }) => {
                 </div>
             </div>
         </div>
-      {/*)}*/}
+      )}
     </div>
   );
 };
