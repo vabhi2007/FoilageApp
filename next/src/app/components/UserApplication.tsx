@@ -9,6 +9,7 @@ import {
   CREATE_APPLICATION,
   DELETE_JOB_POST,
   DELETE_APPLICATION,
+  GET_ME,
 } from '@/graphql/queries';
 
 interface ApplicationFormProps {
@@ -19,6 +20,8 @@ interface ApplicationFormProps {
 const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
 
     const { data: jobsData, loading: jobsLoading, error: jobsError, refetch: refetchJobs } = useQuery(GET_ALL_JOBS);
+
+    const { data: medata, loading, error, refetch } = useQuery(GET_ME);
 
     const { data: applicationsData, loading: applicationsLoading, error: applicationsError, refetch: refetchApplications } =
         useQuery(GET_ALL_APPLICATIONS);
@@ -43,7 +46,7 @@ const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
 
         // Simulate creating an application with the form data
         await createApplication({
-            variables: { jobId: parseInt(jobId), applicantName, applicantEmail, resume },
+            variables: { jobId: parseInt(jobId), applicantName: (medata?.me?.firstName + " " + medata?.me?.lastName), applicantEmail, resume },
         });
         setApplicationForm({ jobId: '', applicantName: '', applicantEmail: '', resume: '' });
         alert('Application successfully added!');
@@ -81,7 +84,7 @@ const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
             </div>
 
             {/* Name Field */}
-            <div className="space-y-[0.35vw]">
+            {/* <div className="space-y-[0.35vw]">
                 <div className="text-[0.85vw] text-tertiary">Name</div>
                 <input
                     type="text"
@@ -91,7 +94,7 @@ const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
                     placeholder="Enter your name"
                     className="w-full h-[2.1vw] p-[0.7vw] border border-gray-300 rounded-lg text-black text-[0.7vw]"
                 />
-            </div>
+            </div> */}
 
             {/* Contact Email Field */}
             <div className="space-y-[0.35vw]">
