@@ -74,6 +74,49 @@ export default function Home() {
         </div>
 
         <Footer></Footer>
+        <Slideshow></Slideshow>
+
+        <div className="mt-[8vw] mb-[10vw] mx-[8vw] space-y-[4vw]">
+        {/*Main Content*/}
+
+          <div className="text-[2.5vw]" style={{fontFamily: 'Montserrat'}}>
+            <span className="text-tertiary">Nurturing</span>{' '}
+            <span className="text-primary font-semibold">Connections,</span>{' '}
+            <span className="text-tertiary">Cultivating</span>{' '}
+            <span className="text-primary font-semibold">Success.</span>
+          </div>
+
+          <div className="gap-[3vw] flex flex-row">
+            <InfoTab icon={BagHandleIcon} 
+              title="Access to Opportunities" 
+              text="We connect you to a curated list of internships and job opportunities tailored to your interests and skills." 
+            ></InfoTab>
+
+            <InfoTab icon={PeopleCircleIcon} 
+              title="Employer Collaboration" 
+              text="We provide employers with the tools to find passionate and talented individuals while ensuring students access legitimate, meaningful opportunities." 
+            ></InfoTab>
+
+            <InfoTab icon={BarChartIcon} 
+              title="Growth and Development" 
+              text="Your career growth is at the heart of Foliage. We’re here to nurture your development every step of the way." 
+            ></InfoTab>
+          </div>
+          
+          {/*End Main Content*/}
+        </div>
+      </div>
+
+      <div className="text-[2.5vw] mb-[8vw] mx-[8vw] space-y-[4vw]" style={{fontFamily: 'Montserrat'}}>
+            <span className="text-tertiary">Success for</span>{' '}
+            <span className="text-primary font-semibold">Students,</span>{' '}
+            <span className="text-tertiary">and</span>{' '}
+            <span className="text-primary font-semibold">Employers.</span>
+
+            <div className="flex gap-4">
+              <AnimatedTestimonials testimonials={studentTestimonials} autoplay={true} />
+              <AnimatedTestimonials testimonials={companyTestimonials} autoplay={true}/>
+            </div>
       </div>
     </div>
   );

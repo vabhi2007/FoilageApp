@@ -8,6 +8,7 @@ export const GET_ALL_JOBS = gql`
       title
       employer{
         username
+        bio
       }
       description
       location
@@ -29,6 +30,7 @@ export const GET_JOB_BY_ID = gql`
       title
       employer{
         username
+        bio
       }
       description
       location
@@ -50,6 +52,7 @@ export const GET_ALL_APPLICATIONS = gql`
       id
       applicantName
       applicantEmail
+      applicantBio
       resume
       jobPost {
         id
@@ -104,12 +107,14 @@ export const CREATE_APPLICATION = gql`
     $jobId: Int!,
     $applicantName: String!,
     $applicantEmail: String!,
-    $resume: String
+    $resume: String,
+    $applicantBio: String!
   ) {
     createApplication(
       jobId: $jobId,  # ✅ Match the schema
       applicantName: $applicantName,
       applicantEmail: $applicantEmail,
+      applicantBio: $applicantBio,
       resume: $resume
     ) {
       application {
@@ -119,6 +124,7 @@ export const CREATE_APPLICATION = gql`
         }
         applicantName
         applicantEmail
+        applicantBio
         resume
       }
     }
@@ -283,6 +289,7 @@ export const UPDATE_JOB_POST = gql`
         employer {
           id
           username
+          bio
         }
         title
         description

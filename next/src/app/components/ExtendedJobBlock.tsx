@@ -172,7 +172,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           {/* About Us */}
           <div className="px-[1vw] py-[1.4vw] space-y-[0.7vw] text-black">
             <h4 className="text-[1vw]">About Us</h4>
-            <p className="text-[0.7vw] text-gray-700">{currentJob.companyOverview}</p>
+            <p className="text-[0.7vw] text-gray-700">{currentJob?.employer?.bio}</p>
           </div>
         </div>
       </div>
