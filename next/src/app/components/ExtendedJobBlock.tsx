@@ -182,7 +182,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
 
       {/* Applicant List */}
       {(user === employerRef || user === adminRef) && !hideApplication && (
-        <ApplicantList jobId={currentJob.id.toString()} />
+        <ApplicantList jobId={currentJob.id} />
       )}
     </div>
   );
