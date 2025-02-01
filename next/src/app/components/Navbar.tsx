@@ -10,68 +10,56 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import UserIcon from "../../app/assets/StudentIcon.svg";
 
-
 const Navbar = () => {
     const router = useRouter();
-
     const { navigateTo } = useNavigation();
-    const { data: userdata, loading: userloading, error: usererror, refetch: refetchMe } = useQuery(GET_ME);
+    const { data: userdata, loading: userloading, refetch: refetchMe } = useQuery(GET_ME);
     const [userType, setUserType] = useState<string>("");
+    const [hasToken, setHasToken] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log("User Data:", userdata);
+        const token = localStorage.getItem("token");
+        setHasToken(!!token); // Convert to boolean
+        
         if (userdata?.me?.userType) {
-          setUserType(userdata.me.userType);
+            setUserType(userdata.me.userType);
         }
-      }, [userdata]);
+    }, [userdata]);
 
     const handleSignUpClick = () => {
-        console.log("User Data:", userdata);
-        const token = localStorage.getItem("token");
-        if (!token) {
-          router.push("/signIn"); // Redirect if not logged in
-        }
-        if (userdata?.me?.userType) {
-          setUserType(userdata.me.userType);
-        }
-      }
-    
-    return (
+        router.push("/signIn"); // Redirect to sign-in page
+    };
 
-        <div className="w-full h-0 bg-white px-[8vw] py-[1.75vw] flex items-center justify-between shadow-lg" style={{fontFamily: 'Montserrat'}}>
-            <a href = "">
+    return (
+        <div className="w-full h-0 bg-white px-[8vw] py-[1.75vw] flex items-center justify-between shadow-lg" style={{ fontFamily: 'Montserrat' }}>
+            <a href="">
                 <Image
-                src = {Logo}
-                className='w-[8vw] h-auto'
-                alt = "Logo"
-                >
-                </Image>
+                    src={Logo}
+                    className='w-[8vw] h-auto'
+                    alt="Logo"
+                />
             </a>
 
             <div className="flex items-center gap-[4vw]">
-            <Navlink
-                text = "Home"
-                link = "/"
-            />
-
-            <Navlink
-                text = "Careers"
-                link = "/careers"
-            />
-
-            <Navlink
-                text = "Portal"
-                link = "/portal"
-            />
+                <Navlink text="Home" link="/" />
+                <Navlink text="Careers" link="/careers" />
+                <Navlink 
+                    text="Portal" 
+                    link={hasToken ? "/portal" : "/signIn"} 
+                />
             </div>
 
             <div>
-            {userType === jobSeekerRef || userType === employerRef || userType === adminRef ? (
-                <Image src = {UserIcon} alt="Icon Image" className='cursor-pointer' onClick={() => navigateTo('/profile')}></Image>
-            ) : (
-                <Button text="Join / Sign In" onClick={handleSignUpClick} ></Button>
-            )}
-            
+                {!hasToken ? (
+                    <Button text="Join / Sign In" onClick={handleSignUpClick} />
+                ) : (
+                    <Image 
+                        src={UserIcon} 
+                        alt="User Icon" 
+                        className='cursor-pointer' 
+                        onClick={() => navigateTo('/profile')}
+                    />
+                )}
             </div>
         </div>
     );

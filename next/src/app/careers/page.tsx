@@ -20,6 +20,7 @@ import { setEngine } from "crypto";
 import { useQuery } from '@apollo/client';
 import { GET_ALL_JOBS, GET_ME } from '@/graphql/queries';
 import { useRouter } from "next/navigation";
+import { getUserType } from "../../app/utils/auth";
 
 export default function Careers() {
   const searchParams = useSearchParams();
@@ -57,8 +58,14 @@ export default function Careers() {
     setSelectedWorkSite(null);
   }
 
-  const { data: userdata, loading: userloading, error: usererror } = useQuery(GET_ME);
-  const [userType, setUserType] = useState<string>(userdata.type);
+  const { data: userdata, loading: userLoading, error: usererror } = useQuery(GET_ME);
+  const [userType, setUserType] = useState<string>('');
+
+  useEffect(() => {
+    if (!userLoading && userdata) {
+      setUserType(getUserType(userdata)); // Update userType when data is available
+    }
+  }, [userdata, userLoading]);
 
   return (
     <div>
