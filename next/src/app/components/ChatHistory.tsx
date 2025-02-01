@@ -12,14 +12,17 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ chatHistory }) => {
       {chatHistory.map((message: any, index: any) => (
         <div
           key={index}
-          className={`flex items-start py-2 px-4 rounded-lg ${
+          className={`flex items-start flex-col py-2 px-4 my-[3vw] rounded-lg ${
             message.type === "user"
               ? "bg-gray-100 text-gray-800"
-              : "bg-blue-100 text-blue-800"
+              : "bg-[#256963] text-white"
           }`}
         >
           {message.type === "user" && (
-            <span className="mr-2 font-bold text-gray-600">You:</span>
+            <div className="mr-2 font-bold text-gray-600 " >You:</div>
+          )}
+          {message.type === "bot" && (
+            <span className="mr-2 font-bold text-white mb-[3vw]">LeafBot:</span>
           )}
 
           <div>
