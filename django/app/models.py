@@ -10,7 +10,7 @@ class User(AbstractUser):
         ('admin', 'Admin')
     ]
     user_type = models.CharField(max_length=20, choices=USER_TYPES, default='job_seeker')
-
+    
     connected_jobs = models.ManyToManyField("JobPost", related_name="connected_users", blank=True)
     bio = models.TextField(blank=True, null=True)
     school = models.CharField(max_length=255, blank=True, null=True)
@@ -79,6 +79,7 @@ class Application(models.Model):
     applicant_email = models.EmailField()
     resume = models.TextField()  # Storing resume text or link
     applied_at = models.DateTimeField(auto_now_add=True)
+    applicant_bio = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.applicant_name} applied for {self.job_post.title}"
