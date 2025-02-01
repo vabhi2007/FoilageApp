@@ -18,11 +18,11 @@ const Footer = () => {
           <div className="flex space-x-[4vw]">
 
             <div>
-              <h2 className="font-semibold text-[1vw]"><a href="/citations">Citations</a></h2>
+              <h2 className="font-semibold text-[1vw]"><a href="#">Citations</a></h2>
             </div>
 
             <div>
-              <h2 className="font-semibold text-[1vw]"><a href="https://github.com/vabhi2007/JobFinderWebsite" target="_blank" rel="noopener noreferrer">GitHub</a></h2>
+              <h2 className="font-semibold text-[1vw]"><a href="https://github.com/vabhi2007/JobFinderWebsite" target="_blank">GitHub</a></h2>
             </div>
 
           </div>
