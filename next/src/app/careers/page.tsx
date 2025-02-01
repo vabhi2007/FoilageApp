@@ -58,7 +58,7 @@ export default function Careers() {
   }
 
   const { data: userdata, loading: userloading, error: usererror } = useQuery(GET_ME);
-    const [userType, setUserType] = useState<string>("employer");
+  const [userType, setUserType] = useState<string>(userdata.type);
 
   return (
     <div>
