@@ -154,10 +154,12 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           {/* Admin Actions: Accept / Reject */}
           {user === adminRef && (
             <div className="px-[1vw] pt-[1vw]">
-              <div className="flex gap-[0.35vw]">
+              {!hideApplication && (
+              <div className="flex gap-[0.35vw]">        
                 <Button text="Accept" className="w-[3.5vw] h-[1.6vw] text-[0.55vw]" onClick={approveJob}/>
                 <Button text="Reject" primary={false} className="w-[3.5vw] h-[1.6vw] text-[0.6vw]" onClick={handleDeleteJobById} />
               </div>
+              )}
             </div>
           )}
 
