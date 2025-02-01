@@ -13,6 +13,8 @@ import SearchBar from "../app/components/SearchBar";
 
 import Footer from "../app/components/Footer";
 
+import Slideshow from "../app/components/Slideshow";
+
 export default function Home() {
   return (
     <div>
@@ -67,6 +69,8 @@ export default function Home() {
           {/*End Main Content*/}
         </div>
       </div>
+
+      <Slideshow></Slideshow>
 
       <Footer></Footer>
     </div>
