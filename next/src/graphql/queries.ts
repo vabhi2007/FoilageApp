@@ -8,6 +8,7 @@ export const GET_ALL_JOBS = gql`
       title
       employer{
         username
+        bio
       }
       description
       location
@@ -284,6 +285,7 @@ export const UPDATE_JOB_POST = gql`
         employer {
           id
           username
+          bio
         }
         title
         description
