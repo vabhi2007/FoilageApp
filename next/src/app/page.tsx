@@ -14,13 +14,14 @@ import BarChartIcon from "../app/assets/ionicons/bar-chart.svg";
 import SearchBar from "../app/components/SearchBar";
 
 import Footer from "../app/components/Footer";
+import Slideshow from "./components/Slideshow";
 
 export default function Home() {
   return (
     <div>
       <Navbar></Navbar>
 
-      <div className= "space-y-[8vw] mb-[8vw]">
+      <div>
         <div className="relative">
           <img
             src={BackgroundImage.src}
@@ -39,10 +40,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mx-[8vw] space-y-[4vw]">
+        <Slideshow></Slideshow>
+
+        <div className="my-[15vw] mx-[8vw] space-y-[4vw]">
         {/*Main Content*/}
 
-          <div className="text-[1.75vw]" style={{fontFamily: 'Montserrat'}}>
+          <div className="text-[2.5vw]" style={{fontFamily: 'Montserrat'}}>
             <span className="text-tertiary">Nurturing</span>{' '}
             <span className="text-primary font-semibold">Connections,</span>{' '}
             <span className="text-tertiary">Cultivating</span>{' '}
