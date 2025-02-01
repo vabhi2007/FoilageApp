@@ -38,7 +38,7 @@ const JobBlock = ({ job, isSelected, xBorder = false, displayStatus = false, onC
           )}
 
           </div>
-          <p className="text-[0.85vw] text-tertiary">Microsoft</p>
+          <p className="text-[0.85vw] text-tertiary">Employer</p>
         </div>
 
         {/* Labels */}
