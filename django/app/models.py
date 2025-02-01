@@ -10,7 +10,7 @@ class User(AbstractUser):
         ('admin', 'Admin')
     ]
     user_type = models.CharField(max_length=20, choices=USER_TYPES, default='job_seeker')
-
+    
     connected_jobs = models.ManyToManyField("JobPost", related_name="connected_users", blank=True)
     bio = models.TextField(blank=True, null=True)
     school = models.CharField(max_length=255, blank=True, null=True)
