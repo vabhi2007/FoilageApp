@@ -35,12 +35,9 @@ export default function Chat() {
     }
 
     const sendMessage = async () => {
-
         try{
-            const result = await model.generateContent(userInput)
-            
+            const result = await model.generateContent(userInput)    
             const response = await result.response
-
             console.log(response)
             setChatHistory([
                 ...chatHistory, 
@@ -53,7 +50,6 @@ export default function Chat() {
             setUserInput("")
             setIsLoading(false)
         }
-
     }
 
     const clearChat = () => {
