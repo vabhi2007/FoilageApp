@@ -52,6 +52,7 @@ export const GET_ALL_APPLICATIONS = gql`
       id
       applicantName
       applicantEmail
+      applicantBio
       resume
       jobPost {
         id
@@ -106,12 +107,14 @@ export const CREATE_APPLICATION = gql`
     $jobId: Int!,
     $applicantName: String!,
     $applicantEmail: String!,
-    $resume: String
+    $resume: String,
+    $applicantBio: String!
   ) {
     createApplication(
       jobId: $jobId,  # ✅ Match the schema
       applicantName: $applicantName,
       applicantEmail: $applicantEmail,
+      applicantBio: $applicantBio,
       resume: $resume
     ) {
       application {
@@ -121,6 +124,7 @@ export const CREATE_APPLICATION = gql`
         }
         applicantName
         applicantEmail
+        applicantBio
         resume
       }
     }

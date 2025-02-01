@@ -54,7 +54,7 @@ const ExtendedApplicantBlock: React.FC<ExtendedApplicantBlockProps> = ({ selecte
         {/* Bio Section */}
         <div className="px-[1vw] py-[1.4vw] space-y-[0.7vw] text-black">
           <h4 className="text-[1vw]">Bio</h4>
-          <p className="text-[0.7vw] text-gray-700">{selectedApplicant.bio}</p>
+          <p className="text-[0.7vw] text-gray-700">{selectedApplicant.applicantBio}</p>
         </div>
       </div>
     </div>

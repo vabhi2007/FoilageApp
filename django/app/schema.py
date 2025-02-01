@@ -107,7 +107,7 @@ class UpdateJobPost(graphene.Mutation):
 class ApplicationType(DjangoObjectType):
     class Meta:
         model = Application
-        fields = ("id", "job_post", "job_seeker", "applicant_name", "applicant_email", "resume", "applied_at")
+        fields = ("id", "job_post", "job_seeker", "applicant_name", "applicant_email", "resume", "applied_at", "applicant_bio")
 
 
 
@@ -203,10 +203,11 @@ class CreateApplication(graphene.Mutation):
         applicant_name = graphene.String(required=True)
         applicant_email = graphene.String(required=True)
         resume = graphene.String()
+        applicant_bio = graphene.String(required=True)
 
     application = graphene.Field(ApplicationType)
 
-    def mutate(self, info, job_id, applicant_name, applicant_email, resume):
+    def mutate(self, info, job_id, applicant_name, applicant_email, resume, applicant_bio):
         user = info.context.user
         if not user.is_authenticated or user.user_type != "job_seeker":
             raise Exception("Only job seekers can apply for jobs.")
@@ -217,7 +218,8 @@ class CreateApplication(graphene.Mutation):
             job_seeker=user,
             applicant_name=applicant_name,
             applicant_email=applicant_email,
-            resume=resume
+            resume=resume,
+            applicant_bio=applicant_bio
         )
         application.save()
 
