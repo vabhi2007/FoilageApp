@@ -145,8 +145,8 @@ export const DELETE_APPLICATION = gql`
 
 // 🔹 Authenticate User (Login)
 export const LOGIN_USER = gql`
-  mutation TokenAuth($username: String!, $password: String!) {
-    tokenAuth(username: $username, password: $password) {
+  mutation TokenAuth($email: String!, $password: String!) {
+    tokenAuth(email: $email, password: $password) {
       token
     }
   }
