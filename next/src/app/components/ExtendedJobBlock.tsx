@@ -7,6 +7,7 @@ import Button from "../components/Button";
 import JobBlock from "../../app/components/JobBlock";
 import JobForm from "../../app/components/JobForm";
 import ApplicantList from "../../app/components/ApplicantList";
+import { Job } from "../utils/consts";
 
 import { useQuery, useMutation } from '@apollo/client';
 import { 
@@ -24,17 +25,17 @@ import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 import { hasToken } from "../utils/auth";
 
 interface ExtendedJobBlockProps {
-  selectedJob: any;
+  selectedJob: Job;
   onClose: () => void;
   user?: string;
   hideApplication?: boolean;
 }
 
 const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClose, user = jobSeekerRef, hideApplication = false }) => {
-  const { data: medata, loading: meLoading, error: meError } = useQuery(GET_ME);
+  const { data: medata } = useQuery(GET_ME);
   const [currentJob, setCurrentJob] = useState(selectedJob);
 
-  const { data: jobData, loading: jobLoading, error: jobError, refetch } = useQuery(GET_JOB_BY_ID, {
+  const { data: jobData, refetch } = useQuery(GET_JOB_BY_ID, {
     variables: { id: selectedJob?.id ? parseInt(selectedJob.id, 10) : null },
     skip: !selectedJob?.id, // Avoid fetching if selectedJob is null
   });
@@ -87,7 +88,7 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
       alert(`Job with ID ${currentJob.id} successfully deleted!`);
       onClose();
     } catch (error) {
-      alert('Failed to delete job.');
+      console.error('Failed to delete job.', error);
     }
   };
 
@@ -133,10 +134,10 @@ const ExtendedJobBlock: React.FC<ExtendedJobBlockProps> = ({ selectedJob, onClos
           {user === jobSeekerRef && hasToken() && (
             <div className="px-[1vw] pt-[1vw]">
               <Button
-                text={medata?.me?.connectedJobs?.some((job: { id: any }) => job.id === currentJob.id) ? "Unsave" : "Save"}
+                text={medata?.me?.connectedJobs?.some((job: { id: string }) => job.id === currentJob.id) ? "Unsave" : "Save"}
                 primary={false}
                 className="w-[3.5vw] h-[1.75vw] text-[0.7vw]"
-                onClick={medata?.me?.connectedJobs?.some((job: { id: any }) => job.id === currentJob.id) ? handleRemoveJob : handleAddJob}
+                onClick={medata?.me?.connectedJobs?.some((job: { id: string }) => job.id === currentJob.id) ? handleRemoveJob : handleAddJob}
               />
             </div>
           )}

@@ -5,7 +5,6 @@ import Navlink from "./Navlink";
 import Button from "./Button";
 import { GET_ME } from '@/graphql/queries';
 import { useQuery } from '@apollo/client';
-import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import UserIcon from "../../app/assets/StudentIcon.svg";
@@ -13,8 +12,8 @@ import UserIcon from "../../app/assets/StudentIcon.svg";
 const Navbar = () => {
     const router = useRouter();
     const { navigateTo } = useNavigation();
-    const { data: userdata, loading: userloading, refetch: refetchMe } = useQuery(GET_ME);
-    const [userType, setUserType] = useState<string>("");
+    const { data: userdata } = useQuery(GET_ME);
+    const [, setUserType] = useState<string>("");
     const [hasToken, setHasToken] = useState<boolean>(false);
 
     useEffect(() => {
@@ -27,7 +26,7 @@ const Navbar = () => {
     }, [userdata]);
 
     const handleSignUpClick = () => {
-        router.push("/signIn"); // Redirect to sign-in page
+        router.push("/login"); // Redirect to sign-in page
     };
 
     return (
@@ -45,7 +44,7 @@ const Navbar = () => {
                 <Navlink text="Careers" link="/careers" />
                 <Navlink 
                     text="Portal" 
-                    link={hasToken ? "/portal" : "/signIn"} 
+                    link={hasToken ? "/portal" : "/login"} 
                 />
             </div>
 

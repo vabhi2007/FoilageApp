@@ -12,6 +12,7 @@ import UserApplication from "../components/UserApplication";
 import JobForm from '../components/JobForm'; // Import JobForm
 import { adminRef, employerRef, jobSeekerRef } from "../utils/consts";
 import { useRouter } from "next/navigation";
+import { Job } from "../utils/consts";
 
 export default function Portal() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function Portal() {
   const { data: userdata, loading: userloading, error: usererror, refetch: refetchMe } = useQuery(GET_ME);
   const { data: allJobsData, loading: jobsLoading, error: jobsError, refetch } = useQuery(GET_ALL_JOBS);
 
-  const [selectedJob, setSelectedJob] = useState<any | null>(null);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [isCreatingJob, setIsCreatingJob] = useState(false);
   const [userType, setUserType] = useState<string>("employer");
 
@@ -28,12 +29,12 @@ export default function Portal() {
     console.log("User Data:", userdata);
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/signIn"); // Redirect if not logged in
+      router.push("/login"); // Redirect if not logged in
     }
     if (userdata?.me?.userType) {
       setUserType(userdata.me.userType);
     }
-  }, [userdata]);
+  }, [router, userdata]);
 
   useEffect(() => {
     if (allJobsData) {
@@ -71,7 +72,7 @@ export default function Portal() {
 
           {/* Job Grid (2-column layout) */}
           <div className="grid grid-cols-2 gap-[2vw] px-[4vw] pb-[3vw]">
-            {displayedJobs.map((job: any) => (
+            {displayedJobs.map((job: Job) => (
               <JobBlock
                 key={job.id}
                 job={job}

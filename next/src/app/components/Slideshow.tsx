@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import BackgroundReducedNoise2 from "../../app/assets/BackgroundReducedNoise2.jpg";
 import SuccessBg from "../../app/assets/SuccessBg.jpg";
 import ResponsibilityBg from "../../app/assets/ResponsibilityBg.jpg";
 import ConnectionBg from "../../app/assets/ConnectionBg.jpg";

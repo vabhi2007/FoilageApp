@@ -1,8 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 import TemporaryEmployerImage from '../../app/assets/TemporaryLeaf.svg';
+import { Job } from "../utils/consts";
 
-const JobBlock = ({ job, isSelected, xBorder = false, displayStatus = false, onClick }: { job: any, isSelected: boolean, xBorder?: boolean, displayStatus?: boolean, onClick?: (() => void) | null }) => {
+const JobBlock = ({ job, isSelected, xBorder = false, displayStatus = false, onClick }: { job: Job, isSelected: boolean, xBorder?: boolean, displayStatus?: boolean, onClick?: (() => void) | null }) => {
   return (
     <div
       className={`w-auto flex border-gray-300 px-[1.5vw] py-[0.65vw] space-x-[2vw] 

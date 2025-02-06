@@ -16,7 +16,7 @@ const Dashboard = () => {
     } else {
       refetch(); // 🔹 Fetch user data again after login
     }
-  }, []);
+  }, [router, refetch]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{ color: "red" }}>Error: {error.message}</p>;

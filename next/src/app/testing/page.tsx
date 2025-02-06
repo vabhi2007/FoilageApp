@@ -1,10 +1,10 @@
-
-import InteractiveSection from "./testinteraction";
+//import InteractiveSection from "./testinteraction";
 
 const JobsPage = () => {
 
   return (
-    <InteractiveSection/>
+    <div></div>
+    //<InteractiveSection/>
   );
 };
 
