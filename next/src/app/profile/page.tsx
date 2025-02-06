@@ -24,7 +24,7 @@ export default function ProfilePage() {
   // Redirect to login if not signed in
   useEffect(() => {
     if (!loading && !medata?.me) {
-      router.push("/signIn"); // Redirect to login page
+      router.push("/login"); // Redirect to login page
     }
   }, [loading, medata, router]);
 
@@ -45,13 +45,13 @@ export default function ProfilePage() {
 
     if (!token) {
       // 🚀 Redirect to login if not signed in
-      router.push("/signIn");
+      router.push("/login");
     }
   }, [router]);
 
   const handleSignOut = () => {
     localStorage.removeItem("token"); // ✅ Remove token
-    router.push("/signIn"); // 🚀 Redirect to login
+    router.push("/login"); // 🚀 Redirect to login
   };
 
 
