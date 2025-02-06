@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/client';
 import { GET_ALL_APPLICATIONS } from '@/graphql/queries';
 import ApplicantBlock from './ApplicantBlock';
 import ExtendedApplicantBlock from './ExtendedApplicantBlock';
+import { Applicant } from "../utils/consts";
 
 interface JobApplicantsProps {
   jobId: string;
@@ -15,15 +16,15 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ jobId }) => {
   // Query to fetch all applications
   const { data, loading, error } = useQuery(GET_ALL_APPLICATIONS);
 
-  const [selectedApplicant, setSelectedApplicant] = useState<any>(null);
+  const [selectedApplicant, setSelectedApplicant] = useState<Applicant | null>(null);
 
   if (loading) return <p>Loading applicants...</p>;
   if (error) return <p>Error fetching applicants: {error.message}</p>;
 
   // Filter applications for the specific job
-  const applicants = data.allApplications.filter((application: any) => application.jobPost && application.jobPost.id === jobId);
+  const applicants = data.allApplications.filter((application: Applicant) => application.jobPost && application.jobPost.id === jobId);
 
-  const handleApplicantClick = (applicant: any) => {
+  const handleApplicantClick = (applicant: Applicant) => {
     setSelectedApplicant(applicant);
     console.log(applicant.id);
   };
@@ -45,7 +46,7 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ jobId }) => {
             <div>
                 <div className="flex flex-col h-[33vw] pb-[0vw] border border-gray-300">
                     <div className="w-full flex-grow overflow-y-auto">
-                        {applicants.map((applicant: any) => (
+                        {applicants.map((applicant: Applicant) => (
                         <ApplicantBlock
                             key={applicant.id}
                             applicant={applicant}

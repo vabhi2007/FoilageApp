@@ -1,8 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 import StudentIcon from '../../app/assets/StudentIcon.svg'; // Replace with actual student icon path
+import { Applicant } from "../utils/consts";
 
-const ApplicantBlock = ({ applicant, isSelected, xBorder = true, onClick }: { applicant: any, isSelected: boolean, xBorder?: boolean, onClick?: (() => void) | null }) => {
+
+const ApplicantBlock = ({ applicant, isSelected, xBorder = true, onClick }: { applicant: Applicant, isSelected: boolean, xBorder?: boolean, onClick?: (() => void) | null }) => {
   return (
     <div
       className={`h-[5vw] flex items-center border-gray-300 px-[1.5vw] py-[0.65vw] space-x-[2vw] 

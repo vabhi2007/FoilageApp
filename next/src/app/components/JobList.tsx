@@ -4,10 +4,11 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ALL_JOBS } from '@/graphql/queries';
 import JobBlock from './JobBlock'; // Import the new JobBlock component
+import { Job } from "../utils/consts";
 
 type JobListProps = {
-  onJobClick: (job: any) => void;
-  selectedJob: any;
+  onJobClick: (Job: Job) => void;
+  selectedJob: Job | null;
   keyword?: string;
   location?: string;
   experience?: string;
@@ -29,7 +30,7 @@ const JobList: React.FC<JobListProps> = ({onJobClick, selectedJob, keyword='', l
   // Fix: Ensure correct GraphQL key name (check schema)
   if (!data || !data.allJobs) return <p className="text-red-500">No jobs found.</p>;
 
-  const filteredJobs = data.allJobs.filter((job: any) => (
+  const filteredJobs = data.allJobs.filter((job: Job) => (
     job.isActive &&
     (!keyword || job.title.toLowerCase().includes(keyword.toLowerCase())) &&
     (!location || job.location.toLowerCase().includes(location.toLowerCase())) &&
@@ -43,11 +44,11 @@ const JobList: React.FC<JobListProps> = ({onJobClick, selectedJob, keyword='', l
     <div className="flex flex-col h-full border border-gray-300 bg-white">
       <div className="w-full flex-grow overflow-y-auto">
       {filteredJobs
-      .map((job: any) => (
+      .map((job: Job) => (
         <JobBlock
           key={job.id}
           job={job}
-          isSelected={selectedJob && selectedJob.id === job.id}
+          isSelected={selectedJob != null && selectedJob.id === job.id}
           onClick={() => onJobClick(job)}
         />
       ))}

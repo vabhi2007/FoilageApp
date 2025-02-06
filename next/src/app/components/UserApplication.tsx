@@ -3,12 +3,8 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import {
-  GET_ALL_JOBS,
   GET_ALL_APPLICATIONS,
-  CREATE_JOB_POST,
   CREATE_APPLICATION,
-  DELETE_JOB_POST,
-  DELETE_APPLICATION,
   GET_ME,
 } from '@/graphql/queries';
 
@@ -19,11 +15,9 @@ interface ApplicationFormProps {
 
 const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
 
-    const { data: jobsData, loading: jobsLoading, error: jobsError, refetch: refetchJobs } = useQuery(GET_ALL_JOBS);
+    const { data: medata } = useQuery(GET_ME);
 
-    const { data: medata, loading, error, refetch } = useQuery(GET_ME);
-
-    const { data: applicationsData, loading: applicationsLoading, error: applicationsError, refetch: refetchApplications } =
+    const { refetch: refetchApplications } =
         useQuery(GET_ALL_APPLICATIONS);
 
     const [createApplication] = useMutation(CREATE_APPLICATION, {
@@ -42,7 +36,7 @@ const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
 
     const handleApplicationFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const { jobId, applicantName, applicantEmail, resume } = applicationForm;
+        const { jobId, applicantEmail, resume } = applicationForm;
 
         // Simulate creating an application with the form data
         await createApplication({
@@ -82,20 +76,7 @@ const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
             <div className="text-[1vw] text-black">
                 User Application
             </div>
-
-            {/* Name Field */}
-            {/* <div className="space-y-[0.35vw]">
-                <div className="text-[0.85vw] text-tertiary">Name</div>
-                <input
-                    type="text"
-                    name="applicantName"
-                    value={applicationForm.applicantName}
-                    onChange={handleInputChange} // Handle changes here
-                    placeholder="Enter your name"
-                    className="w-full h-[2.1vw] p-[0.7vw] border border-gray-300 rounded-lg text-black text-[0.7vw]"
-                />
-            </div> */}
-
+            
             {/* Contact Email Field */}
             <div className="space-y-[0.35vw]">
                 <div className="text-[0.85vw] text-tertiary">Contact Email</div>

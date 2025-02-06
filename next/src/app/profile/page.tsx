@@ -47,7 +47,7 @@ export default function ProfilePage() {
       // 🚀 Redirect to login if not signed in
       router.push("/signIn");
     }
-  }, []);
+  }, [router]);
 
   const handleSignOut = () => {
     localStorage.removeItem("token"); // ✅ Remove token
@@ -83,7 +83,7 @@ export default function ProfilePage() {
   }, [medata]);
 
   // Function to update state dynamically for input fields
-  const handleChange = (e: { target: { name: any; value: any } }) => {
+  const handleChange = (e: { target: { name: string; value: string } }) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
   };
 

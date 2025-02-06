@@ -3,7 +3,6 @@
 import "../app/globals.css";
 import Navbar from "../app/components/Navbar";
 import BackgroundImage from "../app/assets/BackgroundReducedNoise2.jpg";
-import Image from "next/image";
 import InfoTab from "../app/components/InfoTab";
 
 import BagHandleIcon from "../app/assets/ionicons/bag-handle.svg";

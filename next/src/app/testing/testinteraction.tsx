@@ -1,5 +1,6 @@
 'use client';
 
+{/*
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import {
@@ -11,7 +12,11 @@ import {
   DELETE_APPLICATION,
 } from '@/graphql/queries';
 
+*/}
+
 export default function InteractiveSection() {
+
+  {/*
   const { data: jobsData, loading: jobsLoading, error: jobsError, refetch: refetchJobs } = useQuery(GET_ALL_JOBS);
   const { data: applicationsData, loading: applicationsLoading, error: applicationsError, refetch: refetchApplications } =
     useQuery(GET_ALL_APPLICATIONS);
@@ -44,9 +49,14 @@ export default function InteractiveSection() {
   if (jobsError) return <p className="text-red-500">Error fetching jobs: {jobsError.message}</p>;
   if (applicationsError) return <p className="text-red-500">Error fetching applications: {applicationsError.message}</p>;
 
+  */}
+
   return (
+
+    {/*
+
     <div className="p-6">
-      {/* Navigation */}
+      // Navigation
       <nav className="flex space-x-4 mb-4">
         <button onClick={() => setShowSection('viewJobs')} className="bg-blue-500 text-white px-4 py-2 rounded">
           View Jobs
@@ -62,7 +72,7 @@ export default function InteractiveSection() {
         </button>
       </nav>
 
-      {/* View Jobs */}
+      // View Jobs
       {showSection === 'viewJobs' && (
         <div>
           <h2 className="text-xl font-bold">All Jobs</h2>
@@ -84,7 +94,7 @@ export default function InteractiveSection() {
         </div>
       )}
 
-      {/*View Applications*/}
+      //View Applications
       {showSection === 'viewApplications' && (
         <div>
           <h2 className="text-xl font-bold">All Applications</h2>
@@ -106,7 +116,7 @@ export default function InteractiveSection() {
         </div>
       )}
 
-      {/* Add Job */}
+      // Add Job
       {showSection === 'addJob' && (
         <div>
           <h2 className="text-xl font-bold">Add Job</h2>
@@ -141,7 +151,7 @@ export default function InteractiveSection() {
         </div>
       )}
 
-      {/* Add Application */}
+      // Add Application
       {showSection === 'addApplication' && (
         <div>
           <h2 className="text-xl font-bold">Apply for a Job</h2>
@@ -169,5 +179,6 @@ export default function InteractiveSection() {
         </div>
       )}
     </div>
+    */}
   );
 }

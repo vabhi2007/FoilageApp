@@ -3,32 +3,32 @@
 import "../../app/globals.css";
 import Navbar from "../../app/components/Navbar";
 import CareersImage from "../../app/assets/CareersBg.jpg";
-import Image from "next/image";
-import InfoTab from "../../app/components/InfoTab";
-import Button from "../../app/components/Button";
 import Dropdown from "../../app/components/Dropdown";
-import BagHandleIcon from "../../app/assets/ionicons/bag-handle.svg";
-import PeopleCircleIcon from "../../app/assets/ionicons/people-circle.svg";
-import BarChartIcon from "../../app/assets/ionicons/bar-chart.svg";
 import Footer from "../../app/components/Footer";
 import JobList from '../../app/components/JobList';
 import React, { useEffect, useState } from 'react';
 import SearchBar from "../../app/components/SearchBar";
-import { useSearchParams } from 'next/navigation';
 import ExtendedJobBlock from "../components/ExtendedJobBlock";
-import { setEngine } from "crypto";
 import { useQuery } from '@apollo/client';
-import { GET_ALL_JOBS, GET_ME } from '@/graphql/queries';
+import { GET_ME } from '@/graphql/queries';
 import { useRouter } from "next/navigation";
-import { getUserType } from "../../app/utils/auth";
+import { Job } from "../utils/consts";
 
 export default function Careers() {
-  const searchParams = useSearchParams();
-  const keyword = searchParams.get('keyword') || '';
-  const location = searchParams.get('location') || '';
+  const [isClient, setIsClient] = useState(false);
+  const [keyword, setKeyword] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
 
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [selectedJob, setSelectedJob] = useState<any | null>(null);
+  // Ensure useSearchParams only runs on the client-side
+  useEffect(() => {
+    setIsClient(true);
+    const searchParams = new URLSearchParams(window.location.search);
+    setKeyword(searchParams.get('keyword') || '');
+    setLocation(searchParams.get('location') || '');
+  }, []);
+
+  const [, setOpenDropdown] = useState<string | null>(null);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
   // Store selected dropdown values
   const [selectedExperience, setSelectedExperience] = useState<string | null>(null);
@@ -40,7 +40,7 @@ export default function Careers() {
     setOpenDropdown(null);
   };
 
-  const handleJobClick = (job: any) => {
+  const handleJobClick = (job: Job) => {
     setSelectedJob(job);
   };
 
@@ -58,7 +58,7 @@ export default function Careers() {
     setSelectedWorkSite(null);
   }
 
-  const { data: userdata, loading: userLoading, error: usererror } = useQuery(GET_ME);
+  const { data: userdata } = useQuery(GET_ME);
   const [userType, setUserType] = useState<string>('');
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function Careers() {
 
         <div className="absolute inset-0 flex items-center justify-center text-white" style={{ fontFamily: 'Montserrat' }}>
           <div className="text-center space-y-[1vw]">
-            <SearchBar autoFillKeyword={keyword} autoFillLocation={location}/>
+            {isClient && <SearchBar autoFillKeyword={keyword} autoFillLocation={location} />}
           </div>
         </div>
       </div>
@@ -129,7 +129,7 @@ export default function Careers() {
               </div>
               <div className="flex flex-col h-full pb-[10vw]">
                 <JobList onJobClick={handleJobClick} 
-                selectedJob={selectedJob} 
+                selectedJob={null} 
                 keyword={keyword} 
                 location={location} 
                 experience={selectedExperience || undefined}
