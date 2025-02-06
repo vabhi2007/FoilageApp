@@ -1,23 +1,29 @@
-# Django Framework
-Django>=3.2,<4.0            # Compatible with graphene-django==2.15.0
+# Core Django Framework
+Django>=3.2,<4.0           # Ensures compatibility with graphene-django==2.15.0
 
-# GraphQL and JWT Authentication
-graphene-django==2.15.0     # GraphQL support for Django
-django-graphql-auth==0.3.16 # User authentication for GraphQL
-django-graphql-jwt==0.3.0   # Compatible with django-graphql-auth
+# GraphQL Support
+graphene-django==2.15.0    # GraphQL integration with Django ORM
+django-graphql-jwt==0.3.0  # JWT-based authentication for GraphQL
+PyJWT<2.0                  # Required for django-graphql-jwt
 
-# CORS Support (for Next.js frontend)
-django-cors-headers==3.13.0 # Handles cross-origin requests
+# PostgreSQL Database Support
+psycopg2-binary==2.9.6     # PostgreSQL database adapter for Django
 
-# Environment Management
-django-environ==0.12.0      # Manage environment variables
+# Environment Variable Management
+django-environ==0.12.0     # Securely manage environment variables
 
-# Static File Management
-whitenoise==5.3.0           # Serves static files in production
+# Security & CORS Handling
+django-cors-headers==3.7.0 # Enables CORS for API requests
 
-# Security and Authentication
-djangorestframework==3.14.0 # Optional: REST API support
-argon2-cffi==21.3.0         # More secure password hashing
+# GraphQL Core Dependencies
+graphql-core<3,>=2.1.0     # Required for Graphene
+promise==2.3               # Async operations for GraphQL
+singledispatch==4.1.0      # Compatibility layer for Graphene
 
-# Miscellaneous
-gunicorn==20.1.0            # WSGI server for production
+# Django Utilities
+asgiref>=3.8.1             # Required for async Django support
+sqlparse>=0.3.1            # Helps with database query parsing
+tzdata                     # Timezone support for Django
+
+# Optional: Debugging & Development Tools (Remove for Production)
+django-debug-toolbar==4.2  # Debugging UI for Django (optional)
