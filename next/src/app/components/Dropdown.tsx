@@ -2,15 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import Button from './Button';
 
 type DropdownProps = {
-  options: string[];
-  buttonText: string;
-  closeAllDropdowns: () => void;
-  onSelect: (option: string | null) => void; // New prop
+  options: string[]; // List of options to display in the dropdown
+  buttonText: string; // Text for the dropdown button
+  closeAllDropdowns: () => void; // Function to close other dropdowns
+  onSelect: (option: string | null) => void; // Function to handle option selection
 };
 
 const Dropdown: React.FC<DropdownProps> = ({ options, buttonText, closeAllDropdowns, onSelect }) => {
+  // State to manage whether the dropdown is open or closed
   const [isOpen, setIsOpen] = useState(false);
+
+  // State to track the selected option
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  
+  // Reference to the dropdown container for handling outside clicks
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
