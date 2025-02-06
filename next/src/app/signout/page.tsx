@@ -11,13 +11,13 @@ const SignOut = () => {
 
     if (!token) {
       // 🚀 Redirect to login if not signed in
-      router.push("/signIn");
+      router.push("/login");
     }
   }, [router]);
 
   const handleSignOut = () => {
     localStorage.removeItem("token"); // ✅ Remove token
-    router.push("/signin"); // 🚀 Redirect to login
+    router.push("/login"); // 🚀 Redirect to login
   };
 
   return (

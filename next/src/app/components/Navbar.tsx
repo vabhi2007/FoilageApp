@@ -26,7 +26,7 @@ const Navbar = () => {
     }, [userdata]);
 
     const handleSignUpClick = () => {
-        router.push("/signIn"); // Redirect to sign-in page
+        router.push("/login"); // Redirect to sign-in page
     };
 
     return (
@@ -44,7 +44,7 @@ const Navbar = () => {
                 <Navlink text="Careers" link="/careers" />
                 <Navlink 
                     text="Portal" 
-                    link={hasToken ? "/portal" : "/signIn"} 
+                    link={hasToken ? "/portal" : "/login"} 
                 />
             </div>
 
