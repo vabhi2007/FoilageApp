@@ -40,7 +40,7 @@ const UserApplication: React.FC<ApplicationFormProps> = ({ onClose, id }) => {
 
         // Simulate creating an application with the form data
         await createApplication({
-            variables: { jobId: parseInt(jobId), applicantName: (medata?.me?.firstName + " " + medata?.me?.lastName), applicantEmail, resume },
+            variables: { jobId: parseInt(jobId), applicantName: (medata?.me?.firstName + " " + medata?.me?.lastName), applicantBio: (medata?.me?.bio) , applicantEmail, resume },
         });
         setApplicationForm({ jobId: '', applicantName: '', applicantEmail: '', resume: '' });
         alert('Application successfully added!');
