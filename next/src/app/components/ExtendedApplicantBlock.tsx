@@ -1,11 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import CloseIcon from "../../app/assets/RoundCloseIcon.svg";
-import Button from "../components/Button";
 import ApplicantBlock from "./ApplicantBlock";
+import { Applicant } from "../utils/consts";
 
 interface ExtendedApplicantBlockProps {
-  selectedApplicant: any;
+  selectedApplicant: Applicant;
   onClose: () => void;
 }
 

@@ -2,25 +2,25 @@ import React, { useEffect, useState } from "react";
 import Button from "./Button";
 import Image from "next/image";
 import CloseIcon from "../../app/assets/RoundCloseIcon.svg";
-import { useQuery, useMutation } from '@apollo/client';
-import {GET_ALL_JOBS, DELETE_JOB_POST, CREATE_JOB_POST, UPDATE_JOB_POST } from '@/graphql/queries';
+import { useMutation } from '@apollo/client';
+import {GET_ALL_JOBS, CREATE_JOB_POST, UPDATE_JOB_POST } from '@/graphql/queries';
+import { Job } from "../utils/consts";
 
 interface JobFormProps {
   onClose: () => void;
   onJobCreated: () => void;
-  existingJob?: any;
+  existingJob?: Job;
 }
 
 const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingJob }) => {
-  const { data, loading, error, refetch } = useQuery(GET_ALL_JOBS);
 
   const [formData, setFormData] = useState({
     title: existingJob?.title || '',
     salary: existingJob?.salary || '',
     experience: existingJob?.experience || '',
-    gradeLevel: existingJob?.gradeLevel || '',
+    gradeLevel: existingJob?.grade || '',
     employment: existingJob?.employment || '',
-    workSite: existingJob?.workSite || '',
+    workSite: existingJob?.site || '',
     location: existingJob?.location || '',
     description: existingJob?.description || '',
   });
@@ -66,7 +66,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingJob })
               title: title,
               description: description,
               location: location,
-              salary: parseFloat(salary),
+              salary: salary,
               site: workSite,
               experience: experience,
               grade: gradeLevel,
@@ -85,7 +85,7 @@ const JobForm: React.FC<JobFormProps> = ({ onClose, onJobCreated, existingJob })
               title: title,
               description: description,
               location: location,
-              salary: parseFloat(salary),
+              salary: salary,
               site: workSite,
               experience: experience,
               grade: gradeLevel,
