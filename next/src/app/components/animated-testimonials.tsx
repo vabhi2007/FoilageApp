@@ -1,15 +1,17 @@
 "use client";
 
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import LeftArrow from "../assets/ionicons/chevron-back-sharp.svg";
+import RightArrow from "../assets/ionicons/chevron-forward-sharp.svg"
+import type { StaticImageData } from "next/image";
 
 type Testimonial = {
   quote: string;
   name: string;
   designation: string;
-  src: string;
+  src: string | StaticImageData;
 };
 export const AnimatedTestimonials = ({
   testimonials,
@@ -150,13 +152,13 @@ export const AnimatedTestimonials = ({
               onClick={handlePrev}
               className="h-[3vw] w-[3vw] rounded-full bg-primary flex items-center justify-center group/button"
             >
-              <IconArrowLeft className="h-[2vw] w-[2vw] text-white group-hover/button:rotate-12 transition-transform duration-300" />
+              <img src={LeftArrow.src} className="p-[0.5vw]"></img>
             </button>
             <button
               onClick={handleNext}
               className="h-[3vw] w-[3vw] rounded-full bg-primary flex items-center justify-center group/button"
             >
-              <IconArrowRight className="h-[2vw] w-[2vw] text-white group-hover/button:-rotate-12 transition-transform duration-300" />
+              <img src={RightArrow.src} className="p-[0.5vw]"></img>
             </button>
           </div>
     </div>
