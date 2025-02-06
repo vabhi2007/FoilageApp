@@ -7,7 +7,6 @@ import {
   CREATE_APPLICATION,
   GET_ME,
 } from '@/graphql/queries';
-import { metadata } from '../layout';
 
 interface ApplicationFormProps {
     onClose: () => void;

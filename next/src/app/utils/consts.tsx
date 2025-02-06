@@ -15,6 +15,11 @@ export type Job = {
     description: string;
     companyOverview: string;
     salary: number;
+    employer: {
+      id: string;
+      username: string;
+      bio: string;
+    };
   };
 
 
